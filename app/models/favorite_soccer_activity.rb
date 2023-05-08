@@ -1,0 +1,2 @@
+class FavoriteSoccerActivity < ApplicationRecord
+end
