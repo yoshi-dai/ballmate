@@ -1,0 +1,18 @@
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/debug_inspector-1.1.0/ext/debug_inspector
+/Users/daiki/.rbenv/versions/3.2.2/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/debug_inspector-1.1.0/ext/debug_inspector
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-hnglkx sitelibdir\=./.gem.20230510-2878-hnglkx clean
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/debug_inspector-1.1.0/ext/debug_inspector
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-hnglkx sitelibdir\=./.gem.20230510-2878-hnglkx
+compiling debug_inspector.c
+linking shared-object debug_inspector.bundle
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/debug_inspector-1.1.0/ext/debug_inspector
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-hnglkx sitelibdir\=./.gem.20230510-2878-hnglkx install
+/usr/bin/install -c -m 0755 debug_inspector.bundle ./.gem.20230510-2878-hnglkx
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/debug_inspector-1.1.0/ext/debug_inspector
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-hnglkx sitelibdir\=./.gem.20230510-2878-hnglkx clean

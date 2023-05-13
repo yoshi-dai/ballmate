@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :chat_requests, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :messages, dependent: :destroy
+  has_one :user_profile, dependent: :destroy
 
   validates :password, length: { minimum: 3 }, if: -> { new_record? || changes[:password] }
   validates :password, confirmation: true, if: -> { new_record? || changes[:password] }

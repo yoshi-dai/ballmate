@@ -29,6 +29,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'solargraph', group: :development
 gem 'sorcery'
+gem 'carrierwave'
 
 
 group :development, :test do

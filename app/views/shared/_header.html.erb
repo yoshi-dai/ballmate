@@ -1,3 +1,9 @@
 <%= link_to 'ユーザー登録', new_user_path %>
 <%= link_to 'ログイン', login_path %>
 <%= link_to 'ログアウト', logout_path, method: :delete %>
+
+<% if current_user.present? && current_user.user_profile.present? %>
+  <%= link_to 'プロフィール', user_profile_path(current_user.id) %>
+<% else %>
+  <%= link_to 'プロフィールを作成', new_user_profile_path %>
+<% end %>

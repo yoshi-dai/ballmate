@@ -1,0 +1,27 @@
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/rbs-2.8.4/ext/rbs_extension
+/Users/daiki/.rbenv/versions/3.2.2/bin/ruby extconf.rb
+checking for whether -std=gnu99 is accepted as CFLAGS... yes
+creating Makefile
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/rbs-2.8.4/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-6t9g5w sitelibdir\=./.gem.20230510-2878-6t9g5w clean
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/rbs-2.8.4/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-6t9g5w sitelibdir\=./.gem.20230510-2878-6t9g5w
+compiling constants.c
+compiling lexer.c
+compiling lexstate.c
+compiling location.c
+compiling main.c
+compiling parser.c
+compiling parserstate.c
+compiling ruby_objs.c
+compiling unescape.c
+linking shared-object rbs_extension.bundle
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/rbs-2.8.4/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-6t9g5w sitelibdir\=./.gem.20230510-2878-6t9g5w install
+/usr/bin/install -c -m 0755 rbs_extension.bundle ./.gem.20230510-2878-6t9g5w
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/rbs-2.8.4/ext/rbs_extension
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-6t9g5w sitelibdir\=./.gem.20230510-2878-6t9g5w clean

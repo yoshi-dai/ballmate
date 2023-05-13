@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_02_075435) do
+ActiveRecord::Schema.define(version: 2023_05_13_042359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,6 +108,15 @@ ActiveRecord::Schema.define(version: 2023_05_02_075435) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "profile_soccer_activities", force: :cascade do |t|
+    t.bigint "user_profile_id", null: false
+    t.bigint "favorite_soccer_activity_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["favorite_soccer_activity_id"], name: "index_profile_soccer_activities_on_favorite_soccer_activity_id"
+    t.index ["user_profile_id"], name: "index_profile_soccer_activities_on_user_profile_id"
+  end
+
   create_table "user_profiles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "favorite_player"
@@ -122,6 +131,8 @@ ActiveRecord::Schema.define(version: 2023_05_02_075435) do
     t.string "available_time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
+    t.string "image_cache"
     t.index ["user_id"], name: "index_user_profiles_on_user_id"
   end
 
@@ -146,5 +157,7 @@ ActiveRecord::Schema.define(version: 2023_05_02_075435) do
   add_foreign_key "messages", "users"
   add_foreign_key "notifications", "matchings"
   add_foreign_key "notifications", "users"
+  add_foreign_key "profile_soccer_activities", "favorite_soccer_activities"
+  add_foreign_key "profile_soccer_activities", "user_profiles"
   add_foreign_key "user_profiles", "users"
 end
