@@ -29,6 +29,15 @@
           <td><%= current_user.user_profile.favorite_place %></td>
         </tr>
         <tr>
+          <th scope="row"><%= t(User.human_attribute_name(:equipment)) %></th>
+          <td><%= current_user.user_profile.equipment %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= t(User.human_attribute_name(:available_day_of_week)) %></th>
+          <td><%= current_user.user_profile.available_day_of_week %></td>
+        </tr>
+
+        <tr>
           <th scope="row"><%= t(User.human_attribute_name(:favorite_soccer_activities)) %></th>
           <td>
             <% current_user.user_profile.favorite_soccer_activities.each do |activity| %>
@@ -41,10 +50,6 @@
         <tr>
           <th scope="row"><%= t(User.human_attribute_name(:active_area)) %></th>
           <td><%= current_user.user_profile.active_area %></td>
-        </tr>
-        <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:available_day_of_week)) %></th>
-          <td><%= current_user.user_profile.available_day_of_week %></td>
         </tr>
         <tr>
           <th scope="row"><%= t(User.human_attribute_name(:available_time)) %></th>
