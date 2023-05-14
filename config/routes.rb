@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
   root 'static_pages#top'
-  get 'static_pages/top'
-  get '/login' => 'user_sessions#new', :as => :login
-  post '/login' => 'user_sessions#create'
-  delete '/logout' => 'user_sessions#destroy', :as => :logout
+
+  get 'login', to: 'user_sessions#new'
+  post 'login', to: 'user_sessions#create'
+  delete 'logout', to: 'user_sessions#destroy'
+  
   resources :user_profiles
   resources :users
 end
