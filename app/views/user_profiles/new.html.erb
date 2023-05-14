@@ -49,11 +49,11 @@
 
   <div class="field">
     <%= f.label :equipment %>
-    <%= f.collection_select :equipment, UserProfile::EQUIPMENT_CHOICES, :itself, :itself, {}, { multiple: true, size: UserProfile::EQUIPMENT_CHOICES.size } %>
+    <%= f.collection_select :equipment, UserProfile::EQUIPMENT_CHOICES, :itself, :itself, {}, { multiple: true, size: UserProfile::EQUIPMENT_CHOICES.size, class: "form-control" } %>
   </div>
 
   <div class="field">
-    <%= f.label :available_day_of_week %>EQUIPMENT_CHOICES
+    <%= f.label :available_day_of_week %>
     <%= f.select :available_day_of_week, UserProfile::DAYS_OF_WEEK, {}, { multiple: true, size: UserProfile::DAYS_OF_WEEK.size } %>
   </div>
 
