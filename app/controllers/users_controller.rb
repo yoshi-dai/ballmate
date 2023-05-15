@@ -13,10 +13,34 @@ class UsersController < ApplicationController
       render :new
     end
   end
-  
+
   def index
-    @users = User.includes(:user_profile).where.not(id: current_user.id).where.not(user_profiles: { name: nil })
+    excluded_user_ids = [
+      current_user.id, # 現在のユーザー自身
+      current_user.sent_chat_requests.where(status: 'pending').pluck(:receiver_id), # 申請済みのユーザー
+      current_user.received_chat_requests.where(status: 'pending').pluck(:sender_id), # 承認待ちのユーザー
+      current_user.matchings.flat_map(&:user_ids) # マッチング済みのユーザー
+    ].flatten.uniq
+  
+    @users = User.includes(:user_profile).where.not(id: excluded_user_ids).where.not(user_profiles: { name: nil })
     @chat_request = ChatRequest.new
+  end
+  
+  def matched_users
+    @users = current_user.matchings.includes(users: :user_profile).map(&:users).flatten
+    render 'users/index'
+  end
+  
+  def requested_users
+    @chat_requests = current_user.sent_chat_requests.includes(receiver: :user_profile).where(status: 'pending')
+    @users = @chat_requests.map(&:receiver).flatten
+    render 'users/index'
+  end
+  
+  def approval_pending_users
+    @chat_requests = current_user.received_chat_requests.includes(sender: :user_profile).where(status: 'pending')
+    @users = @chat_requests.map(&:sender).flatten
+    render 'users/index'
   end
 
 
@@ -26,4 +50,3 @@ class UsersController < ApplicationController
     params.require(:user).permit(:email, :password, :password_confirmation)
   end
 end
-
