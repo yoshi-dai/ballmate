@@ -25,6 +25,11 @@ class UsersController < ApplicationController
     @users = User.includes(:user_profile).where.not(id: excluded_user_ids).where.not(user_profiles: { name: nil })
     @chat_request = ChatRequest.new
   end
+
+  def show
+    @user = User.find(params[:id])
+    @user_profile = @user.user_profile
+  end
   
   def matched_users
     @users = current_user.matchings.includes(users: :user_profile).map(&:users).flatten.reject { |user| user == current_user }
@@ -42,7 +47,7 @@ class UsersController < ApplicationController
     @users = @chat_requests.map(&:sender).flatten.reject { |user| user == current_user }
     render 'users/index'
   end
-  
+
   private
 
   def user_params

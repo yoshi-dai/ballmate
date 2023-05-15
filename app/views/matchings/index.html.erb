@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-12">
+    <div class="row">
+      <% if @matchings.present? %>
+        <%= render @matchings %>
+      <% else %>
+        <p><%= 'マッチングは存在しません' %></p>
+      <% end %>
+    </div>
+  </div>
+</div>

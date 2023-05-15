@@ -9,10 +9,15 @@
             <% else %>
               <%= image_tag 'image_placeholder.png', size: '100x100' %>
             <% end %>
-          </li>          
-          <li class="list-inline-item">
-            <%= user.user_profile.name %>
           </li>
+          <li class="list-inline-item">
+            <% if current_user.matchings.exists?(user.id) %>
+              <%= link_to user.user_profile.name, matching_path(user) %>
+            <% else %>
+              <%= link_to user.user_profile.name, user_path(user) %>
+            <% end %>
+          </li>     
+          
           <% if current_user.sent_chat_requests.exists?(receiver_id: user.id) %>
             <% if current_user.received_chat_requests.exists?(sender_id: user.id, status: 'pending') %>
               <%= button_to '承認', approve_chat_requests_path(user_id: user.id), method: :patch, class: 'btn btn-success' %>
