@@ -1,0 +1,32 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+}
+
+/* ヘッダーのスタイル */
+.header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+/* メインコンテンツのスタイル */
+.main-content {
+  margin: 20px;
+}
+
+/* ボタンのスタイル */
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* リンクのスタイル */
+a {
+  color: #007bff;
+  text-decoration: none;
+}

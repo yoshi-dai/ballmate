@@ -1,4 +1,4 @@
 class MatchingUser < ApplicationRecord
-  belongs_to :user
   belongs_to :matching
+  belongs_to :user
 end

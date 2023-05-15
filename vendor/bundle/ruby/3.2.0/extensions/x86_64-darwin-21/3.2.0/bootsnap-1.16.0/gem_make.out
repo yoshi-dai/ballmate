@@ -1,0 +1,18 @@
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/bootsnap-1.16.0/ext/bootsnap
+/Users/daiki/.rbenv/versions/3.2.2/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/bootsnap-1.16.0/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-jrpevg sitelibdir\=./.gem.20230510-2878-jrpevg clean
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/bootsnap-1.16.0/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-jrpevg sitelibdir\=./.gem.20230510-2878-jrpevg
+compiling bootsnap.c
+linking shared-object bootsnap/bootsnap.bundle
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/bootsnap-1.16.0/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-jrpevg sitelibdir\=./.gem.20230510-2878-jrpevg install
+/usr/bin/install -c -m 0755 bootsnap.bundle ./.gem.20230510-2878-jrpevg/bootsnap
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/bootsnap-1.16.0/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-jrpevg sitelibdir\=./.gem.20230510-2878-jrpevg clean

@@ -1,0 +1,65 @@
+<div class="container pt-3">
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <h1 class="float-left mb-5">show</h1>
+      <%= link_to t('defaults.edit'), edit_user_profile_path, class: 'btn btn-success float-right' %>
+      <table class="table">
+        <tr>
+          <th scope="row"><%= t(User.human_attribute_name(:name)) %></th>
+          <td><%= current_user.user_profile.name %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= t(User.human_attribute_name(:favorite_player)) %></th>
+          <td><%= current_user.user_profile.favorite_player %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= t(User.human_attribute_name(:position)) %></th>
+          <td><%= current_user.user_profile.position %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= t(User.human_attribute_name(:role_in_team)) %></th>
+          <td><%= current_user.user_profile.role_in_team %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= t(User.human_attribute_name(:age)) %></th>
+          <td><%= current_user.user_profile.age %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= t(User.human_attribute_name(:favorite_place)) %></th>
+          <td><%= current_user.user_profile.favorite_place %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= t(User.human_attribute_name(:equipment)) %></th>
+          <td><%= current_user.user_profile.equipment %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= t(User.human_attribute_name(:available_day_of_week)) %></th>
+          <td><%= current_user.user_profile.available_day_of_week %></td>
+        </tr>
+
+        <tr>
+          <th scope="row"><%= t(User.human_attribute_name(:favorite_soccer_activities)) %></th>
+          <td>
+            <% current_user.user_profile.favorite_soccer_activities.each do |activity| %>
+              <%= activity.soccer_type %>
+            <% end %>
+          </td>
+        </tr>
+
+          
+        <tr>
+          <th scope="row"><%= t(User.human_attribute_name(:active_area)) %></th>
+          <td><%= current_user.user_profile.active_area %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= t(User.human_attribute_name(:available_time)) %></th>
+          <td><%= current_user.user_profile.available_time %></td>
+        </tr>
+        <tr>
+          <th scope="row"><%= t(User.human_attribute_name(:image)) %></th>
+          <td><%= image_tag current_user.user_profile.image.url, size: '200x200' %></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

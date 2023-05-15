@@ -73,4 +73,10 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+
+  # Enable better_errors gem
+  BetterErrors::Middleware.allow_ip! '0.0.0.0/0'
+
+  # Use binding_of_caller gem
+  require 'binding_of_caller'
 end

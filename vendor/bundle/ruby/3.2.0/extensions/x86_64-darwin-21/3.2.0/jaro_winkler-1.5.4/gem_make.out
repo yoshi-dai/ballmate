@@ -1,0 +1,46 @@
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/jaro_winkler-1.5.4/ext/jaro_winkler
+/Users/daiki/.rbenv/versions/3.2.2/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/jaro_winkler-1.5.4/ext/jaro_winkler
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-v6wec8 sitelibdir\=./.gem.20230510-2878-v6wec8 clean
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/jaro_winkler-1.5.4/ext/jaro_winkler
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-v6wec8 sitelibdir\=./.gem.20230510-2878-v6wec8
+compiling adj_matrix.c
+compiling codepoints.c
+compiling jaro.c
+compiling jaro_winkler.c
+jaro_winkler.c:19:3: warning: incompatible function pointer types passing 'VALUE (size_t, VALUE *, VALUE)' (aka 'unsigned long (unsigned long, unsigned long *, unsigned long)') to parameter of type 'VALUE (*)(int, union (unnamed union at /Users/daiki/.rbenv/versions/3.2.2/include/ruby-3.2.0/ruby/internal/anyargs.h:271:1), VALUE)' (aka 'unsigned long (*)(int, union (unnamed at /Users/daiki/.rbenv/versions/3.2.2/include/ruby-3.2.0/ruby/internal/anyargs.h:271:1), unsigned long)') [-Wincompatible-function-pointer-types]
+  rb_define_singleton_method(rb_mJaroWinkler, "distance",
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/daiki/.rbenv/versions/3.2.2/include/ruby-3.2.0/ruby/internal/anyargs.h:308:143: note: expanded from macro 'rb_define_singleton_method'
+#define rb_define_singleton_method(obj, mid, func, arity)   RBIMPL_ANYARGS_DISPATCH_rb_define_singleton_method((arity), (func))((obj), (mid), (func), (arity))
+                                                                                                                                              ^~~~~~
+/Users/daiki/.rbenv/versions/3.2.2/include/ruby-3.2.0/ruby/internal/anyargs.h:271:1: note: passing argument to parameter here
+RBIMPL_ANYARGS_DECL(rb_define_singleton_method, VALUE, const char *)
+^
+/Users/daiki/.rbenv/versions/3.2.2/include/ruby-3.2.0/ruby/internal/anyargs.h:254:72: note: expanded from macro 'RBIMPL_ANYARGS_DECL'
+RBIMPL_ANYARGS_ATTRSET(sym) static void sym ## _m1(__VA_ARGS__, VALUE(*)(int, union { VALUE *x; const VALUE *y; } __attribute__((__transparent_union__)), VALUE), int); \
+                                                                       ^
+jaro_winkler.c:21:3: warning: incompatible function pointer types passing 'VALUE (size_t, VALUE *, VALUE)' (aka 'unsigned long (unsigned long, unsigned long *, unsigned long)') to parameter of type 'VALUE (*)(int, union (unnamed union at /Users/daiki/.rbenv/versions/3.2.2/include/ruby-3.2.0/ruby/internal/anyargs.h:271:1), VALUE)' (aka 'unsigned long (*)(int, union (unnamed at /Users/daiki/.rbenv/versions/3.2.2/include/ruby-3.2.0/ruby/internal/anyargs.h:271:1), unsigned long)') [-Wincompatible-function-pointer-types]
+  rb_define_singleton_method(rb_mJaroWinkler, "jaro_distance", rb_jaro_distance,
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/daiki/.rbenv/versions/3.2.2/include/ruby-3.2.0/ruby/internal/anyargs.h:308:143: note: expanded from macro 'rb_define_singleton_method'
+#define rb_define_singleton_method(obj, mid, func, arity)   RBIMPL_ANYARGS_DISPATCH_rb_define_singleton_method((arity), (func))((obj), (mid), (func), (arity))
+                                                                                                                                              ^~~~~~
+/Users/daiki/.rbenv/versions/3.2.2/include/ruby-3.2.0/ruby/internal/anyargs.h:271:1: note: passing argument to parameter here
+RBIMPL_ANYARGS_DECL(rb_define_singleton_method, VALUE, const char *)
+^
+/Users/daiki/.rbenv/versions/3.2.2/include/ruby-3.2.0/ruby/internal/anyargs.h:254:72: note: expanded from macro 'RBIMPL_ANYARGS_DECL'
+RBIMPL_ANYARGS_ATTRSET(sym) static void sym ## _m1(__VA_ARGS__, VALUE(*)(int, union { VALUE *x; const VALUE *y; } __attribute__((__transparent_union__)), VALUE), int); \
+                                                                       ^
+2 warnings generated.
+linking shared-object jaro_winkler/jaro_winkler_ext.bundle
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/jaro_winkler-1.5.4/ext/jaro_winkler
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-v6wec8 sitelibdir\=./.gem.20230510-2878-v6wec8 install
+/usr/bin/install -c -m 0755 jaro_winkler_ext.bundle ./.gem.20230510-2878-v6wec8/jaro_winkler
+
+current directory: /Users/daiki/workspace/runteq/ballmate/vendor/bundle/ruby/3.2.0/gems/jaro_winkler-1.5.4/ext/jaro_winkler
+make DESTDIR\= sitearchdir\=./.gem.20230510-2878-v6wec8 sitelibdir\=./.gem.20230510-2878-v6wec8 clean
