@@ -14,23 +14,23 @@ class ChatRequestsController < ApplicationController
 
   def approve
     @chat_request = current_user.received_chat_requests.find_by(sender_id: params[:user_id], status: 'pending')
+    
     if @chat_request
-      @chat_request.update(status: 'approved')
-      group = Group.create
-    
-      # ユーザーをグループに追加
-      group.users << current_user
-      group.users << @chat_request.sender
-    
-      # マッチングの作成
-      matching = Matching.create(name: group.name)
-      matching.users << current_user
-      matching.users << @chat_request.sender
-    
-      # 承認後の処理(一時的)
+      group_name = "Group-#{SecureRandom.hex(4)}" # 適切なグループ名を生成
+      ActiveRecord::Base.transaction do
+        @chat_request.update(status: 'approved')
+        
+        group = Group.create(name: group_name)
+        group.users << current_user
+        group.users << @chat_request.sender
+        
+        matching = Matching.create(name: group_name, group_id: group.id)
+        matching.users << current_user
+        matching.users << @chat_request.sender
+      end
+      
       redirect_to users_path, notice: 'チャットリクエストを承認しました。'
     else
-      # 承認できなかった場合の処理
       redirect_to users_path, alert: 'チャットリクエストの承認に失敗しました。'
     end
   end
