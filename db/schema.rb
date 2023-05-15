@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 2023_05_13_042359) do
 
   create_table "chat_requests", force: :cascade do |t|
     t.bigint "sender_id", null: false
-    t.bigint "receiver_id", null: false
-    t.bigint "matching_id", null: false
+    t.bigint "receiver_id"
+    t.bigint "matching_id"
     t.integer "status", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

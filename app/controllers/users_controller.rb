@@ -12,7 +12,13 @@ class UsersController < ApplicationController
       flash.now[:danger] = t('.fail')
       render :new
     end
-  end    
+  end
+  
+  def index
+    @users = User.includes(:user_profile).where.not(id: current_user.id).where.not(user_profiles: { name: nil })
+    @chat_request = ChatRequest.new
+  end
+
 
   private
 
