@@ -1,0 +1,61 @@
+<%= form_with(model: @matching, url: matching_profile_path(@matching), method: :patch) do |form| %>
+  <!-- マッチング名の編集 -->
+  <div>
+    <%= form.label :name, 'マッチング名' %>
+    <%= form.text_field :name %>
+  </div>
+
+  <!-- マッチング日付の編集 -->
+  <div>
+    <%= form.label :date, '日付' %>
+    <%= form.date_field :date %>
+  </div>
+
+  <!-- マッチング時間帯の編集 -->
+  <div>
+    <%= form.label :time_zone, '時間帯' %>
+    <%= form.text_field :time_zone %>
+  </div>
+
+  <!-- マッチング場所の編集 -->
+  <div>
+    <%= form.label :place, '場所' %>
+    <%= form.text_field :place %>
+  </div>
+
+  <!-- マッチングプロフィールの編集 -->
+  <%= form.fields_for :matching_profile do |profile_fields| %>
+    <!-- アクティビティ内容の編集 -->
+    <div>
+      <%= profile_fields.label :activity_content, 'アクティビティ内容' %>
+      <%= profile_fields.text_field :activity_content %>
+    </div>
+
+    <!-- アクティビティ詳細の編集 -->
+    <div>
+      <%= profile_fields.label :activity_detail, 'アクティビティ詳細' %>
+      <%= profile_fields.text_field :activity_detail %>
+    </div>
+
+    <!-- 募集内容の編集 -->
+    <div>
+      <%= profile_fields.label :recruitment_content, '募集内容' %>
+      <%= profile_fields.text_field :recruitment_content %>
+    </div>
+
+    <!-- ショートメッセージの編集 -->
+    <div>
+      <%= profile_fields.label :short_message, 'ショートメッセージ' %>
+      <%= profile_fields.text_field :short_message %>
+    </div>
+
+    <!-- 画像のアップロード -->
+    <div>
+      <%= profile_fields.label :image, '画像' %>
+      <%= profile_fields.file_field :image %>
+    </div>
+  <% end %>
+
+  <!-- 編集ボタン -->
+  <%= form.submit '編集' %>
+<% end %>

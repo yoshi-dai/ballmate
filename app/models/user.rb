@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :group_users
   has_many :groups, through: :group_users
   has_many :matchings, through: :groups
+  has_many :matching_users, through: :matchings
   has_many :chat_requests, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :messages, dependent: :destroy

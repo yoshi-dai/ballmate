@@ -5,41 +5,41 @@
       <table class="table">
         <tr>
           <th scope="row"><%= t(User.human_attribute_name(:name)) %></th>
-          <td><%= current_user.user_profile.name %></td>
+          <td><%= @user.user_profile.name %></td>
         </tr>
         <tr>
           <th scope="row"><%= t(User.human_attribute_name(:favorite_player)) %></th>
-          <td><%= current_user.user_profile.favorite_player %></td>
+          <td><%= @user.user_profile.favorite_player %></td>
         </tr>
         <tr>
           <th scope="row"><%= t(User.human_attribute_name(:position)) %></th>
-          <td><%= current_user.user_profile.position %></td>
+          <td><%= @user.user_profile.position %></td>
         </tr>
         <tr>
           <th scope="row"><%= t(User.human_attribute_name(:role_in_team)) %></th>
-          <td><%= current_user.user_profile.role_in_team %></td>
+          <td><%= @user.user_profile.role_in_team %></td>
         </tr>
         <tr>
           <th scope="row"><%= t(User.human_attribute_name(:age)) %></th>
-          <td><%= current_user.user_profile.age %></td>
+          <td><%= @user.user_profile.age %></td>
         </tr>
         <tr>
           <th scope="row"><%= t(User.human_attribute_name(:favorite_place)) %></th>
-          <td><%= current_user.user_profile.favorite_place %></td>
+          <td><%= @user.user_profile.favorite_place %></td>
         </tr>
         <tr>
           <th scope="row"><%= t(User.human_attribute_name(:equipment)) %></th>
-          <td><%= current_user.user_profile.equipment %></td>
+          <td><%= @user.user_profile.equipment %></td>
         </tr>
         <tr>
           <th scope="row"><%= t(User.human_attribute_name(:available_day_of_week)) %></th>
-          <td><%= current_user.user_profile.available_day_of_week %></td>
+          <td><%= @user.user_profile.available_day_of_week %></td>
         </tr>
 
         <tr>
           <th scope="row"><%= t(User.human_attribute_name(:favorite_soccer_activities)) %></th>
           <td>
-            <% current_user.user_profile.favorite_soccer_activities.each do |activity| %>
+            <% @user.user_profile.favorite_soccer_activities.each do |activity| %>
               <%= activity.soccer_type %>
             <% end %>
           </td>
@@ -48,17 +48,32 @@
           
         <tr>
           <th scope="row"><%= t(User.human_attribute_name(:active_area)) %></th>
-          <td><%= current_user.user_profile.active_area %></td>
+          <td><%= @user.user_profile.active_area %></td>
         </tr>
         <tr>
           <th scope="row"><%= t(User.human_attribute_name(:available_time)) %></th>
-          <td><%= current_user.user_profile.available_time %></td>
+          <td><%= @user.user_profile.available_time %></td>
         </tr>
         <tr>
           <th scope="row"><%= t(User.human_attribute_name(:image)) %></th>
-          <td><%= image_tag current_user.user_profile.image.url, size: '200x200' %></td>
+          <td><%= image_tag @user.user_profile.image.url, size: '200x200' %></td>
         </tr>
       </table>
     </div>
   </div>
+  <% if current_user.received_chat_requests.exists?(sender_id: @user.id,status: 'pending') %>
+            <% chat_request = current_user.received_chat_requests.find_by(status: 'pending') %>
+            <%= button_to '承認', approve_chat_requests_path(user_id: @user.id), method: :patch, class: 'btn btn-success' %>
+            <%= button_to '拒否', reject_chat_requests_path(user_id: @user.id), method: :patch, class: 'btn btn-danger' %>
+          <% elsif current_user.sent_chat_requests.exists?(receiver_id: @user.id, status: 'pending') %>
+            <% chat_request = current_user.sent_chat_requests.find_by(receiver_id: @user.id, status: 'pending') %>
+            <%= button_to 'キャンセル', cancel_chat_requests_path(user_id: @user.id), method: :patch, class: 'btn btn-danger' %>
+          <% elsif current_user.matching_users.exists?(user_id: @user.id) %>
+            <!-- マッチングが存在する場合は何も表示しない -->
+          <% else %>
+            <%= form_with(model: @chat_request, url: chat_requests_path) do |form| %>
+              <%= form.hidden_field :receiver_id, value: @user.id %>
+              <%= form.submit '申請', class: 'btn btn-primary' %>
+            <% end %>
+          <% end %>
 </div>

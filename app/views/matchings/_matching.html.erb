@@ -4,7 +4,15 @@
       <div class="card-body">
         <ul class="list-inline">      
           <li class="list-inline-item">
-            <%= link_to matching.name, matching_path(matching) %>
+            <% if current_user.matchings.include?(matching) %>
+              <%= link_to matching.name, edit_matching_path(matching) %>
+            <% else %>
+              <% if matching.respond_to?(:matching_profile) %>
+                <%= link_to matching.name, matching_profile_path(matching.matching_profile) %>
+              <% else %>
+                <%= link_to matching.name, matching_path(matching) %>
+              <% end %>
+            <% end %>
           </li>
         </ul>
       </div>
