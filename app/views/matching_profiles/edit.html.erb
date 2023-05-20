@@ -1,61 +1,57 @@
-<%= form_with(model: @matching, url: matching_profile_path(@matching), method: :patch) do |form| %>
-  <!-- マッチング名の編集 -->
+<%= form_with(model: @matching_profile, url: matching_profile_path(@matching_profile), method: :patch) do |f| %>
+  <!-- マッチング名の表示 -->
   <div>
-    <%= form.label :name, 'マッチング名' %>
-    <%= form.text_field :name %>
+    <label>マッチング名</label>
+    <p><%= @matching.name %></p>
   </div>
 
-  <!-- マッチング日付の編集 -->
+  <!-- マッチング日付の表示 -->
   <div>
-    <%= form.label :date, '日付' %>
-    <%= form.date_field :date %>
+    <label>日付</label>
+    <p><%= @matching.date %></p>
   </div>
 
-  <!-- マッチング時間帯の編集 -->
+  <!-- マッチング時間帯の表示 -->
   <div>
-    <%= form.label :time_zone, '時間帯' %>
-    <%= form.text_field :time_zone %>
+    <label>時間帯</label>
+    <p><%= @matching.time_zone %></p>
   </div>
 
-  <!-- マッチング場所の編集 -->
+  <!-- マッチング場所の表示 -->
   <div>
-    <%= form.label :place, '場所' %>
-    <%= form.text_field :place %>
+    <label>場所</label>
+    <p><%= @matching.place %></p>
   </div>
-
-  <!-- マッチングプロフィールの編集 -->
-  <%= form.fields_for :matching_profile do |profile_fields| %>
-    <!-- アクティビティ内容の編集 -->
-    <div>
-      <%= profile_fields.label :activity_content, 'アクティビティ内容' %>
-      <%= profile_fields.text_field :activity_content %>
-    </div>
-
-    <!-- アクティビティ詳細の編集 -->
-    <div>
-      <%= profile_fields.label :activity_detail, 'アクティビティ詳細' %>
-      <%= profile_fields.text_field :activity_detail %>
-    </div>
-
-    <!-- 募集内容の編集 -->
-    <div>
-      <%= profile_fields.label :recruitment_content, '募集内容' %>
-      <%= profile_fields.text_field :recruitment_content %>
-    </div>
-
-    <!-- ショートメッセージの編集 -->
-    <div>
-      <%= profile_fields.label :short_message, 'ショートメッセージ' %>
-      <%= profile_fields.text_field :short_message %>
-    </div>
-
-    <!-- 画像のアップロード -->
-    <div>
-      <%= profile_fields.label :image, '画像' %>
-      <%= profile_fields.file_field :image %>
-    </div>
+  <!-- アクティビティ内容の編集 -->
+  <div>
+    <%= f.label :activity_content, 'アクティビティ内容' %>
+    <%= f.text_field :activity_content, value: @matching_profile.activity_content %>
+  </div>
+  <!-- アクティビティ詳細の編集 -->
+  <div>
+    <%= f.label :activity_detail, 'アクティビティ詳細' %>
+    <%= f.text_field :activity_detail, value: @matching_profile.activity_detail %>
+  </div>
+  <!-- 募集内容の編集 -->
+  <div>
+    <%= f.label :recruitment_content, '募集内容' %>
+    <%= f.text_field :recruitment_content, value: @matching_profile.recruitment_content %>
+  </div>
+  <!-- ショートメッセージの編集 -->
+  <div>
+    <%= f.label :short_message, 'ショートメッセージ' %>
+    <%= f.text_field :short_message, value: @matching_profile.short_message %>
+  </div>
+  <!-- 画像のアップロード -->
+  <div>
+    <%= f.label :image, '画像' %>
+    <%= f.file_field :image %>
+    <%= f.hidden_field :image_cache %>
+  </div>
+  <!-- 画像のプレビュー -->
+  <% if f.object&.image.present? %>
+    <%= image_tag f.object.image_url %>
   <% end %>
-
   <!-- 編集ボタン -->
-  <%= form.submit '編集' %>
+  <%= f.submit '編集' %>
 <% end %>

@@ -18,7 +18,7 @@ class MatchingsController < ApplicationController
     if @matching.update(matching_params)
       if params[:matching][:public_flag] == "1"
         @matching_profile = @matching.create_matching_profile
-        redirect_to edit_matching_profile_path(@matching_profile)
+        redirect_to edit_matching_profile_path(@matching_profile.id)
       else
         redirect_to @matching
       end
