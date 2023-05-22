@@ -1,0 +1,58 @@
+matching_profiles/show
+
+<!-- マッチング名の表示 -->
+<div>
+  <label>マッチング名</label>
+  <p><%= @matching.name %></p>
+</div>
+
+<!-- マッチング日付の表示 -->
+<div>
+  <label>日付</label>
+  <p><%= @matching.date %></p>
+</div>
+
+<!-- マッチング時間帯の表示 -->
+<div>
+  <label>時間帯</label>
+  <p><%= @matching.time_zone %></p>
+</div>
+
+<!-- マッチング場所の表示 -->
+<div>
+  <label>場所</label>
+  <p><%= @matching.place %></p>
+</div>
+
+<!-- マッチングプロフィールの表示 -->
+
+<!-- アクティビティ内容の表示 -->
+<div>
+  <label>アクティビティ内容</label>
+  <p><%= @matching.matching_profile.activity_content %></p>
+</div>
+
+<!-- アクティビティ詳細の表示 -->
+<div>
+  <label>アクティビティ詳細</label>
+  <p><%= @matching.matching_profile.activity_detail %></p>
+</div>
+
+<!-- 募集内容の表示 -->
+<div>
+  <label>募集内容</label>
+  <p><%= @matching.matching_profile.recruitment_content %></p>
+</div>
+
+<!-- ショートメッセージの表示 -->
+<div>
+  <label>ショートメッセージ</label>
+  <p><%= @matching.matching_profile.short_message %></p>
+</div>
+
+<!-- 画像の表示 -->
+<% if @matching.matching_profile.image.present? %>
+<%= image_tag @matching.matching_profile.image_url %>
+<% end %>
+<!-- マッチングプロフィールの表示 -->
+

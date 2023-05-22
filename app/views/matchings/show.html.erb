@@ -1,2 +1,25 @@
-<h1>Matching Details</h1>
-<p>Display the matching details here.</p>
+matchinds/show
+
+<!-- マッチング名の表示 -->
+<div>
+  <label>マッチング名</label>
+  <p><%= @matching.name %></p>
+</div>
+
+<!-- マッチング日付の表示 -->
+<div>
+  <label>日付</label>
+  <p><%= @matching.date %></p>
+</div>
+
+<!-- マッチング時間帯の表示 -->
+<div>
+  <label>時間帯</label>
+  <p><%= @matching.time_zone %></p>
+</div>
+
+<!-- マッチング場所の表示 -->
+<div>
+  <label>場所</label>
+  <p><%= @matching.place %></p>
+</div>
