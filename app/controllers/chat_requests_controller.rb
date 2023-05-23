@@ -1,18 +1,29 @@
 class ChatRequestsController < ApplicationController
   def create
-    receiver_id = params[:chat_request][:receiver_id] # 受信者のユーザーID（フォームデータから取得）
-
-    @chat_request = ChatRequest.new(sender_id: current_user.id, receiver_id: receiver_id, status: :pending)
-    if @chat_request.save
-      redirect_to users_path, notice: 'チャットリクエストを送信しました。'
-    else
-      @users = User.where.not(id: current_user.id).includes(:user_profile)
-      @chat_request = ChatRequest.new
-      render 'users/index'
+    if params[:chat_request] && params[:chat_request][:receiver_id].present? # ユーザーからのチャットリクエストの場合
+      receiver_id = params[:chat_request][:receiver_id] # 受信者のユーザーID（フォームデータから取得）
+  
+      @chat_request = ChatRequest.new(sender_id: current_user.id, receiver_id: receiver_id, status: :pending)
+      if @chat_request.save
+        redirect_to users_path, notice: 'チャットリクエストを送信しました。'
+      else
+        @users = User.where.not(id: current_user.id).includes(:user_profile)
+        render 'users/index'
+      end
+    elsif params[:matching_id].present? # マッチングからのチャットリクエストの場合
+      matching_id = params[:matching_id] # マッチングID（フォームデータから取得）
+      @chat_request = ChatRequest.new(sender_id: current_user.id, matching_id: matching_id, status: :pending)
+      if @chat_request.save
+        redirect_to matchings_path, notice: 'チャットリクエストを送信しました。'
+      else
+        @matchings = Matching.where.not(user_id: current_user.id).includes(:matching_profile)
+        render 'matchings/index'
+      end
     end
   end
 
   def approve
+    
     @chat_request = current_user.received_chat_requests.find_by(sender_id: params[:user_id], status: 'pending')
     
     if @chat_request
