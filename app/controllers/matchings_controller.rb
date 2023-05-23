@@ -1,6 +1,9 @@
 class MatchingsController < ApplicationController
   def index
-    @matchings = Matching.all
+    excluded_matchings_ids = [
+      current_user.matchings.pluck(:id)
+    ].flatten.uniq
+    @matchings = Matching.where.not(id: excluded_matchings_ids)
   end
 
   def show
@@ -26,6 +29,24 @@ class MatchingsController < ApplicationController
       render 'show'
     end
   end
+
+  def matched_matchings
+    @matchings = current_user.matchings.includes(:matching_profile)
+    render 'matchings/index'
+  end
+  
+  def requested_matchings
+    @chat_requests = current_user.sent_chat_requests.includes(receiver: :user_profile).where(status: 'pending')
+    @matchings = @chat_requests.map(&:receiver).compact.flatten.reject { |user| user == current_user }
+    render 'matchings/index'
+  end
+  
+  def approval_pending_matchings
+    @chat_requests = current_user.received_chat_requests.includes(sender: :user_profile).where(status: 'pending')
+    @matchings = @chat_requests.map(&:sender).compact.flatten.reject { |user| user == current_user }
+    render 'matchings/index'
+  end
+
 
   private
 

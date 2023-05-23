@@ -6,11 +6,12 @@ Rails.application.routes.draw do
   delete 'logout', to: 'user_sessions#destroy'
 
   resources :user_profiles
-  resources :users
+  resources :users, only: %i[new create index show]
 
   get 'matched_users', to: 'users#matched_users', as: 'matched_users'
   get 'requested_users', to: 'users#requested_users', as: 'requested_users'
   get 'approval_pending_users', to: 'users#approval_pending_users', as: 'approval_pending_users'
+  get 'approval_pendinding_users_for_matching', to: 'users#approval_pendind_users_for_matching', as: 'approval_pending_users_for_matching'
 
   resources :chat_requests, only: [:create] do
     patch 'approve', on: :collection
@@ -18,6 +19,11 @@ Rails.application.routes.draw do
     patch 'reject', on: :collection
   end
 
-  resources :matchings
+  resources :matchings 
+
+  get 'matched_matchings', to: 'matchings#matched_matchings', as: 'matched_matchings'
+  get 'requested_matchings', to: 'matchings#requested_matchings', as: 'requested_matchings'
+  get 'approval_pending_matchings', to: 'matchings#approval_pending_matchings', as: 'approval_pending_matchings'
+
   resources :matching_profiles
 end
