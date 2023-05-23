@@ -48,6 +48,13 @@ class UsersController < ApplicationController
     render 'users/index'
   end
 
+  def approval_pending_users_for_matchings
+    @chat_requests = current_user.received_chat_requests.includes(matching: :matching_profile).where(status: 'pending')
+    @users = @chat_requests.map(&:matching).compact.flatten.reject { |user| user == current_user }
+    @matchings = @users.map(&:matching_profile).compact.flatten
+    render 'matchings/index'
+  end
+
   private
 
   def user_params

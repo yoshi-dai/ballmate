@@ -23,7 +23,7 @@ class ChatRequestsController < ApplicationController
   end
 
   def approve
-    if params[:receiver_id].present? # ユーザーからのチャットリクエストの場合
+    if params[:user_id].present? # ユーザーからのチャットリクエストの場合
       @chat_request = current_user.received_chat_requests.find_by(sender_id: params[:user_id], status: 'pending')
     
       if @chat_request
@@ -66,7 +66,7 @@ class ChatRequestsController < ApplicationController
   end
 
   def cancel
-    if params[:receiver_id].present? # ユーザーからのチャットリクエストの場合
+    if params[:user_id].present? # ユーザーからのチャットリクエストの場合
       @chat_request = current_user.sent_chat_requests.find_by(receiver_id: params[:user_id], status: 'pending')
       if @chat_request
         @chat_request.destroy!
@@ -86,7 +86,7 @@ class ChatRequestsController < ApplicationController
   end
 
   def reject
-    if params[:receiver_id].present? # ユーザーからのチャットリクエストの場合
+    if params[:user_id].present? # ユーザーからのチャットリクエストの場合
       @chat_request = current_user.received_chat_requests.find_by(sender_id: params[:user_id], status: 'pending')
       if @chat_request
         @chat_request.update(status: 'rejected')
