@@ -14,6 +14,21 @@
               <% end %>
             <% end %>
           </li>
+          <% if current_user.received_chat_requests.exists?(matching_id: matching.id, status: 'pending') %>
+            <% chat_request = current_user.received_chat_requests.find_by(status: 'pending') %>
+            <%= button_to '承認', approve_chat_requests_path(matching_id: matching.id), method: :patch, class: 'btn btn-success' %>
+            <%= button_to '拒否', reject_chat_requests_path(matching_id: matching.id), method: :patch, class: 'btn btn-danger' %>
+          <% elsif current_user.sent_chat_requests.exists?(matching_id: matching.id, status: 'pending') %>
+            <% chat_request = current_user.sent_chat_requests.find_by(matching_id: matching.id, status: 'pending') %>
+            <%= button_to 'キャンセル', cancel_chat_requests_path(matching_id: matching.id), method: :patch, class: 'btn btn-danger' %>
+          <% elsif current_user.matching_users.exists?(matching_id: matching.id) %>
+            <!-- マッチングが存在する場合は何も表示しない -->
+          <% else %>
+            <%= form_with(model: @chat_request, url: chat_requests_path) do |form| %>
+              <%= form.hidden_field :matching_id, value: matching.id %>
+              <%= form.submit '申請', class: 'btn btn-primary' %>
+            <% end %>
+          <% end %>
         </ul>
       </div>
     </div>

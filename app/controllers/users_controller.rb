@@ -37,15 +37,22 @@ class UsersController < ApplicationController
   end
   
   def requested_users
-    @chat_requests = current_user.sent_chat_requests.includes(receiver: :user_profile).where(status: 'pending')
-    @users = @chat_requests.map(&:receiver).flatten.reject { |user| user == current_user }
+    @chat_requests = current_user.sent_chat_requests.includes(receiver: :user_profile).where(status: 'pending').where.not(receiver: nil)
+    @users = @chat_requests.map(&:receiver).compact.flatten.reject { |user| user == current_user }
     render 'users/index'
   end
   
   def approval_pending_users
     @chat_requests = current_user.received_chat_requests.includes(sender: :user_profile).where(status: 'pending')
-    @users = @chat_requests.map(&:sender).flatten.reject { |user| user == current_user }
+    @users = @chat_requests.map(&:sender).compact.flatten.reject { |user| user == current_user }
     render 'users/index'
+  end
+
+  def approval_pending_users_for_matchings
+    @chat_requests = current_user.received_chat_requests.includes(matching: :matching_profile).where(status: 'pending')
+    @users = @chat_requests.map(&:matching).compact.flatten.reject { |user| user == current_user }
+    @matchings = @users.map(&:matching_profile).compact.flatten
+    render 'matchings/index'
   end
 
   private
