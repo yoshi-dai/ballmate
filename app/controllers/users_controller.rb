@@ -37,7 +37,7 @@ class UsersController < ApplicationController
   end
   
   def requested_users
-    @chat_requests = current_user.sent_chat_requests.includes(receiver: :user_profile).where(status: 'pending')
+    @chat_requests = current_user.sent_chat_requests.includes(receiver: :user_profile).where(status: 'pending').where.not(receiver: nil)
     @users = @chat_requests.map(&:receiver).compact.flatten.reject { |user| user == current_user }
     render 'users/index'
   end
