@@ -2,9 +2,3 @@
 <%= link_to 'ログイン', login_path %>
 <%= link_to 'ログアウト', logout_path, method: :delete, data: { confirm: '本当にログアウトしますか？' } %>
 
-<% if current_user.present? && current_user.user_profile.present? %>
-  <%= link_to 'プロフィール', user_profile_path(current_user.id) %>
-<% else %>
-  <%= link_to 'プロフィールを作成', new_user_profile_path %>
-<% end %>
-
