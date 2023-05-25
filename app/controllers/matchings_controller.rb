@@ -43,8 +43,8 @@ class MatchingsController < ApplicationController
   end
   
   def approval_pending_matchings
-    @chat_requests = current_user.received_chat_requests.includes(sender: :user_profile).where(status: 'pending')
-    @matchings = @chat_requests.map(&:sender).compact.flatten.reject { |user| user == current_user }
+    @chat_requests = ChatRequest.includes(matching: :matching_profile).where(matching: current_user.matchings, status: 'pending')
+    @matchings = @chat_requests.map(&:matching).compact.uniq.flatten.reject { |user| user == current_user }
     render 'matchings/index'
   end
 

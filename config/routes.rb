@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   get 'matched_users', to: 'users#matched_users', as: 'matched_users'
   get 'requested_users', to: 'users#requested_users', as: 'requested_users'
   get 'approval_pending_users', to: 'users#approval_pending_users', as: 'approval_pending_users'
-  get 'approval_pending_users_for_matchings', to: 'users#approval_pending_users_for_matchings', as: 'approval_pending_users_for_matchings'
 
   resources :chat_requests, only: [:create] do
     patch 'approve', on: :collection
