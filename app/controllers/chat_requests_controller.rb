@@ -23,7 +23,7 @@ class ChatRequestsController < ApplicationController
   end
 
   def approve
-    if params[:user_id].present? # ユーザーからのチャットリクエストの場合
+    if params[:user_id].present? && params[:matching_id].blank? # ユーザーからのチャットリクエストの場合
       @chat_request = current_user.received_chat_requests.find_by(sender_id: params[:user_id], status: 'pending')
     
       if @chat_request
@@ -44,17 +44,16 @@ class ChatRequestsController < ApplicationController
       else
         redirect_to users_path, alert: 'チャットリクエストの承認に失敗しました。'
       end
-    elsif params[:matching_id].present? # マッチングからのチャットリクエストの場合
-      @chat_request = current_user.received_chat_requests.find_by(matching_id: params[:matching_id], status: 'pending')
-    
+    elsif params[:matching_id].present?  # マッチングからのチャットリクエストの場合
+      @chat_request = current_user.matchings.find(params[:matching_id]).received_chat_requests.find_by(matching_id: params[:matching_id], sender_id: params[:user_id], status: 'pending')
       if @chat_request
         ActiveRecord::Base.transaction do
           @chat_request.update(status: 'approved')
         
-          group = Group.find(id: @chat_request.matching.group_id)
+          group = Group.find(@chat_request.matching.group_id)
           group.users << @chat_request.sender
         
-          matching = Matching.find(group_id: group.id)
+          matching = Matching.find_by(group_id: group.id)
           matching.users << @chat_request.sender
         end
       
@@ -86,7 +85,7 @@ class ChatRequestsController < ApplicationController
   end
 
   def reject
-    if params[:user_id].present? # ユーザーからのチャットリクエストの場合
+    if params[:user_id].present? && params[:matching_id].blank? # ユーザーからのチャットリクエストの場合
       @chat_request = current_user.received_chat_requests.find_by(sender_id: params[:user_id], status: 'pending')
       if @chat_request
         @chat_request.update(status: 'rejected')
@@ -96,7 +95,7 @@ class ChatRequestsController < ApplicationController
         redirect_to users_path, alert: 'チャットリクエストの拒否に失敗しました。'
       end
     elsif params[:matching_id].present? # マッチングからのチャットリクエストの場合
-      @chat_request = current_user.received_chat_requests.find_by(matching_id: params[:matching_id], status: 'pending')
+      @chat_request = current_user.matchings.find(params[:matching_id]).received_chat_requests.find_by(matching_id: params[:matching_id], sender_id: params[:user_id], status: 'pending')
       if @chat_request
         @chat_request.update(status: 'rejected')
         @chat_request.destroy!
