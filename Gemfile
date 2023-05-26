@@ -28,10 +28,15 @@ gem 'jbuilder', '~> 2.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'carrierwave'
+gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'font-awesome-sass'
+gem 'httparty'
+gem 'open_weather_map'
+gem 'rest-client'
 gem 'solargraph', group: :development
 gem 'sorcery'
 gem 'tailwindcss-rails', '~> 2.0', '>= 2.0.29'
+
 
 
 group :development, :test do
