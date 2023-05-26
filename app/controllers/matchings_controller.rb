@@ -1,4 +1,6 @@
 class MatchingsController < ApplicationController
+  require_relative '../services/weather_service'
+
   def index
     excluded_matchings_ids = [
       current_user.matchings.pluck(:id),
@@ -10,11 +12,15 @@ class MatchingsController < ApplicationController
   def show
     @matching = Matching.includes(:matching_profile).find(params[:id])
     @user = @matching.users.includes(:user_profile).where.not(id: current_user.id).first
+    weather_service = WeatherService.new(ENV['OPEN_WEATHER_MAP_API_KEY'])
+    @weather_data = weather_service.get_weather(@matching.place)
   end
 
   def edit
     @matching = Matching.find(params[:id])
     @user = @matching.users.includes(:user_profile).where.not(id: current_user.id).first
+    weather_service = WeatherService.new(ENV['OPEN_WEATHER_MAP_API_KEY'])
+    @weather_data = weather_service.get_weather(@matching.place)
   end
 
   def update
