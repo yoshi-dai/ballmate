@@ -29,4 +29,11 @@ body {
 a {
   color: #007bff;
   text-decoration: none;
+  white-space: nowrap;
+}
+
+/* ヘッダーのドロップダウンメニューのスタイル */
+.dropdown-content {
+  position: absolute;
+  z-index: 100;
 }

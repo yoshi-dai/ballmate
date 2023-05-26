@@ -1,5 +1,57 @@
-<%= link_to 'ユーザー登録', new_user_path %>
-<%= link_to 'ログイン', login_path %>
-<%= link_to 'ログアウト', logout_path, method: :delete, data: { confirm: '本当にログアウトしますか？' } %>
-<i class="fa-regular fa-futbol fa-flip-both fa-sm"></i>
+<header>
+  <div class="navbar bg-base-100">
+    <div class="navbar-start">
+      <div class="dropdown">
+        <label tabindex="0" class="btn m-1">BallMate</label>
+        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+          <% if current_user.present? %>
+            <button class="btn"><%= link_to 'ログアウト', logout_path, method: :delete, data: { confirm: '本当にログアウトしますか？' } %></button>
+          <% else %>
+            <button class="btn"><%= link_to 'ログイン', login_path %></button>
+            <button class="btn"><li><%= link_to 'ユーザー登録', new_user_path %></li></button>
+          <% end %>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <label tabindex="0" class="btn btn-ghost lg:hidden">
+          <i class="fa-regular fa-futbol fa-flip-both fa-2xl"></i>
+        </label>
+        <ul tabindex="0" class="menu dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+          <li tabindex="0">
+            <a>
+              ユーザー
+            </a>
+            <ul class="rounded-box bg-base-100">
+              <li><%= link_to 'ユーザーを探す', users_path, class: 'btn btn-xs sm:btn-sm md:btn-md lg:btn-lg' %></li>
+              <li><%= link_to 'マッチング済みユーザー', matched_users_path, class: 'btn btn-xs sm:btn-sm md:btn-md lg:btn-lg' %></li>
+              <li><%= link_to '申請中ユーザー', requested_users_path, class: 'btn btn-xs sm:btn-sm md:btn-md lg:btn-lg' %></li>
+              <li><%= link_to '承認待ちユーザー', approval_pending_users_path, class: 'btn btn-xs sm:btn-sm md:btn-md lg:btn-lg' %></li>
+            </ul>
+          </li>
+          <li tabindex="0">
+            <a>
+              マッチング
+            </a>
+            <ul class="rounded-box p-2 bg-base-100">
+              <li><%= link_to 'マッチングを探す', matchings_path, class: 'btn btn-xs sm:btn-sm md:btn-md lg:btn-lg' %></li>
+              <li><%= link_to 'マッチ済みマッチング', matched_matchings_path, class: 'btn btn-xs sm:btn-sm md:btn-md lg:btn-lg' %></li>
+              <li><%= link_to '申請中マッチング', requested_matchings_path, class: 'btn btn-xs sm:btn-sm md:btn-md lg:btn-lg' %></li>
+              <li><%= link_to '承認待ちユーザー', approval_pending_matchings_path, class: 'btn btn-xs sm:btn-sm md:btn-md lg:btn-lg' %></li>
+            </ul>
+          </li>
+          <li tabindex="0">
+            <% if current_user.present? && current_user.user_profile.present? %>
+              <button class="btn"><%= link_to 'プロフィール', user_profile_path(current_user.id) %></button>
+            <% else %>
+              <button class="btn"><%= link_to 'プロフィールを作成', new_user_profile_path %></button>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div> 
+</header>
+
+
+
 
