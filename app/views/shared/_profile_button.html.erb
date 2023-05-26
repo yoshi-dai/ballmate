@@ -1,5 +1,0 @@
-<% if current_user.present? && current_user.user_profile.present? %>
-  <button class="btn"><%= link_to 'プロフィール', user_profile_path(current_user.id) %></button>
-<% else %>
-  <button class="btn"><%= link_to 'プロフィールを作成', new_user_profile_path %></button>
-<% end %>
