@@ -27,9 +27,10 @@ gem 'jbuilder', '~> 2.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
+gem 'carrierwave'
+gem 'font-awesome-sass'
 gem 'solargraph', group: :development
 gem 'sorcery'
-gem 'carrierwave'
 gem 'tailwindcss-rails', '~> 2.0', '>= 2.0.29'
 
 
