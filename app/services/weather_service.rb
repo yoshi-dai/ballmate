@@ -8,8 +8,13 @@ class WeatherService
     @api_key = api_key
   end
 
-  def get_weather(city)
-    response = self.class.get("/data/2.5/weather", query: { q: city, appid: @api_key })
+  def get_weather_by_coordinates(latitude, longitude)
+    response = self.class.get("/data/2.5/weather", query: { lat: latitude, lon: longitude, appid: @api_key })
+    response.parsed_response
+  end
+
+  def get_weather_by_coordinates_and_date(latitude, longitude, timestamp)
+    response = self.class.get("/data/2.5/forecast", query: { lat: latitude, lon: longitude, appid: @api_key })
     response.parsed_response
   end
 
@@ -32,5 +37,4 @@ class WeatherService
     # 以下はデフォルト値を返す例です
     # return 0
   end
-  
 end

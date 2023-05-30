@@ -35,13 +35,6 @@
     <%= f.label :public_flag, '外部公開' %>
   </div>
 
-  <% if @weather_data %>
-    <%= @weather_data.inspect %>
-    <p>Temperature: <%= @weather_data['temperature'] %>°C</p>
-    <p>Weather Description: <%= @weather_data['description'] %></p>
-  <% else %>
-    <p>No weather data available.</p>
-  <% end %>
 
   <!-- 編集ボタン -->
   <%= f.submit '編集' %>

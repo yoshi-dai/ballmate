@@ -1,4 +1,6 @@
 class MatchingsController < ApplicationController
+  include GeocodingHelper
+  require 'date'
   require_relative '../services/weather_service'
 
   def index
@@ -12,15 +14,13 @@ class MatchingsController < ApplicationController
   def show
     @matching = Matching.includes(:matching_profile).find(params[:id])
     @user = @matching.users.includes(:user_profile).where.not(id: current_user.id).first
-    weather_service = WeatherService.new(ENV['OPEN_WEATHER_MAP_API_KEY'])
-    @weather_data = weather_service.get_weather(@matching.place)
+    @weather_data = fetch_weather_data(@matching.place, @matching.date)
   end
 
   def edit
     @matching = Matching.find(params[:id])
     @user = @matching.users.includes(:user_profile).where.not(id: current_user.id).first
-    weather_service = WeatherService.new(ENV['OPEN_WEATHER_MAP_API_KEY'])
-    @weather_data = weather_service.get_weather(@matching.place)
+    @weather_data = fetch_weather_data(@matching.place, @matching.date)
   end
 
   def update
@@ -56,6 +56,20 @@ class MatchingsController < ApplicationController
 
 
   private
+
+  def fetch_weather_data(place, date = nil)
+    latitude, longitude = geocode(place, ENV['GOOGLE_MAPS_API_KEY'])
+    return nil unless latitude && longitude
+  
+    weather_service = WeatherService.new(ENV['OPEN_WEATHER_MAP_API_KEY'])
+  
+    if date.nil?
+      weather_service.get_weather_by_coordinates(latitude, longitude)
+    else
+      timestamp = DateTime.parse(date.to_s).to_i
+      weather_service.get_weather_by_coordinates_and_date(latitude, longitude, timestamp)
+    end
+  end
 
   def matching_params
     params.require(:matching).permit(:name , :date, :time_zone, :place, :public_flag)
