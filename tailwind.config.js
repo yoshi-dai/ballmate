@@ -1,9 +1,17 @@
 module.exports = {
-  content: [
+  purge: [],
+  darkMode: false, // or 'media' or 'class'
+  theme: {
+    extend: {},
+  },
+  variants: {
+    extend: {},
+  },
+  plugins: [],
+  mode: 'jit',
+  purge: [
     './app/views/**/*.html.erb',
     './app/helpers/**/*.rb',
-    './app/assets/stylesheets/**/*.scss',
-    './app/javascript/**/*.js'
+    './app/javascript/**/*.js',
   ],
-  plugins: [require("daisyui")],
 }
