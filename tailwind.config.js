@@ -7,7 +7,9 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+      require('daisyui'),
+  ],
   mode: 'jit',
   purge: [
     './app/views/**/*.html.erb',
