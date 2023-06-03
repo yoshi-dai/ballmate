@@ -1,0 +1,37 @@
+ja:
+  defaults:
+    login: 'ログイン'
+    register: '登録'
+    logout: 'ログアウト'
+    edit: '編集'
+    delete: '削除'
+    show: '詳細'
+  users:
+    new:
+      title: 'ユーザー登録'
+  user_sessions:
+    new:
+      title: 'ログイン'
+      to_register_page: '登録ページへ'
+  user_profiles:
+    new:
+      title: 'プロフィール登録'
+    edit:
+      title: 'プロフィール編集'
+  matchings:
+    new:
+      title: 'マッチング登録'
+    edit:
+      title: 'マッチング編集'
+    index:
+      title: 'マッチング一覧'
+  matching_profiles:
+    new:
+      title: 'マッチングプロフィール登録'
+    edit:
+      title: 'マッチングプロフィール編集'
+  chat_requests:
+    new:
+      title: 'チャットリクエスト'
+    edit:
+      title: 'チャットリクエスト編集'
