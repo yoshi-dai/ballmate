@@ -1,0 +1,56 @@
+ja:
+  activerecord:
+    models:
+      user: 'ユーザー'
+      user_profile: 'ユーザープロフィール'
+      matching: 'マッチング'
+      matching_profile: 'マッチングプロフィール'
+    attributes:
+      user:
+        email: 'メールアドレス'
+        password: 'パスワード'
+        password_confirmation: 'パスワード確認'
+      user_profile:
+        name: '名前'
+        age: '年齢'
+        position: 'ポジション'
+        role_in_team: '役割'
+        image: 'プロフィール画像'
+        favorite_place: '好きな場所'
+        active_area: '活動エリア'
+        equipment: '装備'
+        available_day_of_week: '活動曜日'
+        available_time: '活動時間'
+      matching:
+        name: 'マッチング名'
+        date: '日付'
+        time_zone: '時間帯'
+        place: '場所'
+        public_flag: '公開フラグ'
+        user_id: 'ユーザーID'
+      matching_profile:
+        activity_content: '活動内容'
+        activity_detail: '活動詳細'
+        recruitment_content: '募集内容'
+        short_message: 'メッセージ'
+        image: 'プロフィール画像'
+        matching_id: 'マッチングID'
+      chat_request:
+        sender_id: '送信者ID'
+        receiver_id: '受信者ID'
+        matching_id: 'マッチングID'
+        status: 'ステータス'
+      group:
+        name: 'グループ名'
+      group_user:
+        group_id: 'グループID'
+        user_id: 'ユーザーID'
+      favorite_soccer_activity:
+        soccer_type: 'サッカー種目'
+      favorite_soccer_type:
+
+# Path: config/locales/activerecord/ja.yml
+
+
+
+      
