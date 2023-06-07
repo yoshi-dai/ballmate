@@ -20,6 +20,15 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV['DATABASE_HOST'] %>
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+
+  require 'uri'
+  uri = URI.parse(ENV['DATABASE_URL'])
+  host = uri.host
+  username = uri.user
+  password = uri.password
 
 development:
   <<: *default
@@ -80,8 +89,5 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  
   <<: *default
-  adapter: postgresql
-  encoding: unicode
-  pool: 5
+  database: ballmate_production
