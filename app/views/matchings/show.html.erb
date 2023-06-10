@@ -24,10 +24,3 @@ matchinds/show
   <p><%= @matching.place %></p>
 </div>
 
-<!-- マッチングの場所に基づく天気情報-->
-<% if @weather_data %>
-  <p>Temperature: <%= @weather_data.temperature %>°C</p>
-  <p>Weather Description: <%= @weather_data.description %></p>
-<% else %>
-  <p>No weather data available.</p>
-<% end %>
