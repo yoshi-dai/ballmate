@@ -35,12 +35,15 @@
     <%= f.label :public_flag, '外部公開' %>
   </div>
 
-  <h1>Chat room</h1>
-  <div id='messages'>
-    <%= render @messages %>
-  </div>
-
-
   <!-- 編集ボタン -->
   <%= f.submit '編集' %>
 <% end %>
+
+<h1>Chat room</h1>
+  <div id='messages' data-room_id="<%= @matching.id %>">
+    <%= render @messages %>
+  </div>
+<form>
+  <%= label_tag :content, 'Say something:' %>
+  <input type="text" data-behavior="room_speaker">
+</form>

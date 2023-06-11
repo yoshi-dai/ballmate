@@ -21,7 +21,7 @@ class MatchingsController < ApplicationController
     @matching = Matching.find(params[:id])
     @user = @matching.users.includes(:user_profile).where.not(id: current_user.id).first
     @weather_data = fetch_weather_data(@matching.place, @matching.date)
-    @messages = Message.all
+    @messages = Message.where(matching_id: @matching.id)
   end
 
   def update

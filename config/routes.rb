@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
+  
   root 'static_pages#top'
 
   get 'login', to: 'user_sessions#new'
