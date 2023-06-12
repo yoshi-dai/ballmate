@@ -39,11 +39,13 @@
   <%= f.submit '編集' %>
 <% end %>
 
-<h1>Chat room</h1>
-  <div id='messages' data-room_id="<%= @matching.id %>">
+  <h1>Chat room</h1>
+  <div id='messages'>
     <%= render @messages %>
   </div>
-<form>
-  <%= label_tag :content, 'Say something:' %>
-  <input type="text" data-behavior="room_speaker">
-</form>
+  <form>
+    <label>Say something:</label><br>
+    <input type="text" data-behavior="room_speaker">
+    <input type="hidden" id="matching_id" value="<%= @matching.id %>">
+  </form>
+  
