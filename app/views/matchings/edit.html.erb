@@ -40,12 +40,11 @@
 <% end %>
 
   <h1>Chat room</h1>
-  <div id='messages'>
+  <div id='messages' data-matching_id="<%= @matching.id %>">
     <%= render @messages %>
   </div>
   <form>
-    <label>Say something:</label><br>
+    <%= label_tag :text, 'Say something:' %>
     <input type="text" data-behavior="room_speaker">
-    <input type="hidden" id="matching_id" value="<%= @matching.id %>">
   </form>
   
