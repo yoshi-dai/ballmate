@@ -18,8 +18,8 @@ $(document).on('turbolinks:load', function() {
       },
 
       received(data) {
-        console.log(data['message']);
-        return $('#messages').append(data['message']);
+        $('#messages').append(data['message']);
+        scrollChatToBottom();
       },
 
       speak: function(message) {
@@ -28,6 +28,11 @@ $(document).on('turbolinks:load', function() {
     }
   );
 
+  function scrollChatToBottom() {
+    const chatContainer = document.getElementById('messages');
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  }
+
   $(document).on('keypress', '[data-behavior~=room_speaker]', function(event) {
     if (event.key === 'Enter') {
       chatChannel.speak(event.target.value);
@@ -35,4 +40,6 @@ $(document).on('turbolinks:load', function() {
       event.preventDefault();
     }
   });
+
+  scrollChatToBottom();
 });
