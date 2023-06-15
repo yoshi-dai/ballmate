@@ -1,6 +1,7 @@
 class UserProfilesController < ApplicationController
   before_action :set_user_profile, only: [:show, :edit, :update]
   before_action :set_favorite_soccer_activities, only: [:new, :edit]
+  before_action :set_soccer_equipments, only: [:new, :edit]
   
   def new
     @user_profile = UserProfile.new
@@ -21,7 +22,6 @@ class UserProfilesController < ApplicationController
   def edit; end
 
   def update
-    @favorite_soccer_activities = current_user.favorite_soccer_activities
     if @user_profile.update(user_profile_params)
       redirect_to @user_profile, notice: 'ユーザープロフィールが更新されました。'
     else
@@ -40,7 +40,11 @@ class UserProfilesController < ApplicationController
     @favorite_soccer_activities = FavoriteSoccerActivity.all
   end
 
+  def set_soccer_equipments
+    @soccer_equipments = SoccerEquipment.all
+  end
+
   def user_profile_params
-    params.require(:user_profile).permit(:name, :favorite_player, :position, :role_in_team, :age, :favorite_place, :active_area, :available_time, :image, :image_cache, favorite_soccer_activity_ids: [], equipment: [], available_day_of_week: [])
+    params.require(:user_profile).permit(:name, :favorite_player, :position, :role_in_team, :age, :favorite_place, :active_area, :available_time, :image, :image_cache, favorite_soccer_activity_ids: [], soccer_equipment_ids: [], available_day_of_week: [])
   end  
 end
