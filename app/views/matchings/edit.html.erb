@@ -39,12 +39,12 @@
   <%= f.submit '編集' %>
 <% end %>
 
-  <h1>Chat room</h1><!-- javascript,action_cableを使用して自動スクロール的なのつける -->
-  <div class="h-48 overflow-y-scroll border border-gray-300 p-4", id='messages' data-matching_id="<%= @matching.id %>">
+  <h1>Chat room</h1>
+  <div class="h-48 overflow-y-scroll border border-gray-300 p-5", id='messages' data-matching_id="<%= @matching.id %>">
     <%= render @messages %>
   </div>
   <form>
     <%= label_tag :text, 'Say something:' %>
-    <input type="text" data-behavior="room_speaker">
+    <input class='input input-bordered w-full max-w-xs", 'type="text" data-behavior="room_speaker">
   </form>
   
