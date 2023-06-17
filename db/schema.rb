@@ -144,7 +144,7 @@ ActiveRecord::Schema.define(version: 2023_06_15_115141) do
     t.string "favorite_place"
     t.string "active_area"
     t.string "available_day_of_week"
-    t.string "available_time"
+    t.integer "available_time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"

@@ -2,6 +2,7 @@
   <div class="row">
     <div class="col-md-10 offset-md-1">
       <%= link_to t('defaults.edit'), edit_user_profile_path, class: 'btn btn-success float-right' %>
+      <th scope="row"><%= t(UserProfile.human_attribute_name(:image)) %></th><br>
       <div class="avatar">
         <div class="w-24 rounded-xl">
           <%= image_tag current_user.user_profile.image.url %>
@@ -9,36 +10,36 @@
       </div>
       <table class="table">
         <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:name)) %></th>
+          <th scope="row"><%= t(UserProfile.human_attribute_name(:name)) %></th>
           <td><%= current_user.user_profile.name %></td>
         </tr>
         <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:favorite_player)) %></th>
+          <th scope="row"><%= t(UserProfile.human_attribute_name(:favorite_player)) %></th>
           <td><%= current_user.user_profile.favorite_player %></td>
         </tr>
         <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:position)) %></th>
+          <th scope="row"><%= t(UserProfile.human_attribute_name(:position)) %></th>
           <td><%= current_user.user_profile.position %></td>
         </tr>
         <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:role_in_team)) %></th>
+          <th scope="row"><%= t(UserProfile.human_attribute_name(:role_in_team)) %></th>
           <td><%= current_user.user_profile.role_in_team %></td>
         </tr>
         <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:age)) %></th>
+          <th scope="row"><%= t(UserProfile.human_attribute_name(:age)) %></th>
           <td><%= current_user.user_profile.age %></td>
         </tr>
         <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:favorite_place)) %></th>
+          <th scope="row"><%= t(UserProfile.human_attribute_name(:favorite_place)) %></th>
           <td><%= current_user.user_profile.favorite_place %></td>
         </tr>
         <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:available_day_of_week)) %></th>
+          <th scope="row"><%= t(UserProfile.human_attribute_name(:available_day_of_week)) %></th>
           <td><%= current_user.user_profile.available_day_of_week %></td>
         </tr>
 
         <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:favorite_soccer_activities)) %></th>
+          <th scope="row"><%= t(FavoriteSoccerActivity.human_attribute_name(:soccer_type)) %></th>
           <td>
             <% current_user.user_profile.favorite_soccer_activities.each do |activity| %>
               <%= activity.soccer_type %>
@@ -47,7 +48,7 @@
         </tr>
 
         <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:soccer_equipments)) %></th> 
+          <th scope="row"><%= t(SoccerEquipment.human_attribute_name(:name)) %></th> 
           <td>
             <% current_user.user_profile.soccer_equipments.each do |equipment| %>
               <%= equipment.name %>
@@ -57,14 +58,13 @@
 
           
         <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:active_area)) %></th>
+          <th scope="row"><%= t(UserProfile.human_attribute_name(:active_area)) %></th>
           <td><%= current_user.user_profile.active_area %></td>
         </tr>
         <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:available_time)) %></th>
-          <td><%= current_user.user_profile.available_time %></td>
+          <th scope="row"><%= t(UserProfile.human_attribute_name(:available_time)) %></th>
+          <td><%= human_readable_available_time(current_user.user_profile.available_time) %></td>
         </tr>
-          <th scope="row"><%= t(User.human_attribute_name(:image)) %></th>
       </table>
     </div>
   </div>

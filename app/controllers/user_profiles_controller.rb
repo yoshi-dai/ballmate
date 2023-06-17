@@ -10,6 +10,7 @@ class UserProfilesController < ApplicationController
   def show; end
 
   def create
+    params[:user_profile][:available_time] =  nil #他に方法がないか検討中
     @user = current_user
     @user_profile = current_user.build_user_profile(user_profile_params)
     if @user_profile.save
@@ -22,6 +23,7 @@ class UserProfilesController < ApplicationController
   def edit; end
 
   def update
+    params[:user_profile][:available_time] = params[:user_profile][:available_time].to_i #他に方法がないか検討中
     if @user_profile.update(user_profile_params)
       redirect_to @user_profile, notice: 'ユーザープロフィールが更新されました。'
     else

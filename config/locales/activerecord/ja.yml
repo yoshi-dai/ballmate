@@ -16,11 +16,20 @@ ja:
         position: 'ポジション'
         role_in_team: '役割'
         image: 'プロフィール画像'
+        favorite_player: '好きな選手'
         favorite_place: '好きな場所'
         active_area: '活動エリア'
-        equipment: '装備'
         available_day_of_week: '活動曜日'
         available_time: '活動時間'
+        morning: '午前中'
+        midday: '昼'
+        afternoon: '午後'
+        night: '夜'
+        anytime: 'いつでも'
+      favorite_soccer_activity:
+        soccer_type: '好きなサッカー種目'
+      soccer_equipment:
+        name: 'サッカー用具名'
       matching:
         name: 'マッチング名'
         date: '日付'
