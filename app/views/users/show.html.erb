@@ -28,8 +28,12 @@
           <td><%= @user.user_profile.favorite_place %></td>
         </tr>
         <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:equipment)) %></th>
-          <td><%= @user.user_profile.equipment %></td>
+          <th scope="row"><%= t(User.human_attribute_name(:soccer_equipments)) %></th>
+          <td>
+            <% @user.user_profile.soccer_equipments.each do |equipment| %>
+              <%= equipment.name %>
+            <% end %>
+          </td>
         </tr>
         <tr>
           <th scope="row"><%= t(User.human_attribute_name(:available_day_of_week)) %></th>

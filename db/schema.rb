@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_15_084533) do
+ActiveRecord::Schema.define(version: 2023_06_15_115141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,6 +119,21 @@ ActiveRecord::Schema.define(version: 2023_05_15_084533) do
     t.index ["user_profile_id"], name: "index_profile_soccer_activities_on_user_profile_id"
   end
 
+  create_table "profile_soccer_equipments", force: :cascade do |t|
+    t.bigint "user_profile_id", null: false
+    t.bigint "soccer_equipment_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["soccer_equipment_id"], name: "index_profile_soccer_equipments_on_soccer_equipment_id"
+    t.index ["user_profile_id"], name: "index_profile_soccer_equipments_on_user_profile_id"
+  end
+
+  create_table "soccer_equipments", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "user_profiles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "favorite_player"
@@ -128,9 +143,8 @@ ActiveRecord::Schema.define(version: 2023_05_15_084533) do
     t.integer "age"
     t.string "favorite_place"
     t.string "active_area"
-    t.string "equipment"
     t.string "available_day_of_week"
-    t.string "available_time"
+    t.integer "available_time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"
@@ -162,5 +176,7 @@ ActiveRecord::Schema.define(version: 2023_05_15_084533) do
   add_foreign_key "notifications", "users"
   add_foreign_key "profile_soccer_activities", "favorite_soccer_activities"
   add_foreign_key "profile_soccer_activities", "user_profiles"
+  add_foreign_key "profile_soccer_equipments", "soccer_equipments"
+  add_foreign_key "profile_soccer_equipments", "user_profiles"
   add_foreign_key "user_profiles", "users"
 end
