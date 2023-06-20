@@ -34,6 +34,7 @@ gem 'font-awesome-sass'
 gem 'httparty'
 gem 'jsbundling-rails'
 gem 'open_weather_map'
+gem 'ransack'
 gem 'rails-i18n'
 gem 'rest-client'
 gem 'solargraph', group: :development

@@ -20,4 +20,11 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :password, confirmation: true
 
+  def self.ransackable_attributes(auth_object = nil)
+    %w[]
+  end
+  
+  def self.ransackable_associations(auth_object = nil)
+    ['user_profile'] # 検索可能な関連のリストを定義する
+  end
 end

@@ -35,7 +35,7 @@
 
   <div class="form-group">
     <%= f.label :available_time %>
-    <%= f.select :available_time, options_for_select(UserProfile.available_times.keys.map { |key| [key.to_s.humanize, UserProfile.available_times[key]] }, current_user.user_profile.available_time), {}, class: "form-control" %>  </div>
+    <%= f.select :available_time, options_for_select(UserProfile.available_times.keys.map { |key| [key.to_s.humanize, UserProfile.available_times[key]] }, current_user.user_profile&.available_time || "default_value"), {}, class: "form-control" %>
   </div>
 
   <div class="field">
