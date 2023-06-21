@@ -20,4 +20,12 @@ class Matching < ApplicationRecord
 
     matching_profile # 作成されたマッチングプロフィールを返す
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ['date', 'name', 'place', 'temperature', 'time_zone']
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ['matching_profile'] # 検索可能な関連のリストを定義する
+  end
 end

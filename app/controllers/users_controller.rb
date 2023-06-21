@@ -21,8 +21,8 @@ class UsersController < ApplicationController
       current_user.received_chat_requests.where(status: 'pending').pluck(:sender_id), # 承認待ちのユーザー
       current_user.matchings.flat_map(&:user_ids) # マッチング済みのユーザー
     ].flatten.uniq
-  
-    @users = User.includes(:user_profile).where.not(id: excluded_user_ids).where.not(user_profiles: { name: nil })
+    @q = User.includes(:user_profile).ransack(params[:q])
+    @users = @q.result(distinct: true).where.not(id: excluded_user_ids).where.not(user_profiles: { name: nil }).page(params[:page])
     @chat_request = ChatRequest.new
   end
 
@@ -32,19 +32,22 @@ class UsersController < ApplicationController
   end
   
   def matched_users
-    @users = current_user.matchings.includes(users: :user_profile).map(&:users).compact.flatten.reject { |user| user == current_user }.uniq
+    @q = User.includes(:user_profile).ransack(params[:q])
+    @users = @q.result(distinct: true).where(id: current_user.matchings.flat_map(&:user_ids)).where.not(id: current_user.id).page(params[:page])
     render 'users/index'
   end
   
   def requested_users
+    @q = User.includes(:user_profile).ransack(params[:q], search_key: "#{action_name}_users")
     @chat_requests = current_user.sent_chat_requests.includes(receiver: :user_profile).where(status: 'pending').where.not(receiver: nil)
-    @users = @chat_requests.map(&:receiver).compact.flatten.reject { |user| user == current_user }
+    @users = @q.result(distinct: true).where(id: @chat_requests.map(&:receiver_id)).where.not(id: current_user.id).page(params[:page])
     render 'users/index'
   end
-  
+
   def approval_pending_users
+    @q = User.includes(:user_profile).ransack(params[:q])
     @chat_requests = current_user.received_chat_requests.includes(sender: :user_profile).where(status: 'pending')
-    @users = @chat_requests.map(&:sender).compact.flatten.reject { |user| user == current_user }
+    @users = @q.result(distinct: true).where(id: @chat_requests.map(&:sender_id)).where.not(id: current_user.id).page(params[:page])
     render 'users/index'
   end
 
