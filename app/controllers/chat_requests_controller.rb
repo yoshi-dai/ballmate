@@ -30,7 +30,7 @@ class ChatRequestsController < ApplicationController
         group_name = "Group-#{SecureRandom.hex(4)}" # 適切なグループ名を生成
         ActiveRecord::Base.transaction do
           @chat_request.update(status: 'approved')
-        
+          
           group = Group.create(name: group_name)
           group.users << current_user
           group.users << @chat_request.sender

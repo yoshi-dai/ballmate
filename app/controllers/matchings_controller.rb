@@ -9,7 +9,7 @@ class MatchingsController < ApplicationController
       current_user.sent_chat_requests.where(status: 'pending').pluck(:matching_id), # 申請済みのマッチング
     ].flatten.uniq
     @q = Matching.includes(:matching_profile).ransack(params[:q])
-    @matchings = @q.result(distinct: true).where(public_flag: 1).where.not(id: excluded_matchings_ids)
+    @matchings = @q.result(distinct: true).where(public_flag: 1).where.not(id: excluded_matchings_ids).page(params[:page])
   end
 
   def show
@@ -41,21 +41,21 @@ class MatchingsController < ApplicationController
 
   def matched_matchings
     @q = Matching.includes(:matching_profile).ransack(params[:q])
-    @matchings = @q.result(distinct: true).where(id: current_user.matchings.pluck(:id))
+    @matchings = @q.result(distinct: true).where(id: current_user.matchings.pluck(:id)).page(params[:page])
     render 'matchings/index'
   end
   
   def requested_matchings
     @q = Matching.includes(:matching_profile).ransack(params[:q])
     @chat_requests = current_user.sent_chat_requests.includes(matching: :matching_profile).where(status: 'pending')
-    @matchings = @q.result(distinct: true).where(public_flag: 1).where(id: @chat_requests.map(&:matching_id))
+    @matchings = @q.result(distinct: true).where(public_flag: 1).where(id: @chat_requests.map(&:matching_id)).page(params[:page])
     render 'matchings/index'
   end
   
   def approval_pending_matchings
     @q = Matching.includes(:matching_profile).ransack(params[:q])
     @chat_requests = ChatRequest.includes(matching: :matching_profile).where(matching: current_user.matchings, status: 'pending')
-    @matchings = @q.result(distinct: true).where(public_flag: 1).where(id: @chat_requests.map(&:matching_id))
+    @matchings = @q.result(distinct: true).where(public_flag: 1).where(id: @chat_requests.map(&:matching_id)).page(params[:page])
     render 'matchings/index'
   end
 
