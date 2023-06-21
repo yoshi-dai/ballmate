@@ -11,7 +11,7 @@ class UserProfile < ApplicationRecord
   DAYS_OF_WEEK = ['日', '月', '火', '水', '木', '金', '土']
 
   def self.ransackable_attributes(auth_object = nil)
-    ["active_area", "age", "available_day_of_week", "available_time", "created_at", "favorite_place", "favorite_player", "id", "image", "image_cache", "name", "position", "role_in_team", "favorite_team"]
+    ["active_area", "age", "available_day_of_week", "available_time", "favorite_place", "favorite_player", "name", "position", "role_in_team", "favorite_team"]
   end
 
   def self.ransackable_associations(auth_object = nil)
