@@ -1,0 +1,9 @@
+<% if page.current? %>
+  <li class="page current">
+    <%= link_to_if page.current?, page, url, {remote: remote, rel: page.rel, class: "block py-[9px] w-8 h-8 border text-xs text-white font-bold text-center !leading-none" } %>
+  </li>
+<% else %>
+  <li class="page">
+    <%= link_to_unless page.current?, page, url, {remote: remote, rel: page.rel, class: "block py-[9px] w-8 h-8 bg-white border text-xs text-black font-bold text-center !leading-none" } %>
+  </li>
+<% end %>
