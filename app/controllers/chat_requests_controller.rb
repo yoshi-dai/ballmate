@@ -1,6 +1,6 @@
 class ChatRequestsController < ApplicationController
   def create
-    if params[:chat_request] && params[:chat_request][:receiver_id].present? # ユーザーからのチャットリクエストの場合
+    if params[:chat_request] && params[:chat_request][:receiver_id].present? # ユーザーへのチャットリクエストの場合
       receiver_id = params[:chat_request][:receiver_id] # 受信者のユーザーID（フォームデータから取得）
   
       @chat_request = ChatRequest.new(sender_id: current_user.id, receiver_id: receiver_id, status: :pending)
@@ -10,7 +10,7 @@ class ChatRequestsController < ApplicationController
         @users = User.where.not(id: current_user.id).includes(:user_profile)
         render 'users/index'
       end
-    elsif params[:matching_id].present? # マッチングからのチャットリクエストの場合
+    elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
       matching_id = params[:matching_id] # マッチングID（フォームデータから取得）
       @chat_request = ChatRequest.new(sender_id: current_user.id, matching_id: matching_id, status: :pending)
       if @chat_request.save
@@ -23,38 +23,36 @@ class ChatRequestsController < ApplicationController
   end
 
   def approve
-    if params[:user_id].present? && params[:matching_id].blank? # ユーザーからのチャットリクエストの場合
-      @chat_request = current_user.received_chat_requests.find_by(sender_id: params[:user_id], status: 'pending')
+    if params[:user_id].present? && params[:matching_id].blank? # ユーザーへのチャットリクエストの場合
+      chat_request = current_user.received_chat_requests.find_by(sender_id: params[:user_id], status: 'pending')
     
-      if @chat_request
-        group_name = "Group-#{SecureRandom.hex(4)}" # 適切なグループ名を生成
+      if chat_request
         ActiveRecord::Base.transaction do
-          @chat_request.update(status: 'approved')
+          chat_request.update(status: 'approved')
           
-          group = Group.create(name: group_name)
+          group = Group.create(name: "Group-#{SecureRandom.hex(4)}")
+
           group.users << current_user
-          group.users << @chat_request.sender
-        
-          matching = Matching.create(name: group_name, group_id: group.id)
+          group.users << chat_request.sender
+
+          matching = Matching.create(name: group.name, group_id: group.id)
           matching.users << current_user
-          matching.users << @chat_request.sender
+          matching.users << chat_request.sender
         end
       
         redirect_to users_path, notice: 'チャットリクエストを承認しました。'
       else
         redirect_to users_path, alert: 'チャットリクエストの承認に失敗しました。'
       end
-    elsif params[:matching_id].present?  # マッチングからのチャットリクエストの場合
-      @chat_request = current_user.matchings.find(params[:matching_id]).received_chat_requests.find_by(matching_id: params[:matching_id], sender_id: params[:user_id], status: 'pending')
-      if @chat_request
+    elsif params[:matching_id].present?  # マッチングへのチャットリクエストの場合
+      chat_request = current_user.matchings.find(params[:matching_id]).received_chat_requests.find_by(matching_id: params[:matching_id], sender_id: params[:user_id], status: 'pending')
+      if chat_request
         ActiveRecord::Base.transaction do
-          @chat_request.update(status: 'approved')
+          chat_request.update(status: 'approved')
         
-          group = Group.find(@chat_request.matching.group_id)
-          group.users << @chat_request.sender
+          group = Group.find(chat_request.matching.group_id)
+          group.users << chat_request.sender
         
-          matching = Matching.find_by(group_id: group.id)
-          matching.users << @chat_request.sender
         end
       
         redirect_to matchings_path, notice: 'チャットリクエストを承認しました。'
@@ -65,7 +63,7 @@ class ChatRequestsController < ApplicationController
   end
 
   def cancel
-    if params[:user_id].present? # ユーザーからのチャットリクエストの場合
+    if params[:user_id].present? # ユーザーへのチャットリクエストの場合
       @chat_request = current_user.sent_chat_requests.find_by(receiver_id: params[:user_id], status: 'pending')
       if @chat_request
         @chat_request.destroy!
@@ -73,7 +71,7 @@ class ChatRequestsController < ApplicationController
       else
         redirect_to users_path, alert: 'チャットリクエストのキャンセルに失敗しました。'
       end
-    elsif params[:matching_id].present? # マッチングからのチャットリクエストの場合
+    elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
       @chat_request = current_user.sent_chat_requests.find_by(matching_id: params[:matching_id], status: 'pending')
       if @chat_request
         @chat_request.destroy!
@@ -85,7 +83,7 @@ class ChatRequestsController < ApplicationController
   end
 
   def reject
-    if params[:user_id].present? && params[:matching_id].blank? # ユーザーからのチャットリクエストの場合
+    if params[:user_id].present? && params[:matching_id].blank? # ユーザーへのチャットリクエストの場合
       @chat_request = current_user.received_chat_requests.find_by(sender_id: params[:user_id], status: 'pending')
       if @chat_request
         @chat_request.update(status: 'rejected')
@@ -94,7 +92,7 @@ class ChatRequestsController < ApplicationController
       else
         redirect_to users_path, alert: 'チャットリクエストの拒否に失敗しました。'
       end
-    elsif params[:matching_id].present? # マッチングからのチャットリクエストの場合
+    elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
       @chat_request = current_user.matchings.find(params[:matching_id]).received_chat_requests.find_by(matching_id: params[:matching_id], sender_id: params[:user_id], status: 'pending')
       if @chat_request
         @chat_request.update(status: 'rejected')
