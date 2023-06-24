@@ -24,7 +24,7 @@
           <% elsif current_user.sent_chat_requests.exists?(receiver_id: user.id, status: 'pending') %>
             <% chat_request = current_user.sent_chat_requests.find_by(receiver_id: user.id, status: 'pending') %>
             <%= button_to 'キャンセル', cancel_chat_requests_path(user_id: user.id), method: :patch, class: 'btn btn-danger' %>
-          <% elsif current_user.matching_users.exists?(user_id: user.id) %>
+          <% elsif current_user.approved_chat_requests.exists?(sender_id: user.id, receiver_id: current_user.id) || current_user.approved_chat_requests.exists?(sender_id: current_user.id, receiver_id: user.id) %>
             <!-- マッチングが存在する場合は何も表示しない -->
           <% else %>
             <%= form_with(model: @chat_request, url: chat_requests_path) do |form| %>
