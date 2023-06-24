@@ -31,7 +31,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user_profile = @user.user_profile
   end
-  
+
   def matched_users
     @q = User.includes(:user_profile).ransack(params[:q])
     @users = @q.result(distinct: true).where(id: current_user.approved_chat_requests.flat_map { |cr| [cr.sender_id, cr.receiver_id] }.uniq).where.not(id: current_user.id).page(params[:page])
