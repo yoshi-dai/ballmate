@@ -20,6 +20,10 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :password, confirmation: true
 
+  def approved_chat_requests
+    sent_chat_requests.where(status: 'approved').or(received_chat_requests.where(status: 'approved'))
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     %w[]
   end
