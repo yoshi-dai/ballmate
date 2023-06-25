@@ -4,15 +4,7 @@
       <div class="card-body">
         <ul class="list-inline">      
           <li class="list-inline-item">
-            <% if current_user.matchings.include?(matching) %>
-              <%= link_to matching.name, edit_matching_path(matching) %>
-            <% else %>
-              <% if matching.respond_to?(:matching_profile) %>
-                <%= link_to matching.name, matching_profile_path(matching.matching_profile) %>
-              <% else %>
-                <%= link_to matching.name, matching_path(matching) %>
-              <% end %>
-            <% end %>
+           <%= link_to matching.name, matching_profile_path(matching.matching_profile) %>
           </li>
           <% if current_user.sent_chat_requests.exists?(matching_id: matching.id, status: 'pending') %>
             <%= button_to 'キャンセル', cancel_chat_requests_path(matching_id: matching.id), method: :patch, class: 'btn btn-danger' %>
@@ -23,8 +15,8 @@
               <%= button_to '承認', approve_chat_requests_path(matching_id: matching.id, user_id: user.id), method: :patch, class: 'btn btn-success' %>
               <%= button_to '拒否', reject_chat_requests_path(matching_id: matching.id, user_id: user.id), method: :patch, class: 'btn btn-danger' %>
             <% end %>
-          <% elsif current_user.matching_users.exists?(matching_id: matching.id) %>
-            <!-- マッチングが存在する場合は何も表示しない -->
+          <% elsif matching.group.users.exists?(current_user.id) %>
+            <!-- グループマッチングに所属する場合は何も表示しない -->
           <% else %>
             <%= form_with(model: @chat_request, url: chat_requests_path) do |form| %>
               <%= form.hidden_field :matching_id, value: matching.id %>
