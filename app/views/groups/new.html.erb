@@ -1,1 +1,19 @@
-new
+<%= form_tag groups_path, method: :post do %>
+  <div class="form-group">
+    <%= label_tag 'グループ名' %>
+    <%= text_field_tag :name, nil, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag 'メンバー' %>
+  </div>
+  <%= collection_check_boxes(:group, :user_ids, @users, :id, :name) do |b| %>
+    <div>
+      <%= image_tag b.object.user_profile.image.url, size: '100x100', class: 'profile-image' %>
+      <%= b.label %>
+      <%= b.check_box %>
+    </div>
+  <% end %>
+
+  <%= submit_tag 'グループを作成する' %>
+<% end %>

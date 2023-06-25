@@ -28,6 +28,6 @@ Rails.application.routes.draw do
 
   resources :matching_profiles
 
-  resources :groups, only: !%i[new create edit update destroy]
+  resources :groups, only: %i[new create edit update destroy]
 
 end

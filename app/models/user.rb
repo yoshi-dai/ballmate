@@ -32,4 +32,12 @@ class User < ApplicationRecord
   def self.ransackable_associations(_auth_object = nil)
     ['user_profile'] # 検索可能な関連のリストを定義する
   end
+
+  def name
+    self.user_profile.name
+  end
+
+  def image
+    self.user_profile.image
+  end
 end
