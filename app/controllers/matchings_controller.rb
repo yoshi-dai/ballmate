@@ -5,7 +5,7 @@ class MatchingsController < ApplicationController
 
   def index
     excluded_matchings_ids = [
-      current_user.personal_matchings.pluck(:id), # 一対一の個人マッチング
+      current_user.personal_matchings.pluck(:id), #個人マッチング
       current_user.sent_chat_requests.where(status: 'pending').pluck(:matching_id) # 申請済みのマッチング
     ].flatten.uniq
     @q = Matching.includes(:matching_profile, :group).ransack(params[:q])
@@ -14,26 +14,19 @@ class MatchingsController < ApplicationController
 
   def show
     @matching = Matching.includes(:matching_profile).find(params[:id])
-    @user = @matching.users.includes(:user_profile).where.not(id: current_user.id).first
-    @weather_data = fetch_weather_data(@matching.place, @matching.date)
+    @user = @matching.users.includes(:user_profile)
+    @messages = @matching.messages.includes(:user).order(created_at: :asc)
   end
 
   def edit
     @matching = Matching.find(params[:id])
-    @user = @matching.users.includes(:user_profile).where.not(id: current_user.id).first
-    @weather_data = fetch_weather_data(@matching.place, @matching.date)
-    @messages = @matching.messages.includes(:user).order(created_at: :asc)
+    @user = @matching.users.includes(:user_profile).where.not(id: current_user.id)
   end
 
   def update
     @matching = Matching.find(params[:id])
     if @matching.update(matching_params)
-      if params[:matching][:public_flag] == "1"
-        @matching_profile = @matching.create_matching_profile
-        redirect_to edit_matching_profile_path(@matching_profile.id)
-      else
-        redirect_to @matching
-      end
+      redirect_to @matching, notice: 'success'
     else
       render 'show'
     end
@@ -64,7 +57,7 @@ class MatchingsController < ApplicationController
 
   private
 
-  def fetch_weather_data(place, date = nil)
+  def fetch_weather_data(place, date = nil)# これは、天気情報を取得するためのメソッド(仮)です 
     latitude, longitude = geocode(place, ENV.fetch('GOOGLE_MAPS_API_KEY', nil))
     return nil unless latitude && longitude
 

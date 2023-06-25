@@ -11,13 +11,13 @@
             <% end %>
           </li>
           <li class="list-inline-item">
-            <% if current_user.personal_matchings.exists?(matching_users: { user_id: user.id }) %>
-              <%= link_to user.user_profile.name, matching_path(current_user.personal_matchings.find_by(users: user)) %>
+            <% if current_user.personal_matchings.any? { |matching| matching.users.exists?(id: current_user.id) } %> <!-- 他の方法模索中 -->
+              <%= link_to user.user_profile.name, matching_path(user) %>
             <% else %>
               <%= link_to user.user_profile.name, user_path(user) %>
             <% end %>
           </li>
-          <% if current_user.received_chat_requests.exists?(sender_id: user.id,status: 'pending') %>
+          <%  if current_user.received_chat_requests.exists?(sender_id: user.id,status: 'pending') %>
             <% chat_request = current_user.received_chat_requests.find_by(status: 'pending') %>
             <%= button_to '承認', approve_chat_requests_path(user_id: user.id), method: :patch, class: 'btn btn-success' %>
             <%= button_to '拒否', reject_chat_requests_path(user_id: user.id), method: :patch, class: 'btn btn-danger' %>
