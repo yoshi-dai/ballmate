@@ -2,6 +2,7 @@ class MatchingProfilesController < ApplicationController
   def show
     @matching_profile = MatchingProfile.find(params[:id])
     @matching = @matching_profile.matching
+    @messages = @matching.messages.includes(:user).order(created_at: :asc)
   end
 
   def edit
