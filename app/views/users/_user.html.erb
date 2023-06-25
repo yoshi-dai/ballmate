@@ -11,7 +11,7 @@
             <% end %>
           </li>
           <li class="list-inline-item">
-            <% if current_user.personal_matchings.exists?(users: { id: user.id }) %>
+            <% if current_user.personal_matchings.exists?(matching_users: { user_id: user.id }) %>
               <%= link_to user.user_profile.name, matching_path(current_user.personal_matchings.find_by(users: user)) %>
             <% else %>
               <%= link_to user.user_profile.name, user_path(user) %>

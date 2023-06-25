@@ -41,7 +41,10 @@ class MatchingsController < ApplicationController
 
   def matched_matchings
     @q = Matching.includes(:matching_profile).ransack(params[:q])
-    @matchings = @q.result(distinct: true).where.not(id: current_user.personal_matchings.pluck(:id)).page(params[:page])
+    @matchings = @q.result(distinct: true)
+                    .where(id: current_user.matchings.pluck(:id))
+                    .where.not(id: current_user.personal_matchings.pluck(:id).uniq)
+                    .page(params[:page])
     render 'matchings/index'
   end
 

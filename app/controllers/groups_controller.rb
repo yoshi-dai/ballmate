@@ -8,7 +8,6 @@ class GroupsController < ApplicationController
     group = Group.new(name: params[:name])
     group.users << current_user
     group.users << User.where(id: params[:group][:user_ids])
-    binding.irb
     if group.save
       @matching = Matching.create(name: group.name, group_id: group.id)
       @matching_profile = MatchingProfile.new(matching_id: @matching.id)
