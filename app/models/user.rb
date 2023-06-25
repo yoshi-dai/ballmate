@@ -14,7 +14,7 @@ class User < ApplicationRecord
 
   has_many :sent_chat_requests, class_name: 'ChatRequest', foreign_key: 'sender_id'
   has_many :received_chat_requests, class_name: 'ChatRequest', foreign_key: 'receiver_id'
-  
+
   validates :password, length: { minimum: 3 }, if: -> { new_record? || changes[:password] }
   validates :password, confirmation: true, if: -> { new_record? || changes[:password] }
 
@@ -25,11 +25,11 @@ class User < ApplicationRecord
     sent_chat_requests.where(status: 'approved').or(received_chat_requests.where(status: 'approved'))
   end
 
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object = nil)
     %w[]
   end
-  
-  def self.ransackable_associations(auth_object = nil)
+
+  def self.ransackable_associations(_auth_object = nil)
     ['user_profile'] # 検索可能な関連のリストを定義する
   end
 end

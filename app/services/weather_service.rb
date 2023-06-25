@@ -13,14 +13,14 @@ class WeatherService
     response.parsed_response
   end
 
-  def get_weather_by_coordinates_and_date(latitude, longitude, timestamp)
+  def get_weather_by_coordinates_and_date(latitude, longitude, _timestamp)
     response = self.class.get("/data/2.5/forecast", query: { lat: latitude, lon: longitude, appid: @api_key })
     response.parsed_response
   end
 
   def temperature(city)
     response = get_weather(city)
-  
+
     if response["cod"] == 200
       response["main"]["temp"]
     else

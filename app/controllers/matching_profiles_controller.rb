@@ -27,9 +27,7 @@ class MatchingProfilesController < ApplicationController
       :recruitment_content,
       :short_message,
       :image,
-      :image_cache,
+      :image_cache
     )
   end
 end
-
-

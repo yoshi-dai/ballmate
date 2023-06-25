@@ -1,19 +1,5 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: %i[new create]
-  def new
-    @user = User.new
-  end
-
-  def create
-    @user = User.new(user_params)
-    if @user.save
-      redirect_to root_path, notice: 'success'
-    else
-      flash.now[:danger] = t('.fail')
-      render :new
-    end
-  end
-
   def index
     excluded_user_ids = [
       current_user.id, # 現在のユーザー自身
@@ -32,12 +18,26 @@ class UsersController < ApplicationController
     @user_profile = @user.user_profile
   end
 
+  def new
+    @user = User.new
+  end
+
+  def create
+    @user = User.new(user_params)
+    if @user.save
+      redirect_to root_path, notice: 'success'
+    else
+      flash.now[:danger] = t('.fail')
+      render :new
+    end
+  end
+
   def matched_users
     @q = User.includes(:user_profile).ransack(params[:q])
     @users = @q.result(distinct: true).where(id: current_user.approved_chat_requests.flat_map { |cr| [cr.sender_id, cr.receiver_id] }.uniq).where.not(id: current_user.id).page(params[:page])
     render 'users/index'
   end
-  
+
   def requested_users
     @q = User.includes(:user_profile).ransack(params[:q], search_key: "#{action_name}_users")
     @chat_requests = current_user.sent_chat_requests.includes(receiver: :user_profile).where(status: 'pending').where.not(receiver: nil)
