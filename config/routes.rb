@@ -27,4 +27,7 @@ Rails.application.routes.draw do
   get 'approval_pending_matchings', to: 'matchings#approval_pending_matchings', as: 'approval_pending_matchings'
 
   resources :matching_profiles
+
+  resources :groups, only: !%i[new create edit update destroy]
+
 end

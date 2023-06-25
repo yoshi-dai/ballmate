@@ -2,11 +2,11 @@ class User < ApplicationRecord
   authenticates_with_sorcery!
   attr_accessor :password, :password_confirmation
 
-  has_many :group_users
+  has_many :group_users, dependent: :destroy
   has_many :groups, through: :group_users
   has_many :matchings, through: :groups
-  has_many :matching_users, through: :matchings
-  has_many :personal_matchings, -> { includes(:users).where.not(users: { id: nil }) }, through: :matching_users, source: :matching, class_name: 'Matching'
+  has_many :matching_users, through: :matchings, source: :users
+  has_many :personal_matchings, -> { includes(:users).where.not(users: { id: nil }) }, through: :matching_users, source: :matchings, class_name: 'Matching'
   has_many :chat_requests, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :messages, dependent: :destroy
