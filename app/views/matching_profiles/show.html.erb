@@ -1,77 +1,86 @@
-matching_profiles/show
-
-<!-- マッチング名の表示 -->
-<div>
-  <label>マッチング名</label>
-  <p><%= @matching.name %></p>
+<div class="flex flex-col items-center justify-center">
+  <h1 class="text-3xl font-bold"><p class="font-bold"><%= @matching.name %></p></h1>
 </div>
 
-<!-- マッチング日付の表示 -->
-<div>
-  <label>日付</label>
-  <p><%= @matching.date %></p>
-</div>
-
-<!-- マッチング時間帯の表示 -->
-<div>
-  <label>時間帯</label>
-  <p><%= @matching.time_zone %></p>
-</div>
-
-<!-- マッチング場所の表示 -->
-<div>
-  <label>場所</label>
-  <p><%= @matching.place %></p>
-</div>
-
-<!-- マッチング人数の表示 -->
-<div>
-  <label>人数</label>
-  <p><%= @matching.matching_users.count %></p>
-</div>
-
-
-<!-- マッチングプロフィールの表示 -->
-<div>
-  <label>マッチングプロフィール</label>
-
-<!-- マッチングプロフィールの表示 -->
-
-<!-- アクティビティ内容の表示 -->
-<div>
-  <label>アクティビティ内容</label>
-  <p><%= @matching.matching_profile.activity_content %></p>
-</div>
-
-<!-- アクティビティ詳細の表示 -->
-<div>
-  <label>アクティビティ詳細</label>
-  <p><%= @matching.matching_profile.activity_detail %></p>
-</div>
-
-<!-- 募集内容の表示 -->
-<div>
-  <label>募集内容</label>
-  <p><%= @matching.matching_profile.recruitment_content %></p>
-</div>
-
-<!-- ショートメッセージの表示 -->
-<div>
-  <label>ショートメッセージ</label>
-  <p><%= @matching.matching_profile.short_message %></p>
-</div>
-
-<!-- 画像の表示 -->
-<% if @matching.matching_profile.image.present? %>
-<%= image_tag @matching.matching_profile.image_url %>
+<% if @matching.group.users.exists?(current_user.id) %>
+  <div class="btn btn-primary w-20">
+    <%= link_to '編集', edit_matching_profile_path(@matching_profile) %>
+  </div>
 <% end %>
 
-<h1>Chat room</h1>
-<div class="h-48 overflow-y-scroll border border-gray-300 p-5" id="messages" data-matching_id="<%= @matching.id %>">
-  <%= render @messages %>
+<% if current_user.sent_chat_requests.exists?(matching_id: @matching.id, status: 'pending') %>
+  <%= button_to 'キャンセル', cancel_chat_requests_path(matching_id: @matching.id), method: :patch, class: 'btn btn-danger' %>
+<% elsif @matching.group.users.exists?(current_user.id) && @matching.chat_requests.exists?(matching_id: @matching.id, status: 'pending') %>
+  <% @matching.chat_requests.each do |chat_request| %>
+    <% user = chat_request.sender %>
+    <%= link_to user.user_profile.name, user_path(user) %>
+    <%= button_to '承認', approve_chat_requests_path(matching_id: @matching.id, user_id: user.id), method: :patch, class: 'btn btn-success' %>
+    <%= button_to '拒否', reject_chat_requests_path(matching_id: @matching.id, user_id: user.id), method: :patch, class: 'btn btn-danger' %>
+  <% end %>
+<% elsif @matching.group.users.exists?(current_user.id) %>
+            <!-- グループマッチングに所属する場合は何も表示しない -->
+<% else %>
+  <%= form_with(model: @chat_request, url: chat_requests_path) do |form| %>
+    <%= form.hidden_field :matching_id, value: @matching.id %>
+    <%= form.submit '申請', class: 'btn btn-primary' %>
+  <% end %>
+<% end %>
+
+<div>
+  <%= image_tag @matching_profile.image_url %>
 </div>
-<form>
-  <%= label_tag :text, 'Say something:' %>
-  <input class="input input-bordered w-full max-w-xs" type="text" data-behavior="room_speaker">
-</form>
+<div>
+  <label class="text-xl">日付</label>
+  <p class="font-bold"><%= @matching.date %></p>
+</div>
+<div>
+  <label class="text-xl">時間帯</label>
+  <p class="font-bold"><%= @matching.time_zone %></p>
+</div>
+<div>
+  <label class="text-xl">場所</label>
+  <p class="font-bold"><%= @matching.place %></p>
+</div>
+<div>
+  <label class="text-xl">人数</label>
+  <p class="font-bold"><%= @users.count %></p>
+</div>
+<% if !@matching.group.users.include?(current_user) %>
+  <div>
+    <label class="text-xl">アクティビティ内容</label>
+    <p class="font-bold"><%= @matching_profile.activity_content %></p>
+  </div>
+  <div>
+    <label class="text-xl">アクティビティ詳細</label>
+    <p class="font-bold"><%= @matching_profile.activity_detail %></p>
+  </div>
+  <div>
+    <label class="text-xl">募集内容</label>
+    <p class="font-bold"><%= @matching_profile.recruitment_content %></p>
+  </div>
+  <div>
+    <label class="text-xl">ショートメッセージ</label>
+    <p class="font-bold"><%= @matching_profile.short_message %></p>
+  </div>
+<% end %>
+
+<% if @matching.group.users.exists?(current_user.id) %>  
+  <%= form_with(model: @matching, url: matching_path(@matching), method: :patch) do |f| %>
+    <div>
+      <%= f.check_box :public_flag, checked: @matching.public_flag %>
+      <%= f.label :public_flag, '外部公開' %>
+    </div>
+    <%= f.submit '編集' %>
+  <% end %>
+<% end %>
+
+<% if @matching.group.users.exists?(current_user.id) %> 
+  <div class="h-48 overflow-y-scroll border border-gray-300 p-5" id="messages" data-matching_id="<%= @matching.id %>">
+    <%= render @messages %>
+  </div>
+  <form>
+    <%= label_tag :text, 'Say something:' %>
+    <input class="input input-bordered w-full max-w-xs" type="text" data-behavior="room_speaker">
+  </form>
+<% end %>
 

@@ -3,6 +3,7 @@ class MatchingProfilesController < ApplicationController
     @matching_profile = MatchingProfile.find(params[:id])
     @matching = @matching_profile.matching
     @messages = @matching.messages.includes(:user).order(created_at: :asc)
+    @users = @matching.group.users.includes(:user_profile)
   end
 
   def edit

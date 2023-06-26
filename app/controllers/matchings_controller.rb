@@ -5,7 +5,7 @@ class MatchingsController < ApplicationController
 
   def index
     excluded_matchings_ids = [
-      current_user.personal_matchings.pluck(:id), #個人マッチング
+      current_user.matchings.pluck(:id), # 承認済みのマッチング
       current_user.sent_chat_requests.where(status: 'pending').pluck(:matching_id) # 申請済みのマッチング
     ].flatten.uniq
     @q = Matching.includes(:matching_profile, :group).ransack(params[:q])
