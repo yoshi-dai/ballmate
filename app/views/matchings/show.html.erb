@@ -1,30 +1,26 @@
-matchinds/show
 
-<!-- マッチング名の表示 -->
-<div>
-  <label>マッチング名</label>
-  <p><%= @matching.name %></p>
+<div class="btn btn-primary w-20">
+  <%= link_to '編集', edit_matching_path(@matching) %>
 </div>
-
-<!-- マッチング日付の表示 -->
+<div>
+  <%= image_tag @user.user_profile.image_url %>
+</div>
+<div>
+  <p><%= @user.user_profile.name %></p>
+</div>
 <div>
   <label>日付</label>
   <p><%= @matching.date %></p>
 </div>
-
-<!-- マッチング時間帯の表示 -->
 <div>
   <label>時間帯</label>
   <p><%= @matching.time_zone %></p>
 </div>
-
-<!-- マッチング場所の表示 -->
 <div>
   <label>場所</label>
   <p><%= @matching.place %></p>
 </div>
 
-<h1>Chat room</h1>
 <div class="h-48 overflow-y-scroll border border-gray-300 p-5" id="messages" data-matching_id="<%= @matching.id %>">
   <%= render @messages %>
 </div>

@@ -13,14 +13,14 @@ class MatchingsController < ApplicationController
   end
 
   def show
-    @matching = Matching.includes(:matching_profile).find(params[:id])
-    @user = @matching.users.includes(:user_profile)
+    @matching = Matching.find(params[:id])
+    @user = @matching.users.where.not(id: current_user.id).first
     @messages = @matching.messages.includes(:user).order(created_at: :asc)
   end
 
   def edit
     @matching = Matching.find(params[:id])
-    @user = @matching.users.includes(:user_profile).where.not(id: current_user.id)
+    @user = @matching.users.where.not(id: current_user.id).first
   end
 
   def update

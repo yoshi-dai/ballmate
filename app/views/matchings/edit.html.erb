@@ -1,16 +1,12 @@
-<%= image_tag @user.user_profile.image_url %>
-
-<!-- ユーザーの名前 -->
-<%= @user.user_profile.name %>
-<%= link_to 'プロフィール詳細', user_path(@user) %>
-
+<div>
+  <%= image_tag @user.user_profile.image_url %>
+</div>
+<div>
+  <p class="font-bold">
+    <%= link_to @user.user_profile.name, user_path(@user) %>
+  </p>
+</div>
 <%= form_with(model: @matching, url: matching_path(@matching), method: :patch) do |f| %>
-  <!-- マッチング名の編集 -->
-  <div>
-    <%= f.label :name, 'マッチング名' %>
-    <%= f.text_field :name %>
-  </div>
-
   <!-- マッチング日付の編集 -->
   <div>
     <%= f.label :date, '日付' %>
@@ -27,12 +23,6 @@
   <div>
     <%= f.label :time_zone, '時間帯' %>
     <%= f.text_field :time_zone %>
-  </div>
-
-  <!-- マッチング公開設定の編集 -->
-  <div>
-    <%= f.check_box :public_flag, checked: @matching.public_flag %>
-    <%= f.label :public_flag, '外部公開' %>
   </div>
 
   <!-- 編集ボタン -->
