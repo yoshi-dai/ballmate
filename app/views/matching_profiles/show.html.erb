@@ -64,10 +64,10 @@
   </div>
 <% end %>
 
-<% if @matching.group.users.exists?(current_user.id) %>  
-  <%= form_with(model: @matching, url: matching_path(@matching), method: :patch) do |f| %>
+<% if @matching.group.users.exists?(current_user.id) %>
+  <%= form_with(model: @matching_profile, url: update_public_flag_matching_profile_path(@matching_profile), method: :post) do |f| %>
     <div>
-      <%= f.check_box :public_flag, checked: @matching.public_flag %>
+      <%= f.check_box :public_flag, { checked: true, class: "toggle" }, true, false %>
       <%= f.label :public_flag, '外部公開' %>
     </div>
     <%= f.submit '編集' %>

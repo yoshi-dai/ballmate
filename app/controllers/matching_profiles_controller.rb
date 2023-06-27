@@ -20,6 +20,14 @@ class MatchingProfilesController < ApplicationController
     end
   end
 
+  def update_public_flag
+    @matching_profile = MatchingProfile.find(params[:id])
+    public_flag = params[:matching_profile][:public_flag] == '1' ? true : false
+    @matching_profile.matching.update(public_flag: public_flag)
+    redirect_to matching_profile_path(@matching_profile), notice: '公開設定が更新されました。'
+    binding.irb
+  end
+  
   private
 
   def matching_profile_params
