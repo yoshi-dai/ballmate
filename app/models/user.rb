@@ -33,11 +33,9 @@ class User < ApplicationRecord
     ['user_profile'] # 検索可能な関連のリストを定義する
   end
 
-  def name #　グループ作成時に使用
-    self.user_profile.name
-  end
+  delegate :name, to: :user_profile
 
-  def image #　グループ作成時に使用
-    self.user_profile.image_url
+  def image # 　グループ作成時に使用
+    user_profile.image_url
   end
 end

@@ -35,9 +35,9 @@ class MatchingsController < ApplicationController
   def matched_matchings
     @q = Matching.includes(:matching_profile, :group).ransack(params[:q])
     @matchings = @q.result(distinct: true)
-                    .where(id: current_user.matchings.pluck(:id))
-                    .where.not(id: current_user.personal_matchings.pluck(:id).uniq)
-                    .page(params[:page])
+      .where(id: current_user.matchings.pluck(:id))
+      .where.not(id: current_user.personal_matchings.pluck(:id).uniq)
+      .page(params[:page])
     render 'matchings/index'
   end
 
@@ -57,7 +57,8 @@ class MatchingsController < ApplicationController
 
   private
 
-  def fetch_weather_data(place, date = nil)# これは、天気情報を取得するためのメソッド(仮)です 
+  # これは、天気情報を取得するためのメソッド(仮)です
+  def fetch_weather_data(place, date = nil)
     latitude, longitude = geocode(place, ENV.fetch('GOOGLE_MAPS_API_KEY', nil))
     return nil unless latitude && longitude
 
