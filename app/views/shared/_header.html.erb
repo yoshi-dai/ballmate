@@ -33,6 +33,7 @@
               マッチング
             </a>
             <ul class="rounded-box p-2 bg-base-100">
+              <li><%= link_to 'グループを作成する', new_group_path, class: 'btn btn-xs sm:btn-sm md:btn-md lg:btn-lg' %></li>
               <li><%= link_to 'マッチングを探す', matchings_path, class: 'btn btn-xs sm:btn-sm md:btn-md lg:btn-lg' %></li>
               <li><%= link_to 'マッチ済みマッチング', matched_matchings_path, class: 'btn btn-xs sm:btn-sm md:btn-md lg:btn-lg' %></li>
               <li><%= link_to '申請中マッチング', requested_matchings_path, class: 'btn btn-xs sm:btn-sm md:btn-md lg:btn-lg' %></li>

@@ -2,15 +2,17 @@ class UserProfilesController < ApplicationController
   before_action :set_user_profile, only: [:show, :edit, :update]
   before_action :set_favorite_soccer_activities, only: [:new, :edit]
   before_action :set_soccer_equipments, only: [:new, :edit]
-  
+
+  def show; end
+
   def new
     @user_profile = UserProfile.new
   end
 
-  def show; end
+  def edit; end
 
   def create
-    params[:user_profile][:available_time] =  nil #他に方法がないか検討中
+    params[:user_profile][:available_time] = nil # 他に方法がないか検討中
     @user = current_user
     @user_profile = current_user.build_user_profile(user_profile_params)
     if @user_profile.save
@@ -19,18 +21,15 @@ class UserProfilesController < ApplicationController
       render :new
     end
   end
-  
-  def edit; end
 
   def update
-    params[:user_profile][:available_time] = params[:user_profile][:available_time].to_i #他に方法がないか検討中
+    params[:user_profile][:available_time] = params[:user_profile][:available_time].to_i # 他に方法がないか検討中
     if @user_profile.update(user_profile_params)
       redirect_to @user_profile, notice: 'ユーザープロフィールが更新されました。'
     else
       render :edit
     end
   end
-
 
   private
 
@@ -48,5 +47,5 @@ class UserProfilesController < ApplicationController
 
   def user_profile_params
     params.require(:user_profile).permit(:name, :favorite_player, :position, :role_in_team, :age, :favorite_place, :active_area, :available_time, :image, :image_cache, favorite_soccer_activity_ids: [], soccer_equipment_ids: [], available_day_of_week: [])
-  end  
+  end
 end

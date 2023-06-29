@@ -1,5 +1,23 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: %i[new create]
+  def index
+    excluded_user_ids = [
+      current_user.id, # 現在のユーザー自身
+      current_user.sent_chat_requests.where(status: 'pending').pluck(:receiver_id), # 申請済みのユーザー
+      current_user.received_chat_requests.where(status: 'pending').pluck(:sender_id), # 承認待ちのユーザー
+      current_user.approved_chat_requests.flat_map { |cr| [cr.sender_id, cr.receiver_id] }.uniq # 個別でマッチングしているユーザー
+    ].flatten.uniq
+
+    @q = User.includes(:user_profile).ransack(params[:q])
+    @users = @q.result(distinct: true).where.not(id: excluded_user_ids).where.not(user_profiles: { name: nil }).page(params[:page])
+    @chat_request = ChatRequest.new
+  end
+
+  def show
+    @user = User.find(params[:id])
+    @user_profile = @user.user_profile
+  end
+
   def new
     @user = User.new
   end
@@ -14,29 +32,12 @@ class UsersController < ApplicationController
     end
   end
 
-  def index
-    excluded_user_ids = [
-      current_user.id, # 現在のユーザー自身
-      current_user.sent_chat_requests.where(status: 'pending').pluck(:receiver_id), # 申請済みのユーザー
-      current_user.received_chat_requests.where(status: 'pending').pluck(:sender_id), # 承認待ちのユーザー
-      current_user.matchings.flat_map(&:user_ids) # マッチング済みのユーザー
-    ].flatten.uniq
-    @q = User.includes(:user_profile).ransack(params[:q])
-    @users = @q.result(distinct: true).where.not(id: excluded_user_ids).where.not(user_profiles: { name: nil }).page(params[:page])
-    @chat_request = ChatRequest.new
-  end
-
-  def show
-    @user = User.find(params[:id])
-    @user_profile = @user.user_profile
-  end
-  
   def matched_users
     @q = User.includes(:user_profile).ransack(params[:q])
-    @users = @q.result(distinct: true).where(id: current_user.matchings.flat_map(&:user_ids)).where.not(id: current_user.id).page(params[:page])
+    @users = @q.result(distinct: true).where(id: current_user.approved_chat_requests.flat_map { |cr| [cr.sender_id, cr.receiver_id] }.uniq).where.not(id: current_user.id).page(params[:page])
     render 'users/index'
   end
-  
+
   def requested_users
     @q = User.includes(:user_profile).ransack(params[:q], search_key: "#{action_name}_users")
     @chat_requests = current_user.sent_chat_requests.includes(receiver: :user_profile).where(status: 'pending').where.not(receiver: nil)
@@ -48,6 +49,13 @@ class UsersController < ApplicationController
     @q = User.includes(:user_profile).ransack(params[:q])
     @chat_requests = current_user.received_chat_requests.includes(sender: :user_profile).where(status: 'pending')
     @users = @q.result(distinct: true).where(id: @chat_requests.map(&:sender_id)).where.not(id: current_user.id).page(params[:page])
+    render 'users/index'
+  end
+
+  def matching_having_users
+    @matching = Matching.find(params[:matching_id])
+    @q = User.includes(:user_profile).ransack(params[:q])
+    @users = @q.result(distinct: true).where(id: @matching.group.users.map(&:id)).where.not(id: current_user.id).page(params[:page])
     render 'users/index'
   end
 

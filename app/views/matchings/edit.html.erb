@@ -1,16 +1,12 @@
-<%= image_tag @user.user_profile.image_url %>
-
-<!-- ユーザーの名前 -->
-<%= @user.user_profile.name %>
-<%= link_to 'プロフィール詳細', user_path(@user) %>
-
+<div>
+  <%= image_tag @user.user_profile.image_url %>
+</div>
+<div>
+  <p class="font-bold">
+    <%= link_to @user.user_profile.name, user_path(@user) %>
+  </p>
+</div>
 <%= form_with(model: @matching, url: matching_path(@matching), method: :patch) do |f| %>
-  <!-- マッチング名の編集 -->
-  <div>
-    <%= f.label :name, 'マッチング名' %>
-    <%= f.text_field :name %>
-  </div>
-
   <!-- マッチング日付の編集 -->
   <div>
     <%= f.label :date, '日付' %>
@@ -29,22 +25,7 @@
     <%= f.text_field :time_zone %>
   </div>
 
-  <!-- マッチング公開設定の編集 -->
-  <div>
-    <%= f.check_box :public_flag, checked: @matching.public_flag %>
-    <%= f.label :public_flag, '外部公開' %>
-  </div>
-
   <!-- 編集ボタン -->
   <%= f.submit '編集' %>
 <% end %>
-
-  <h1>Chat room</h1>
-  <div class="h-48 overflow-y-scroll border border-gray-300 p-5" id="messages" data-matching_id="<%= @matching.id %>">
-    <%= render @messages %>
-  </div>
-  <form>
-    <%= label_tag :text, 'Say something:' %>
-    <input class="input input-bordered w-full max-w-xs" type="text" data-behavior="room_speaker">
-  </form>
   

@@ -10,11 +10,11 @@ $(document).on('turbolinks:load', function() {
     {
 
       connected() {
-      // Called when the subscription is ready for use on the server
+        // Called when the subscription is ready for use on the server
       },
 
       disconnected() {
-      // Called when the subscription has been terminated by the server
+        // Called when the subscription has been terminated by the server
       },
 
       received(data) {
@@ -30,7 +30,9 @@ $(document).on('turbolinks:load', function() {
 
   function scrollChatToBottom() {
     const chatContainer = document.getElementById('messages');
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+    if (chatContainer) {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
   }
 
   $(document).on('keypress', '[data-behavior~=room_speaker]', function(event) {

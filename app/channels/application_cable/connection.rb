@@ -10,7 +10,7 @@ module ApplicationCable
 
     def find_verified_user
       User.find_by(id: cookies.signed['user.id'])
-    rescue
+    rescue StandardError
       reject_unauthorized_connection
     end
   end
