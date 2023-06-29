@@ -13,7 +13,8 @@ Rails.application.routes.draw do
   get 'matched_users', to: 'users#matched_users', as: 'matched_users'
   get 'requested_users', to: 'users#requested_users', as: 'requested_users'
   get 'approval_pending_users', to: 'users#approval_pending_users', as: 'approval_pending_users'
-
+  get 'matching_having_users', to: 'users#matching_having_users', as: 'matching_having_users'
+  
   resources :chat_requests, only: [:create] do
     patch 'approve', on: :collection
     patch 'cancel', on: :collection

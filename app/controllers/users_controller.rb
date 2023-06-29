@@ -52,6 +52,13 @@ class UsersController < ApplicationController
     render 'users/index'
   end
 
+  def matching_having_users
+    @matching = Matching.find(params[:matching_id])
+    @q = User.includes(:user_profile).ransack(params[:q])
+    @users = @q.result(distinct: true).where(id: @matching.group.users.map(&:id)).where.not(id: current_user.id).page(params[:page])
+    render 'users/index'
+  end
+
   private
 
   def user_params

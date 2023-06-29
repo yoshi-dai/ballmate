@@ -43,7 +43,7 @@
 </div>
 <div>
   <label class="text-xl">人数</label>
-  <p class="font-bold"><%= @users.count %></p>
+  <%= link_to @matching.group.users.count, matching_having_users_path(matching_id: @matching.id) %>
 </div>
 <% if !@matching.group.users.include?(current_user) %>
   <div>
@@ -83,4 +83,3 @@
     <input class="input input-bordered w-full max-w-xs" type="text" data-behavior="room_speaker">
   </form>
 <% end %>
-
