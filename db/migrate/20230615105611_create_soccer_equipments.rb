@@ -3,7 +3,7 @@ class CreateSoccerEquipments < ActiveRecord::Migration[6.1]
     create_table :soccer_equipments do |t|
       t.string :name
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

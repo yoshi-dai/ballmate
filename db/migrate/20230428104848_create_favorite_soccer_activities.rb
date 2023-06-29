@@ -3,7 +3,7 @@ class CreateFavoriteSoccerActivities < ActiveRecord::Migration[6.1]
     create_table :favorite_soccer_activities do |t|
       t.string :soccer_type
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

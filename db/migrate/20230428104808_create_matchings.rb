@@ -1,16 +1,13 @@
 class CreateMatchings < ActiveRecord::Migration[6.1]
   def change
     create_table :matchings do |t|
-      t.string :name
+      t.string :name 
       t.date :date
       t.string :time_zone
       t.string :place
       t.boolean :public_flag
-      t.string :weather_code
-      t.decimal :temperature
-      t.string :weather_description
-
-      t.timestamps
+      
+      t.timestamps null: false
     end
   end
 end

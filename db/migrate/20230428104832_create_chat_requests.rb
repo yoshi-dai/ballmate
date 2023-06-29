@@ -6,7 +6,7 @@ class CreateChatRequests < ActiveRecord::Migration[6.1]
       t.references :matching, foreign_key: true
       t.integer :status, null: false
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

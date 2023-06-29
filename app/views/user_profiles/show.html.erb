@@ -37,7 +37,6 @@
           <th scope="row"><%= t(UserProfile.human_attribute_name(:available_day_of_week)) %></th>
           <td><%= current_user.user_profile.available_day_of_week %></td>
         </tr>
-
         <tr>
           <th scope="row"><%= t(FavoriteSoccerActivity.human_attribute_name(:soccer_type)) %></th>
           <td>
@@ -46,7 +45,6 @@
             <% end %>
           </td>
         </tr>
-
         <tr>
           <th scope="row"><%= t(SoccerEquipment.human_attribute_name(:name)) %></th> 
           <td>
@@ -54,12 +52,6 @@
               <%= equipment.name %>
             <% end %>
           </td>
-        </tr>
-
-          
-        <tr>
-          <th scope="row"><%= t(UserProfile.human_attribute_name(:active_area)) %></th>
-          <td><%= current_user.user_profile.active_area %></td>
         </tr>
         <tr>
           <th scope="row"><%= t(UserProfile.human_attribute_name(:available_time)) %></th>

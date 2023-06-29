@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: %i[new create]
+  
   def index
     excluded_user_ids = [
-      current_user.id, # 現在のユーザー自身
+      current_user.id, 
       current_user.sent_chat_requests.where(status: 'pending').pluck(:receiver_id), # 申請済みのユーザー
       current_user.received_chat_requests.where(status: 'pending').pluck(:sender_id), # 承認待ちのユーザー
       current_user.approved_chat_requests.flat_map { |cr| [cr.sender_id, cr.receiver_id] }.uniq # 個別でマッチングしているユーザー
@@ -11,11 +12,6 @@ class UsersController < ApplicationController
     @q = User.includes(:user_profile).ransack(params[:q])
     @users = @q.result(distinct: true).where.not(id: excluded_user_ids).where.not(user_profiles: { name: nil }).page(params[:page])
     @chat_request = ChatRequest.new
-  end
-
-  def show
-    @user = User.find(params[:id])
-    @user_profile = @user.user_profile
   end
 
   def new
@@ -30,6 +26,11 @@ class UsersController < ApplicationController
       flash.now[:danger] = t('.fail')
       render :new
     end
+  end
+
+  def show
+    @user = User.find(params[:id])
+    @user_profile = @user.user_profile
   end
 
   def matched_users

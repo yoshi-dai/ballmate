@@ -3,5 +3,7 @@ class ChatRequest < ApplicationRecord
   belongs_to :receiver, class_name: 'User', optional: true
   belongs_to :matching, optional: true
 
+  validates :sender_id, presence: true
+
   enum status: { pending: 0, approved: 1, rejected: 2 }
 end

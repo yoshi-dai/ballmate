@@ -4,7 +4,7 @@ class CreateProfileSoccerEquipments < ActiveRecord::Migration[6.1]
       t.references :user_profile, null: false, foreign_key: true
       t.references :soccer_equipment, null: false, foreign_key: true
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

@@ -4,7 +4,7 @@ class CreateMatchingUsers < ActiveRecord::Migration[6.1]
       t.references :user, null: false, foreign_key: true
       t.references :matching, null: false, foreign_key: true
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
