@@ -8,7 +8,7 @@ class CreateMatchingProfiles < ActiveRecord::Migration[6.1]
       t.string :short_message
       t.string :image
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

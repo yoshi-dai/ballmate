@@ -8,7 +8,6 @@ class CreateUserProfiles < ActiveRecord::Migration[6.1]
       t.string :image
       t.integer :age
       t.string :favorite_place
-      t.string :active_area
       t.string :equipment
       t.string :available_day_of_week
       t.integer :available_time

@@ -75,9 +75,6 @@ ActiveRecord::Schema.define(version: 2023_06_15_115141) do
     t.string "time_zone"
     t.string "place"
     t.boolean "public_flag"
-    t.string "weather_code"
-    t.decimal "temperature"
-    t.string "weather_description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "group_id", null: false
@@ -87,10 +84,7 @@ ActiveRecord::Schema.define(version: 2023_06_15_115141) do
   create_table "messages", force: :cascade do |t|
     t.bigint "matching_id", null: false
     t.bigint "user_id", null: false
-    t.string "type"
     t.text "text"
-    t.string "image_url"
-    t.integer "sticker_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["matching_id"], name: "index_messages_on_matching_id"
@@ -142,12 +136,11 @@ ActiveRecord::Schema.define(version: 2023_06_15_115141) do
     t.string "image"
     t.integer "age"
     t.string "favorite_place"
-    t.string "active_area"
     t.string "available_day_of_week"
     t.integer "available_time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "name"
+    t.string "name", null: false
     t.string "image_cache"
     t.index ["user_id"], name: "index_user_profiles_on_user_id"
   end

@@ -8,7 +8,7 @@ class CreateNotifications < ActiveRecord::Migration[6.1]
       t.boolean :read
       t.datetime :read_at
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
