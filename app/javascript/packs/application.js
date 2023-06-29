@@ -16,3 +16,5 @@ window.$ = jQuery;
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+import './matching_profile'

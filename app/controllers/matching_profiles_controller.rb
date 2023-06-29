@@ -22,10 +22,11 @@ class MatchingProfilesController < ApplicationController
 
   def update_public_flag
     @matching_profile = MatchingProfile.find(params[:id])
-    public_flag = params[:matching_profile][:public_flag] == '1' ? true : false
-    @matching_profile.matching.update(public_flag: public_flag)
-    redirect_to matching_profile_path(@matching_profile), notice: '公開設定が更新されました。'
-    binding.irb
+    @matching_profile.matching.update(public_flag: params.dig(:matching_profile, :public_flag) == '1')
+    respond_to do |format|
+      format.html { redirect_to matching_profile_path(@matching_profile), notice: '公開設定が更新されました。' }
+      format.js 
+    end
   end
   
   private

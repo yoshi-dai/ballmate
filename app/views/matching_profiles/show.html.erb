@@ -65,12 +65,12 @@
 <% end %>
 
 <% if @matching.group.users.exists?(current_user.id) %>
-  <%= form_with(model: @matching_profile, url: update_public_flag_matching_profile_path(@matching_profile), method: :post) do |f| %>
+  <%= form_with(model: @matching_profile, url: update_public_flag_matching_profile_path(@matching_profile), method: :post, id: 'matching-profile-form', data: { remote: true }) do |f| %>
     <div>
-      <%= f.check_box :public_flag, { checked: true, class: "toggle" }, true, false %>
-      <%= f.label :public_flag, '外部公開' %>
+      <%= check_box_tag 'matching_profile[public_flag]', '1', @matching_profile.matching.public_flag?, class: 'toggle', id: 'public-flag-checkbox' %>
+      <%= label_tag 'matching_profile_public_flag', '外部公開' %>
     </div>
-    <%= f.submit '編集' %>
+    <%= f.submit '更新', style: 'display: none', id: 'public-flag-submit'%>
   <% end %>
 <% end %>
 
