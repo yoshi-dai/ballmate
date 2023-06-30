@@ -73,6 +73,6 @@ class MatchingsController < ApplicationController
   end
 
   def matching_params
-    params.require(:matching).permit(:name, :date, :time_zone, :place, :public_flag)
+    params.require(:matching).permit(:name, :date, :scheduled_time, :place, :public_flag)
   end
 end
