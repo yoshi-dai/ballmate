@@ -17,4 +17,4 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
-import './matching_profile'
+import '../matching_profile'
