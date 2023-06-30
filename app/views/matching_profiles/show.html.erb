@@ -31,11 +31,19 @@
 </div>
 <div>
   <label class="text-xl">日付</label>
-  <p class="font-bold"><%= @matching.date %></p>
+  <% if @matching.date %>
+    <p class="font-bold"><%= @matching.scheduled_date.strftime('%Y年%m月%d日') %></p>
+  <% else %>
+    <p class="font-bold">未定</p>
+  <% end %>
 </div>
 <div>
   <label class="text-xl">時間帯</label>
-  <p class="font-bold"><%= @matching.time_zone %></p>
+  <% if @matching.scheduled_time %>
+    <p class="font-bold"><%= @matching.scheduled_time.strftime('%H:%M') %></p>
+  <% else %>
+    <p class="font-bold">未定</p>
+  <% end %>
 </div>
 <div>
   <label class="text-xl">場所</label>

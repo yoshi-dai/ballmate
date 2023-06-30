@@ -9,7 +9,7 @@ class GroupsController < ApplicationController
     group.users << current_user
     group.users << User.where(id: params[:group][:user_ids])
     if group.save
-      @matching = Matching.create(name: group.name, group_id: group.id)
+      @matching = Matching.create(name: group.name, group_id: group.id, public_flag: false)
       @matching_profile = MatchingProfile.create(matching_id: @matching.id)
       redirect_to matching_profile_path(@matching_profile), notice: 'マッチングプロフィールが作成されました。'
     else

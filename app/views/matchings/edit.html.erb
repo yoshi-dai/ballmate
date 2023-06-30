@@ -21,11 +21,10 @@
 
   <!-- マッチング時間帯の編集 -->
   <div>
-    <%= f.label :time_zone, '時間帯' %>
-    <%= f.text_field :time_zone %>
+    <%= f.label :scheduled_time, '時間帯' %>
+    <%= f.time_select(:scheduled_time, {class:'select-date', id:"start-time", prompt:'--', time_separator: ':'}, ignore_data: true) %>
   </div>
 
   <!-- 編集ボタン -->
   <%= f.submit '編集' %>
 <% end %>
-  

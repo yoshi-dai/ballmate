@@ -8,6 +8,13 @@ class UserProfile < ApplicationRecord
   belongs_to :user
 
   validates :name, presence: true
+  validates :age, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_blank: true
+  validates :favorite_player, length: { maximum: 255 }
+  validates :position, length: { maximum: 255 }
+  validates :role_in_team, length: { maximum: 255 }
+  validates :favorite_place, length: { maximum: 255 }
+  validates :available_day_of_week, length: { maximum: 255 }
+  validates :available_time, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }, allow_blank: true
 
   enum available_time: { morning: 0, midday: 1, afternoon: 2, night: 3, anytime: 4 }
   DAYS_OF_WEEK = ['日', '月', '火', '水', '木', '金', '土']

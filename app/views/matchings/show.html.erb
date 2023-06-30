@@ -10,12 +10,19 @@
 </div>
 <div>
   <label>日付</label>
-  <p><%= @matching.date %></p>
+  <% if @matching.date %>
+    <p><%= @matching.date.strftime("%m月%d日") %></p>
+  <% else %>
+    <p>未定</p>
+  <% end %>
 </div>
 <div>
   <label>時間帯</label>
-  <p><%= @matching.time_zone %></p>
-</div>
+  <% if @matching.scheduled_time %>
+    <p><%= @matching.scheduled_time.strftime("%H:%M") %></p>
+  <% else %>
+    <p>未定</p>
+  <% end %>
 <div>
   <label>場所</label>
   <p><%= @matching.place %></p>

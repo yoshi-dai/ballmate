@@ -35,7 +35,7 @@ class ChatRequestsController < ApplicationController
           group.users << current_user
           group.users << chat_request.sender
 
-          matching = Matching.create(name: group.name, group_id: group.id)
+          matching = Matching.create(name: group.name, group_id: group.id, public_flag: false)
           matching.users << current_user
           matching.users << chat_request.sender
         end
