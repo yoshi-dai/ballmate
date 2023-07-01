@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   delete 'logout', to: 'user_sessions#destroy'
 
   resources :user_profiles
-  resources :users, only: %i[new create index show]
+  resources :users, only: %i[new create index show destroy]
 
   get 'matched_users', to: 'users#matched_users', as: 'matched_users'
   get 'requested_users', to: 'users#requested_users', as: 'requested_users'
@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     patch 'reject', on: :collection
   end
 
-  resources :matchings 
+  resources :matchings, only: %i[new create show index edit update destroy]
 
   get 'matched_matchings', to: 'matchings#matched_matchings', as: 'matched_matchings'
   get 'requested_matchings', to: 'matchings#requested_matchings', as: 'requested_matchings'
@@ -31,5 +31,9 @@ Rails.application.routes.draw do
     post 'update_public_flag', on: :member
   end
 
-  resources :groups, only: %i[new create edit update destroy]
+  resources :groups, only: %i[new create edit update destroy] do
+    member do
+      post 'leave'
+    end
+  end
 end

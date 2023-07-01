@@ -27,34 +27,30 @@ class ChatRequestsController < ApplicationController
       chat_request = current_user.received_chat_requests.find_by(sender_id: params[:user_id], status: 'pending')
 
       if chat_request
-        ActiveRecord::Base.transaction do
-          chat_request.update(status: 'approved')
+        chat_request.update(status: 'approved')
 
-          group = Group.create(name: "Group-#{SecureRandom.hex(4)}")
+        group = Group.create(name: "Group-#{SecureRandom.hex(4)}")
 
-          group.users << current_user
-          group.users << chat_request.sender
+        group.users << current_user
+        group.users << chat_request.sender
 
-          matching = Matching.create(name: group.name, group_id: group.id, public_flag: false)
-          matching.users << current_user
-          matching.users << chat_request.sender
-        end
+        matching = Matching.create(name: group.name, group_id: group.id, public_flag: false)
+        matching.users << current_user
+        matching.users << chat_request.sender
 
-        redirect_to users_path, notice: 'チャットリクエストを承認しました。'
+        redirect_to matching_path(matching.id), notice: 'チャットリクエストを承認しました。'
       else
         redirect_to users_path, alert: 'チャットリクエストの承認に失敗しました。'
       end
     elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
       chat_request = current_user.matchings.find(params[:matching_id]).received_chat_requests.find_by(matching_id: params[:matching_id], sender_id: params[:user_id], status: 'pending')
       if chat_request
-        ActiveRecord::Base.transaction do
-          chat_request.update(status: 'approved')
+        chat_request.update(status: 'approved')
 
-          group = Group.find(chat_request.matching.group_id)
-          group.users << chat_request.sender
-        end
+        group = Group.find(chat_request.matching.group_id)
+        group.users << chat_request.sender
 
-        redirect_to matchings_path, notice: 'チャットリクエストを承認しました。'
+        redirect_to matching_profile_path(group.matching.matching_profile.id), notice: 'チャットリクエストを承認しました。'
       else
         redirect_to matchings_path, alert: 'チャットリクエストの承認に失敗しました。'
       end

@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: %i[new create]
-  
+
   def index
     excluded_user_ids = [
-      current_user.id, 
+      current_user.id,
       current_user.sent_chat_requests.where(status: 'pending').pluck(:receiver_id), # 申請済みのユーザー
       current_user.received_chat_requests.where(status: 'pending').pluck(:sender_id), # 承認待ちのユーザー
       current_user.approved_chat_requests.flat_map { |cr| [cr.sender_id, cr.receiver_id] }.uniq # 個別でマッチングしているユーザー
@@ -12,6 +12,11 @@ class UsersController < ApplicationController
     @q = User.includes(:user_profile).ransack(params[:q])
     @users = @q.result(distinct: true).where.not(id: excluded_user_ids).where.not(user_profiles: { name: nil }).page(params[:page])
     @chat_request = ChatRequest.new
+  end
+
+  def show
+    @user = User.find(params[:id])
+    @user_profile = @user.user_profile
   end
 
   def new
@@ -28,9 +33,11 @@ class UsersController < ApplicationController
     end
   end
 
-  def show
+  def destroy
     @user = User.find(params[:id])
-    @user_profile = @user.user_profile
+    @user.destroy!
+    flash[:notice] = 'ユーザーを削除しました。'
+    redirect_to :root
   end
 
   def matched_users
@@ -57,7 +64,8 @@ class UsersController < ApplicationController
     @matching = Matching.find(params[:matching_id])
     @q = User.includes(:user_profile).ransack(params[:q])
     @users = @q.result(distinct: true).where(id: @matching.group.users.map(&:id)).where.not(id: current_user.id).page(params[:page])
-    render 'users/index'
+    @chat_request = ChatRequest.new # rendersした先でチャットリクエストを送るために@chat_requestを定義している
+    render 'users/index' # renderした先でチャット申請の処理を行うといちいちmatching_having_users画面から離れてしまうため、チャット申請を行う処理を非同期で行えるようにした方がいい(ただしindexとmatching_having_usersでちがうから少し考える必要あり)
   end
 
   private

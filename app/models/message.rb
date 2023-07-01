@@ -4,5 +4,5 @@ class Message < ApplicationRecord
 
   validates :text, presence: true, length: { maximum: 1000 }
 
-  after_create_commit { MessageBroadcastJob.perform_later self }
+  after_create_commit { MessageBroadcastJob.perform_later(self) }
 end

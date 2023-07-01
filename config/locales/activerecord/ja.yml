@@ -18,7 +18,6 @@ ja:
         image: 'プロフィール画像'
         favorite_player: '好きな選手'
         favorite_place: '好きな場所'
-        active_area: '活動エリア'
         available_day_of_week: '活動曜日'
         available_time: '活動時間'
         morning: '午前中'
@@ -33,7 +32,7 @@ ja:
       matching:
         name: 'マッチング名'
         date: '日付'
-        time_zone: '時間帯'
+        scheduled_time: '時間帯'
         place: '場所'
         public_flag: '公開フラグ'
         user_id: 'ユーザーID'

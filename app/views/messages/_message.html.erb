@@ -1,14 +1,23 @@
 <% if message.user.id != current_user.id %>
-  <div class='chat chat-start'>
+  <div class='chat chat-start' id="message-<%= message.id %>">
 <% else %>
-  <div class='chat chat-end'>
+  <div class='chat chat-end' id="message-<%= message.id %>">
 <% end %>
-    <div class="chat-header">
-      <p><%= "#{message.user.user_profile.name}" %></p>
-    </div>
-    <div class='chat-bubble'>
-      <div class='message'>
-        <p><%= "#{message.text}" %></p>
+    <div class="items-center">
+      <div class="chat-header">
+        <p><%= "#{message.user.user_profile.name}" %></p>
+      </div>
+      <div class="indicator w">
+        <div class='chat-bubble'>
+          <div class='message'>
+            <p><%= "#{message.text}" %></p>
+          </div>
+        </div>
+        <% if message.user.id == current_user.id %>
+          <span class="indicator-item badge badge-sm delete-message" data-message-id="<%= message.id %>">
+            <i class="fas fa-times"></i>
+          </span>
+        <% end %>
       </div>
     </div>
   </div>
