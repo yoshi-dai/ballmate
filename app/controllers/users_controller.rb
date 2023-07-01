@@ -33,6 +33,14 @@ class UsersController < ApplicationController
     @user_profile = @user.user_profile
   end
 
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy!
+    flash[:notice] = 'ユーザーを削除しました。'
+    redirect_to :root
+  end
+
+
   def matched_users
     @q = User.includes(:user_profile).ransack(params[:q])
     @users = @q.result(distinct: true).where(id: current_user.approved_chat_requests.flat_map { |cr| [cr.sender_id, cr.receiver_id] }.uniq).where.not(id: current_user.id).page(params[:page])
