@@ -32,6 +32,13 @@ class MatchingsController < ApplicationController
     end
   end
 
+  def destroy
+    @matching = Matching.find(params[:id])
+    current_user.delete_approved_chat_request(@matching)
+    @matching.group.destroy!
+    redirect_to matchings_path, notice: 'success'
+  end
+
   def matched_matchings
     @q = Matching.includes(:matching_profile, :group).ransack(params[:q])
     @matchings = @q.result(distinct: true)

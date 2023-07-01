@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     patch 'reject', on: :collection
   end
 
-  resources :matchings 
+  resources :matchings, only: %i[new create show index edit update destroy]
 
   get 'matched_matchings', to: 'matchings#matched_matchings', as: 'matched_matchings'
   get 'requested_matchings', to: 'matchings#requested_matchings', as: 'requested_matchings'

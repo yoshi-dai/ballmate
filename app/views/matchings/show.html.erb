@@ -2,6 +2,9 @@
 <div class="btn btn-primary w-20">
   <%= link_to '編集', edit_matching_path(@matching) %>
 </div>
+<div class="btn btn-primary w-20">
+  <%= link_to '削除', matching_path(@matching), method: :delete, data: { confirm: '本当に削除しますか？' } %>
+</div>
 <div>
   <%= image_tag @user.user_profile.image_url %>
 </div>

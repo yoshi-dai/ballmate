@@ -21,10 +21,6 @@ class User < ApplicationRecord
   delegate :name, to: :user_profile, allow_nil: true
   delegate :image_url, to: :user_profile, allow_nil: true
 
-  def approved_chat_requests
-    sent_chat_requests.where(status: 'approved').or(received_chat_requests.where(status: 'approved'))
-  end
-
   def self.ransackable_attributes(_auth_object = nil)
     %w[]
   end
@@ -32,5 +28,19 @@ class User < ApplicationRecord
   def self.ransackable_associations(_auth_object = nil)
     # 検索可能な関連のリストを定義する
     ['user_profile'] 
+  end
+
+  def approved_chat_requests
+    sent_chat_requests.where(status: 'approved').or(received_chat_requests.where(status: 'approved'))
+  end
+
+  def delete_approved_chat_request(matching)
+    chat_request = ChatRequest.find_by(status: 'approved', sender_id: [matching.users.pluck(:id)[0], matching.users.pluck(:id)[1]], receiver_id: [matching.users.pluck(:id)[0], matching.users.pluck(:id)[1]])
+    chat_request.destroy!
+  end
+
+  def leave_group(group)
+    group_user = group_users.find_by(group_id: group.id)
+    group_user.destroy!
   end
 end
