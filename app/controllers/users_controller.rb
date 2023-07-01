@@ -65,7 +65,8 @@ class UsersController < ApplicationController
     @matching = Matching.find(params[:matching_id])
     @q = User.includes(:user_profile).ransack(params[:q])
     @users = @q.result(distinct: true).where(id: @matching.group.users.map(&:id)).where.not(id: current_user.id).page(params[:page])
-    render 'users/index'
+    @chat_request = ChatRequest.new # rendersした先でチャットリクエストを送るために@chat_requestを定義している
+    render 'users/index'  # renderした先でチャット申請の処理を行うといちいちmatching_having_users画面から離れてしまうため、チャット申請を行う処理を非同期で行えるようにした方がいい(ただしindexとmatching_having_usersでちがうから少し考える必要あり)
   end
 
   private

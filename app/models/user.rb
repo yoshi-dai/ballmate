@@ -34,9 +34,14 @@ class User < ApplicationRecord
     sent_chat_requests.where(status: 'approved').or(received_chat_requests.where(status: 'approved'))
   end
 
-  def delete_approved_chat_request(matching)
+  def delete_approved_chat_request_for_user(matching)
     chat_request = ChatRequest.find_by(status: 'approved', sender_id: [matching.users.pluck(:id)[0], matching.users.pluck(:id)[1]], receiver_id: [matching.users.pluck(:id)[0], matching.users.pluck(:id)[1]])
-    chat_request.destroy!
+    chat_request.destroy! if chat_request.present?
+  end
+
+  def delete_approved_chat_request_for_matching(group)
+    chat_request = ChatRequest.find_by(status: 'approved', sender_id: self.id, matching_id: group.matching.id)
+    chat_request.destroy! if chat_request.present?
   end
 
   def leave_group(group)

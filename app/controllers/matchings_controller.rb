@@ -33,9 +33,9 @@ class MatchingsController < ApplicationController
   end
 
   def destroy
-    @matching = Matching.find(params[:id])
-    current_user.delete_approved_chat_request(@matching)
-    @matching.group.destroy!
+    matching = Matching.find(params[:id])
+    current_user.delete_approved_chat_request_for_user(matching)
+    matching.group.destroy!
     redirect_to matchings_path, notice: 'success'
   end
 

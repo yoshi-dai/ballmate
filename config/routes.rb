@@ -31,5 +31,9 @@ Rails.application.routes.draw do
     post 'update_public_flag', on: :member
   end
 
-  resources :groups, only: %i[new create edit update destroy]
+  resources :groups, only: %i[new create edit update destroy] do
+    member do
+      post 'leave'
+    end
+  end
 end
