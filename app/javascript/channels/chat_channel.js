@@ -18,12 +18,21 @@ $(document).on('turbolinks:load', function() {
       },
 
       received(data) {
-        $('#messages').append(data['message']);
-        scrollChatToBottom();
+        if (data.action === 'delete_message') {
+          $(`#message-${data.message_id}`).remove();
+        }
+        else {
+          $('#messages').append(data.message);
+          scrollChatToBottom();
+        }
       },
 
       speak: function(message) {
         return this.perform('speak', {message: message});
+      },
+      
+      deleteMessage(messageId) {
+        return this.perform('delete_message', { message_id: messageId });
       }
     }
   );
@@ -41,6 +50,11 @@ $(document).on('turbolinks:load', function() {
       event.target.value = '';
       event.preventDefault();
     }
+  });
+
+  $(document).on('click', '.delete-message', function() {
+    const messageId = $(this).data('message-id');
+    chatChannel.deleteMessage(messageId);
   });
 
   scrollChatToBottom();
