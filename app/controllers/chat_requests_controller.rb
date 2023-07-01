@@ -49,7 +49,7 @@ class ChatRequestsController < ApplicationController
 
         group = Group.find(chat_request.matching.group_id)
         group.users << chat_request.sender
-        
+
         redirect_to matching_profile_path(group.matching.matching_profile.id), notice: 'チャットリクエストを承認しました。'
       else
         redirect_to matchings_path, alert: 'チャットリクエストの承認に失敗しました。'

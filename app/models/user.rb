@@ -27,7 +27,7 @@ class User < ApplicationRecord
 
   def self.ransackable_associations(_auth_object = nil)
     # 検索可能な関連のリストを定義する
-    ['user_profile'] 
+    ['user_profile']
   end
 
   def approved_chat_requests
@@ -40,7 +40,7 @@ class User < ApplicationRecord
   end
 
   def delete_approved_chat_request_for_matching(group)
-    chat_request = ChatRequest.find_by(status: 'approved', sender_id: self.id, matching_id: group.matching.id)
+    chat_request = ChatRequest.find_by(status: 'approved', sender_id: id, matching_id: group.matching.id)
     chat_request.destroy! if chat_request.present?
   end
 

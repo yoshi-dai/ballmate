@@ -3,9 +3,13 @@ class UserProfilesController < ApplicationController
   before_action :set_favorite_soccer_activities, only: [:new, :edit]
   before_action :set_soccer_equipments, only: [:new, :edit]
 
+  def show; end
+
   def new
     @user_profile = UserProfile.new
   end
+
+  def edit; end
 
   def create
     @user_profile = current_user.build_user_profile(user_profile_params)
@@ -15,10 +19,6 @@ class UserProfilesController < ApplicationController
       render :new
     end
   end
-
-  def show; end
-
-  def edit; end
 
   def update
     if @user_profile.update(user_profile_params)
