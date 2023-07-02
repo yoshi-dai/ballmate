@@ -36,6 +36,7 @@ gem 'jsbundling-rails'
 gem 'kaminari'
 gem 'open_weather_map'
 gem 'ransack'
+gem 'rails_admin', '~> 2.0'
 gem 'rails-i18n'
 gem 'rest-client'
 gem 'solargraph', group: :development
