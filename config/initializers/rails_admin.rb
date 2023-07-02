@@ -26,8 +26,11 @@ RailsAdmin.config do |config|
   config.authenticate_with do
     #sorceryのメソッド
     require_login
+    
+    redirect_to main_app.login_path unless current_user.admin?
   end
   config.current_user_method(&:current_user)
+  config.authorize_with :cancancan
   config.parent_controller = 'ApplicationController'
 
   config.actions do
