@@ -21,6 +21,8 @@ class User < ApplicationRecord
   delegate :name, to: :user_profile, allow_nil: true
   delegate :image_url, to: :user_profile, allow_nil: true
 
+  enum role: { general: 0, admin: 1 }
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[]
   end

@@ -27,6 +27,7 @@ gem 'jbuilder', '~> 2.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
+gem 'cancancan'
 gem 'carrierwave'
 gem 'cssbundling-rails'
 gem 'dotenv-rails', require: 'dotenv/rails-now'
@@ -36,6 +37,7 @@ gem 'jsbundling-rails'
 gem 'kaminari'
 gem 'open_weather_map'
 gem 'ransack'
+gem 'rails_admin', '~> 2.0'
 gem 'rails-i18n'
 gem 'rest-client'
 gem 'solargraph', group: :development

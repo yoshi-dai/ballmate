@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   mount ActionCable.server => '/cable'
   
   root 'static_pages#top'
@@ -7,33 +8,36 @@ Rails.application.routes.draw do
   post 'login', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
 
-  resources :user_profiles
-  resources :users, only: %i[new create index show destroy]
-
-  get 'matched_users', to: 'users#matched_users', as: 'matched_users'
-  get 'requested_users', to: 'users#requested_users', as: 'requested_users'
-  get 'approval_pending_users', to: 'users#approval_pending_users', as: 'approval_pending_users'
-  get 'matching_having_users', to: 'users#matching_having_users', as: 'matching_having_users'
-  
-  resources :chat_requests, only: [:create] do
-    patch 'approve', on: :collection
-    patch 'cancel', on: :collection
-    patch 'reject', on: :collection
+  resources :user_profiles, only: %i[new create show edit update]
+  resources :users, only: %i[new create index show destroy] do
+    collection do
+      get 'matched_users', to: 'users#matched_users', as: 'matched'
+      get 'requested_users', to: 'users#requested_users', as: 'requested'
+      get 'approval_pending_users', to: 'users#approval_pending_users', as: 'approval_pending'
+    end
   end
 
-  resources :matchings, only: %i[new create show index edit update destroy]
+  resources :chat_requests, only: [:create] do
+    member do
+      post 'approve'
+      post 'cancel'
+      post 'reject'
+    end
+  end
 
-  get 'matched_matchings', to: 'matchings#matched_matchings', as: 'matched_matchings'
-  get 'requested_matchings', to: 'matchings#requested_matchings', as: 'requested_matchings'
-  get 'approval_pending_matchings', to: 'matchings#approval_pending_matchings', as: 'approval_pending_matchings'
+  resources :matchings, only: %i[index show edit update] do
+    collection do
+      get 'matched_matchings', to: 'matchings#matched_matchings', as: 'matched'
+      get 'requested_matchings', to: 'matchings#requested_matchings', as: 'requested'
+      get 'approval_pending_matchings', to: 'matchings#approval_pending_matchings', as: 'approval_pending'
+    end
+  end
 
-  resources :matching_profiles do
+  resources :matching_profiles, only: %i[new create show edit update destroy] do
     post 'update_public_flag', on: :member
   end
 
-  resources :groups, only: %i[new create edit update destroy] do
-    member do
-      post 'leave'
-    end
+  resources :groups, only: %i[new create] do
+    post 'leave', on: :member
   end
 end
