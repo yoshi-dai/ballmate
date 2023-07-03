@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get 'requested_users', to: 'users#requested_users', as: 'requested'
       get 'approval_pending_users', to: 'users#approval_pending_users', as: 'approval_pending'
     end
+    get 'matching_having_users', to: 'users#matching_having_users', as: 'matching_having', on: :member
   end
 
   resources :chat_requests, only: [:create] do

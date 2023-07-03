@@ -14,16 +14,18 @@ class UserProfilesController < ApplicationController
   def create
     @user_profile = current_user.build_user_profile(user_profile_params)
     if @user_profile.save
-      redirect_to user_profile_path(@user_profile), notice: 'ユーザープロフィールが作成されました。'
+      redirect_to user_profile_path(@user_profile), success: t('.success')
     else
+      flash.now[:danger] = t('.failure')
       render :new
     end
   end
 
   def update
     if @user_profile.update(user_profile_params)
-      redirect_to @user_profile, notice: 'ユーザープロフィールが更新されました。'
+      redirect_to @user_profile, success: t('.success')
     else
+      flash.now[:danger] = t('.failure')
       render :edit
     end
   end

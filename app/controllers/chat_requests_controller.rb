@@ -38,9 +38,9 @@ class ChatRequestsController < ApplicationController
         matching.users << current_user
         matching.users << chat_request.sender
 
-        redirect_to matching_path(matching.id), notice: 'チャットリクエストを承認しました。'
+        redirect_to matching_path(matching.id), success: t('.success')
       else
-        redirect_to users_path, alert: 'チャットリクエストの承認に失敗しました。'
+        redirect_to users_path, danger: t('.failure')
       end
     elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
       chat_request = current_user.matchings.find(params[:matching_id]).received_chat_requests.find_by(matching_id: params[:matching_id], sender_id: params[:user_id], status: 'pending')
@@ -50,9 +50,8 @@ class ChatRequestsController < ApplicationController
         group = Group.find(chat_request.matching.group_id)
         group.users << chat_request.sender
 
-        redirect_to matching_profile_path(group.matching.matching_profile.id), notice: 'チャットリクエストを承認しました。'
-      else
-        redirect_to matchings_path, alert: 'チャットリクエストの承認に失敗しました。'
+        redirect_to matching_profile_path(group.matching.matching_profile.id), success: t('.success')
+        redirect_to matchings_path, danger: t('.failure')
       end
     end
   end
@@ -62,17 +61,17 @@ class ChatRequestsController < ApplicationController
       @chat_request = current_user.sent_chat_requests.find_by(receiver_id: params[:user_id], status: 'pending')
       if @chat_request
         @chat_request.destroy!
-        redirect_to users_path, notice: 'チャットリクエストをキャンセルしました。'
+        redirect_to users_path, success: t('.success')
       else
-        redirect_to users_path, alert: 'チャットリクエストのキャンセルに失敗しました。'
+        redirect_to users_path, danger: t('.failure')
       end
     elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
       @chat_request = current_user.sent_chat_requests.find_by(matching_id: params[:matching_id], status: 'pending')
       if @chat_request
         @chat_request.destroy!
-        redirect_to matchings_path, notice: 'チャットリクエストをキャンセルしました。'
+        redirect_to matchings_path, success: t('.success')
       else
-        redirect_to matchings_path, alert: 'チャットリクエストのキャンセルに失敗しました。'
+        redirect_to matchings_path, danger: t('.failure')
       end
     end
   end
@@ -83,18 +82,18 @@ class ChatRequestsController < ApplicationController
       if @chat_request
         @chat_request.update(status: 'rejected')
         @chat_request.destroy!
-        redirect_to users_path, notice: 'チャットリクエストを拒否しました。'
+        redirect_to users_path, success: t('.success')
       else
-        redirect_to users_path, alert: 'チャットリクエストの拒否に失敗しました。'
+        redirect_to users_path, danger: t('.failure')
       end
     elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
       @chat_request = current_user.matchings.find(params[:matching_id]).received_chat_requests.find_by(matching_id: params[:matching_id], sender_id: params[:user_id], status: 'pending')
       if @chat_request
         @chat_request.update(status: 'rejected')
         @chat_request.destroy!
-        redirect_to matchings_path, notice: 'チャットリクエストを拒否しました。'
+        redirect_to matchings_path, success: t('.success')
       else
-        redirect_to matchings_path, alert: 'チャットリクエストの拒否に失敗しました。'
+        redirect_to matchings_path, danger: t('.failure')
       end
     end
   end

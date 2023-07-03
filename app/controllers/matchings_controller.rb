@@ -26,8 +26,9 @@ class MatchingsController < ApplicationController
   def update
     @matching = Matching.find(params[:id])
     if @matching.update(matching_params)
-      redirect_to @matching, notice: 'success'
+      redirect_to @matching, success: t('.success')
     else
+      flash.now[:danger] = t('.failure')
       render 'show'
     end
   end
@@ -36,7 +37,7 @@ class MatchingsController < ApplicationController
     matching = Matching.find(params[:id])
     current_user.delete_approved_chat_request_for_user(matching)
     matching.group.destroy!
-    redirect_to matchings_path, notice: 'success'
+    redirect_to matchings_path, success: t('.success')
   end
 
   def matched_matchings

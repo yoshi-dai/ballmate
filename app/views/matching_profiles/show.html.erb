@@ -54,7 +54,7 @@
 </div>
 <div>
   <label class="text-xl">人数</label>
-  <%= link_to @matching.group.users.count, matching_having_users_path(matching_id: @matching.id) %>
+  <%= link_to @matching.group.users.count, matching_having_user_path(matching_id: @matching.id) %>
 </div>
 <% if !@matching.group.users.include?(current_user) %>
   <div>
