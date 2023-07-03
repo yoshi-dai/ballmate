@@ -16,7 +16,7 @@ class MatchingProfilesController < ApplicationController
     if @matching_profile.update(matching_profile_params)
       redirect_to matching_profile_path(@matching_profile), success: t('.success')
     else
-      flash.now[:danger] = t('.failure')
+      flash.now[:warning] = t('.failure')
       render :edit
     end
   end

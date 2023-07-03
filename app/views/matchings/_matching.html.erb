@@ -7,12 +7,12 @@
            <%= link_to matching.name, matching_profile_path(matching.matching_profile) %>
           </li>
           <% if current_user.sent_chat_requests.exists?(matching_id: matching.id, status: 'pending') %>
-            <%= button_to 'キャンセル', cancel_chat_requests_path(matching_id: matching.id), method: :patch, class: 'btn btn-danger' %>
+            <%= button_to 'キャンセル', cancel_chat_request_path(matching_id: matching.id), method: :patch, class: 'btn btn-danger' %>
           <% elsif matching.group.users.exists?(current_user.id) && matching.chat_requests.exists?(matching_id: matching.id, status: 'pending') %>
             <% matching.chat_requests.each do |chat_request| %>
               <%= link_to chat_request.sender.user_profile.name, user_path(chat_request.sender) %>
-              <%= button_to '承認', approve_chat_requests_path(matching_id: matching.id, user_id: chat_request.sender.id), method: :patch, class: 'btn btn-success' %>
-              <%= button_to '拒否', reject_chat_requests_path(matching_id: matching.id, user_id: chat_request.sender.id), method: :patch, class: 'btn btn-danger' %>
+              <%= button_to '承認', approve_chat_request_path(matching_id: matching.id, user_id: chat_request.sender.id), method: :patch, class: 'btn btn-success' %>
+              <%= button_to '拒否', reject_chat_request_path(matching_id: matching.id, user_id: chat_request.sender.id), method: :patch, class: 'btn btn-danger' %>
             <% end %>
           <% elsif matching.group.users.exists?(current_user.id) %>
             <!-- グループマッチングに所属する場合は何も表示しない -->

@@ -18,13 +18,11 @@ Rails.application.routes.draw do
     get 'matching_having_users', to: 'users#matching_having_users', as: 'matching_having', on: :member
   end
 
-  resources :chat_requests, only: [:create] do
-    member do
-      post 'approve'
-      post 'cancel'
-      post 'reject'
-    end
-  end
+  resources :chat_requests, only: [:create]
+
+  patch:cancel_chat_request, to: 'chat_requests#cancel', as: 'cancel_chat_request'
+  patch :approve_chat_request, to: 'chat_requests#approve', as: 'approve_chat_request'
+  patch :reject_chat_request, to: 'chat_requests#reject', as: 'reject_chat_request'
 
   resources :matchings, only: %i[index show edit update] do
     collection do

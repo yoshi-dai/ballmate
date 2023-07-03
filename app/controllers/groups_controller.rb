@@ -15,7 +15,7 @@ class GroupsController < ApplicationController
     else
       @group = Group.new(name: params[:name])
       @users = User.where.not(id: current_user.id).includes(:user_profile).where(id: current_user.personal_matchings.map(&:users).flatten.uniq)
-      flash.now[:danger] = t('.failure')
+      flash.now[:warning] = t('.failure')
       render :new
     end
   end

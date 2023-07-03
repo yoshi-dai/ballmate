@@ -28,7 +28,7 @@ class MatchingsController < ApplicationController
     if @matching.update(matching_params)
       redirect_to @matching, success: t('.success')
     else
-      flash.now[:danger] = t('.failure')
+      flash.now[:warning] = t('.failure')
       render 'show'
     end
   end
