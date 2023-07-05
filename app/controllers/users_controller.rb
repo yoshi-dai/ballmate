@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      redirect_to root_path, notice: t('.success')
+      redirect_to root_path, success: t('.success')
     else
       flash.now[:warning] = t('.failure')
       render :new
