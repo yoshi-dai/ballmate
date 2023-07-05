@@ -10,6 +10,6 @@ class ApplicationController < ActionController::Base
   private
 
   def not_authenticated
-    redirect_to main_app.login_path, warning: t('user_sessions.not_authenticated')
+    redirect_to main_app.login_path, error: t('user_sessions.not_authenticated')
   end
 end

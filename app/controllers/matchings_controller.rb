@@ -2,7 +2,7 @@ class MatchingsController < ApplicationController
   include GeocodingHelper
   require 'date'
   require_relative '../services/weather_service'
-
+  
   def index
     excluded_matchings_ids = [
       current_user.matchings.pluck(:id), # 承認済みのマッチング
