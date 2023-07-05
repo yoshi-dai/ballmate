@@ -1,3 +1,5 @@
+<% content_for(:title, t('.title')) %>
 <%= form_with(model: @user_profile, url: user_profiles_path, method: :post) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
   <%= render partial: 'user_profiles/user_profile_form', locals: { f: f } %>
 <% end %>

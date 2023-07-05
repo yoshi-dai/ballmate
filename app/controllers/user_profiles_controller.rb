@@ -45,6 +45,14 @@ class UserProfilesController < ApplicationController
   end
 
   def user_profile_params
-    params.require(:user_profile).permit(:name, :favorite_player, :position, :role_in_team, :age, :favorite_place, :available_time, :image, :image_cache, favorite_soccer_activity_ids: [], soccer_equipment_ids: [], available_day_of_week: [])
+    permitted_params = params.require(:user_profile).permit(
+      :name, :favorite_player, :position, :role_in_team, :age,
+      :favorite_place, :image, :image_cache, :available_day_of_week,
+      favorite_soccer_activity_ids: [], soccer_equipment_ids: []
+    )
+    
+    permitted_params[:available_time] = permitted_params[:available_time].to_i
+  
+    permitted_params
   end
 end

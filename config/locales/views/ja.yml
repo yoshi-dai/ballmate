@@ -6,6 +6,7 @@ ja:
     edit: '編集'
     delete: '削除'
     show: '詳細'
+    new: '新規作成'
   users:
     new:
       title: 'ユーザー登録'
@@ -37,12 +38,15 @@ ja:
       title: 'プロフィール登録'
       success: 'プロフィール登録が完了しました。'
       failure: 'プロフィール登録に失敗しました。'
+    show:
+      title: 'プロフィール詳細'
     update:
       title: 'プロフィール編集'
       success: 'プロフィール編集が完了しました。'
       failure: 'プロフィール編集に失敗しました。'
     edit:
       title: 'プロフィール編集'
+    index:
   matchings:
     new:
       title: 'マッチング登録'

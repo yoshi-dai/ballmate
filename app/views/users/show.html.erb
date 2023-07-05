@@ -1,60 +1,64 @@
-<div class="container pt-3">
-  <div class="row">
-    <div class="col-md-10 offset-md-1">
-      <h1 class="float-left mb-5">show</h1>
-      <table class="table">
-        <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:name)) %></th>
-          <td><%= @user.user_profile.name %></td>
-        </tr>
-        <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:favorite_player)) %></th>
-          <td><%= @user.user_profile.favorite_player %></td>
-        </tr>
-        <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:position)) %></th>
-          <td><%= @user.user_profile.position %></td>
-        </tr>
-        <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:role_in_team)) %></th>
-          <td><%= @user.user_profile.role_in_team %></td>
-        </tr>
-        <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:age)) %></th>
-          <td><%= @user.user_profile.age %></td>
-        </tr>
-        <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:favorite_place)) %></th>
-          <td><%= @user.user_profile.favorite_place %></td>
-        </tr>
-        <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:soccer_equipments)) %></th>
-          <td>
-            <% @user.user_profile.soccer_equipments.each do |equipment| %>
-              <%= equipment.name %>
-            <% end %>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:available_day_of_week)) %></th>
-          <td><%= @user.user_profile.available_day_of_week %></td>
-        </tr>
-        <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:favorite_soccer_activities)) %></th>
-          <td>
-            <% @user.user_profile.favorite_soccer_activities.each do |activity| %>
-              <%= activity.soccer_type %>
-            <% end %>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:available_time)) %></th>
-          <td><%= @user.user_profile.available_time %></td>
-        </tr>
-        <tr>
-          <th scope="row"><%= t(User.human_attribute_name(:image)) %></th>
-          <td><%= image_tag @user.user_profile.image.url, size: '200x200' %></td>
-        </tr>
+<% content_for(:title, t('.title')) %>
+<div class="hero min-h-screen bg-base-200">
+  <div class="hero-content flex-col lg:flex-row">
+    <div class="avatar">
+      <div class="max-w-2xl rounded-lg shadow-2xl">
+        <%= image_tag @user.user_profile.image.url %>
+      </div>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="table table-zebra">
+        <tbody>
+          <tr>
+            <th scope="row"><%= t(UserProfile.human_attribute_name(:name)) %></th>
+            <td><%= @user.user_profile.name %></td>
+          </tr>
+          <!-- row2 -->
+          <tr>
+            <th scope="row"><%= t(UserProfile.human_attribute_name(:favorite_player)) %></th>
+            <td><%= @user.user_profile.favorite_player %></td>
+          </tr>
+          <!-- row3 -->
+            <th scope="row"><%= t(UserProfile.human_attribute_name(:position)) %></th>
+            <td><%= @user.user_profile.position %></td>
+          </tr>
+          <!-- row4 -->
+            <th scope="row"><%= t(UserProfile.human_attribute_name(:role_in_team)) %></th>
+            <td><%= @user.user_profile.role_in_team %></td>
+          </tr>
+          <!-- row5 -->
+            <th scope="row"><%= t(UserProfile.human_attribute_name(:age)) %></th>
+            <td><%= @user.user_profile.age %></td>
+          </tr>
+          <!-- row6 -->
+            <th scope="row"><%= t(UserProfile.human_attribute_name(:favorite_place)) %></th>
+            <td><%= @user.user_profile.favorite_place %></td>
+          </tr>
+          <!-- row7 -->
+            <th scope="row"><%= t(UserProfile.human_attribute_name(:soccer_equipments)) %></th>
+            <td>
+              <% @user.user_profile.soccer_equipments.each do |equipment| %>
+                <%= equipment.name %>
+              <% end %>
+            </td>
+          </tr>
+          <!-- row8 -->
+            <th scope="row"><%= t(UserProfile.human_attribute_name(:available_day_of_week)) %></th>
+            <td><%= @user.user_profile.available_day_of_week %></td>
+          </tr>
+          <!-- row9 -->
+            <th scope="row"><%= t(UserProfile.human_attribute_name(:favorite_soccer_activities)) %></th>
+            <td>
+              <% @user.user_profile.favorite_soccer_activities.each do |activity| %>
+                <%= activity.soccer_type %>
+              <% end %>
+            </td>
+          </tr>
+          <!-- row10 -->
+            <th scope="row"><%= t(UserProfile.human_attribute_name(:available_time)) %></th>
+            <td><%= @user.user_profile.available_time %></td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
