@@ -14,10 +14,7 @@ class UserProfile < ApplicationRecord
   validates :role_in_team, length: { maximum: 255 }
   validates :favorite_place, length: { maximum: 255 }
   validates :available_day_of_week, length: { maximum: 255 }
-  validates :available_time, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }, allow_blank: true
-
-  enum available_time: { morning: 0, midday: 1, afternoon: 2, night: 3, anytime: 4 }
-  DAYS_OF_WEEK = ['日', '月', '火', '水', '木', '金', '土']
+  validates :available_time, length: { maximum: 255 }
 
   def self.ransackable_attributes(_auth_object = nil)
     ["age", "available_day_of_week", "available_time", "favorite_place", "favorite_player", "name", "position", "role_in_team", "favorite_team"]

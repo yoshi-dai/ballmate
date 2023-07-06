@@ -49,8 +49,7 @@
             <label class="label">
               <%= f.label :available_time %>
             </label>
-            <% options = options_for_select([["", nil]] + UserProfile.available_times.keys.map { |key| [key.to_s.humanize, UserProfile.available_times[key]] }, current_user.user_profile&.available_time) %>
-            <%= f.select :available_time, options, {}, class: "select select-bordered" %>
+            <%= f.text_field :available_time, class: "input input-bordered w-full max-w-xs" %>
           </div>
         </div>
         <div class="field">

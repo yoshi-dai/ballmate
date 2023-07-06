@@ -22,6 +22,7 @@ ja:
         available_time: '活動時間'
         soccer_equipments: 'サッカー用具'
         favorite_soccer_activities: '好きなサッカー種目'
+        no_select: '未選択'
         morning: '午前中'
         midday: '昼'
         afternoon: '午後'

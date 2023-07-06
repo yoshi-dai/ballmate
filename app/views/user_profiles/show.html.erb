@@ -64,7 +64,7 @@
           <!-- row 10 -->
           <tr>
             <th scope="row"><%= t(UserProfile.human_attribute_name(:available_time)) %></th>
-            <td><%= human_readable_available_time(current_user.user_profile.available_time) %></td>
+            <td><%= current_user.user_profile.available_time %></td>
           </tr>
         </tbody>
       </table>
