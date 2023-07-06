@@ -1,40 +1,47 @@
-
-<div class="btn btn-primary w-20">
-  <%= link_to '編集', edit_matching_path(@matching) %>
+<div class="hero min-h-screen bg-base-200">
+  <div class="hero-content flex-col lg:flex-row">
+    <div>
+      <div class="avatar">
+        <div class="rounded-lg shadow-2xl">
+          <%= image_tag @user.user_profile.image_url %>
+        </div>
+      </div>
+      <p class="text-center text-4xl mb-0"><%= link_to @user.user_profile.name, user_path(@user) %></p>
+      <div class="overflow-x-auto h-1/2">
+        <table class="table table-zebra table-xs">
+          <tbody>
+            <!-- row 1 -->
+            <tr>
+              <th scope="row"><%= t(Matching.human_attribute_name(:date)) %></th>
+              <td><%= @matching.date.strftime("%m月%d日") if @matching.date %></td>
+            </tr>
+            <!-- row 2 -->
+            <tr>
+              <th scope="row"><%= t(Matching.human_attribute_name(:place)) %></th>
+              <td><%= @matching.place %></td>
+            </tr>
+            <tr>
+              <th scope="row"><%= t(Matching.human_attribute_name(:scheduled_time)) %></th>
+              <td><%= @matching.scheduled_time.strftime("%H:%M") if @matching.scheduled_time %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="w-full h-full">
+      <div class="overflow-y-scroll h-72 rounded border border-8 border-gray-300 pl-5" id="messages" data-matching_id="<%= @matching.id %>">
+        <%= render @messages %>
+      </div>
+      <form>
+        <label class="font-bold">
+          <%= label_tag :text, 'メッセージ：' %>
+        </label>
+        <input class="input input-bordered w-full max-w-xs" type="text" data-behavior="room_speaker">
+      </form>
+    </div>
+    <div class="items-center">
+      <button class="btn btn-secondary"><%= link_to '編集', edit_matching_path(@matching) %></button>
+      <button class="btn btn-accent"><%= link_to '削除', matching_path(@matching), method: :delete, data: { confirm: '本当に削除しますか？' } %></button>
+    </div>
+  </div>
 </div>
-<div class="btn btn-primary w-20">
-  <%= link_to '削除', matching_path(@matching), method: :delete, data: { confirm: '本当に削除しますか？' } %>
-</div>
-<div>
-  <%= image_tag @user.user_profile.image_url %>
-</div>
-<div>
-  <p><%= @user.user_profile.name %></p>
-</div>
-<div>
-  <label>日付</label>
-  <% if @matching.date %>
-    <p><%= @matching.date.strftime("%m月%d日") %></p>
-  <% else %>
-    <p>未定</p>
-  <% end %>
-</div>
-<div>
-  <label>時間帯</label>
-  <% if @matching.scheduled_time %>
-    <p><%= @matching.scheduled_time.strftime("%H:%M") %></p>
-  <% else %>
-    <p>未定</p>
-  <% end %>
-<div>
-  <label>場所</label>
-  <p><%= @matching.place %></p>
-</div>
-
-<div class="h-48 overflow-y-scroll border border-gray-300 p-5" id="messages" data-matching_id="<%= @matching.id %>">
-  <%= render @messages %>
-</div>
-<form>
-  <%= label_tag :text, 'Say something:' %>
-  <input class="input input-bordered w-full max-w-xs" type="text" data-behavior="room_speaker">
-</form>

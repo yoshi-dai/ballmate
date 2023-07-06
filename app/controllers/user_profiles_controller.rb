@@ -22,7 +22,6 @@ class UserProfilesController < ApplicationController
   end
 
   def update
-  binding.irb
     if @user_profile.update(user_profile_params)
       redirect_to @user_profile, success: t('.success')
     else

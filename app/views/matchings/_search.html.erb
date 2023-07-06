@@ -1,7 +1,13 @@
 <%= search_form_for @q, url: url do |f| %>
-  <div class="form-control">
-    <%= f.search_field :name_or_matching_profile_activity_content_or_matching_profile_activity_detail_or_matching_profile_recruitment_content_or_matching_profile_short_message_cont, placeholder: '検索ワード', class: 'input input-bordered w-max' %>
-    <%= f.search_field :date_eq, placeholder: '日付', class: 'input input-bordered w-max' %>
+  <div class="flex flex-row">
+    <div>
+      <%= f.search_field :name_or_matching_profile_activity_content_or_matching_profile_activity_detail_or_matching_profile_recruitment_content_or_matching_profile_short_message_cont, placeholder: '検索ワード', class: 'input input-bordered w-max' %>
+    </div>
+    <div>
+      <%= f.search_field :date_eq, placeholder: '日付', class: 'input input-bordered w-max' %>
+    </div>
+    <div class="form-control">
+      <%= f.submit '検索', class: 'btn btn-secondary'%>
+    </div>
   </div>
-  <%= f.submit '検索', class: 'btn primary' %>
 <% end %>

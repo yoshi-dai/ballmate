@@ -30,11 +30,11 @@ ja:
       favorite_soccer_activity:
         soccer_type: '好きなサッカー種目'
       soccer_equipment:
-        name: 'サッカー用具名'
+        name: 'サッカー用具'
       matching:
         name: 'マッチング名'
         date: '日付'
-        scheduled_time: '時間帯'
+        scheduled_time: '時間'
         place: '場所'
         public_flag: '公開フラグ'
         user_id: 'ユーザーID'
