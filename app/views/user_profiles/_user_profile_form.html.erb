@@ -52,7 +52,8 @@
             <label class="label">
               <%= f.label :available_time %>
             </label>
-            <%= f.select :available_time, options_for_select(UserProfile.available_times.keys.map { |key| [key.to_s.humanize, UserProfile.available_times[key]] }, current_user.user_profile&.available_time), { include_blank: true }, class: "select select-bordered" %>
+            <% options = options_for_select([["", nil]] + UserProfile.available_times.keys.map { |key| [key.to_s.humanize, UserProfile.available_times[key]] }, current_user.user_profile&.available_time) %>
+            <%= f.select :available_time, options, {}, class: "select select-bordered" %>
           </div>
         </div>
         <div class="field">

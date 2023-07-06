@@ -1,13 +1,14 @@
-<div class="row">
-  <div class="col-12">
-    <div class="row">
-      <%= render 'users/search', q: @q, url: (action_name == 'index' ? users_path : send("#{action_name}_path")) %>
+<% content_for(:title, t('.title')) %>
+<div class="overflow-x-auto">
+  <table class="table">
+    <%= render 'users/search', q: @q, url: (action_name == 'index' ? users_path : send("#{action_name}_path")) %>
+    <tbody>
       <% if @users.present? %>
         <%= render @users %>
       <% else %>
         <p><%= 'ユーザーはいません' %></p>
       <% end %>
-      <%= paginate @users %>
-    </div>
-  </div>
+    </tbody>
+    <%= paginate @users %>
+  </table>
 </div>

@@ -1,39 +1,41 @@
-<div class="col-sm-12 col-lg-4 mb-3">
-  <div id="user-id-<%= user.id %>">
-    <div class="card bg-white">
-      <div class="card-body">
-        <ul class="list-inline">
-          <li class="list-inline-item">
-            <% if user.user_profile %>
-              <%= image_tag user.user_profile.image.url, size: '100x100' %>
-            <% else %>
-              <%= image_tag 'image_placeholder.png', size: '100x100' %>
-            <% end %>
-          </li>
-          <li class="list-inline-item">
-            <% if current_user.personal_matchings.any? { |matching| matching.users.exists?(id: user.id) } %> <!-- 他の方法模索中 -->
-              <% matching = current_user.personal_matchings.find { |matching| matching.users.exists?(id: user.id) } %>
-              <%= link_to user.user_profile.name, matching_path(matching) %>
-            <% else %>
-              <%= link_to user.user_profile.name, user_path(user) %>
-            <% end %>
-          </li>
-          <%  if current_user.received_chat_requests.exists?(sender_id: user.id,status: 'pending') %>
-            <% chat_request = current_user.received_chat_requests.find_by(status: 'pending') %>
-            <%= button_to '承認', approve_chat_request_path(user_id: user.id), method: :patch, class: 'btn btn-success' %>
-            <%= button_to '拒否', reject_chat_request_path(user_id: user.id), method: :patch, class: 'btn btn-danger' %>
-          <% elsif current_user.sent_chat_requests.exists?(receiver_id: user.id, status: 'pending') %>
-            <% chat_request = current_user.sent_chat_requests.find_by(receiver_id: user.id, status: 'pending') %>
-            <%= button_to 'キャンセル', cancel_chat_request_path(user_id: user.id), method: :patch, class: 'btn btn-danger' %>
-          <% elsif current_user.personal_matchings.any? { |matching| matching.users.exists?(id: user.id) } %><!-- 他の方法模索中 -->
-            <!-- マッチングが存在する場合は何も表示しない -->
-          <% else %>
-            <%= form_with(model: @chat_request, url: chat_requests_path) do |form| %>
-              <%= form.hidden_field :receiver_id, value: user.id %>
-              <%= form.submit '申請', class: 'btn btn-primary' %>
-            <% end %>
+<div class="card card-side shadow-xl boader border-8 m-10">
+  <% if user.user_profile %>
+    <div class="avatar w-1/2">
+      <div class="rounded">
+        <%= image_tag user.user_profile.image.url%>
+      </div>
+    </div>
+  <% else %>
+    <div class="avatar w-1/2">
+      <div class="rounded">
+        <%= image_tag 'image_logo.png' %>
+      </div>
+    </div>
+  <% end %>
+  <div class="card-body flex flex-col justify-center">
+    <div class="flex">
+      <% if current_user.personal_matchings.any? { |matching| matching.users.exists?(id: user.id) } %> <!-- 他の方法模索中 -->
+        <% matching = current_user.personal_matchings.find { |matching| matching.users.exists?(id: user.id) } %>
+        <p class="text-3xl mb:text-6xl w-1/2 text-center"><%= link_to user.user_profile.name, matching_path(matching) %></p>
+      <% else %>
+        <p class="text-3xl mb:text-6xl w-1/2 text-center"><%= link_to user.user_profile.name, user_path(user) %></p>
+      <% end %>
+      <div class="card-actions w-1/3">
+        <% if current_user.received_chat_requests.exists?(sender_id: user.id,status: 'pending') %>
+          <% chat_request = current_user.received_chat_requests.find_by(status: 'pending') %>
+            <%= button_to '承認', approve_chat_request_path(user_id: user.id), method: :patch, class: 'btn btn-secondary' %>
+            <%= button_to '拒否', reject_chat_request_path(user_id: user.id), method: :patch, class: 'btn btn-accent' %>
+        <% elsif current_user.sent_chat_requests.exists?(receiver_id: user.id, status: 'pending') %>
+          <% chat_request = current_user.sent_chat_requests.find_by(receiver_id: user.id, status: 'pending') %>
+          <%= button_to 'キャンセル', cancel_chat_request_path(user_id: user.id), method: :patch, class: 'btn btn-neutral' %>
+        <% elsif current_user.personal_matchings.any? { |matching| matching.users.exists?(id: user.id) } %><!-- 他の方法模索中 -->
+          <!-- マッチングが存在する場合は何も表示しない -->
+        <% else %>
+          <%= form_with(model: @chat_request, url: chat_requests_path) do |form| %>
+            <%= form.hidden_field :receiver_id, value: user.id %>
+            <%= form.submit '申請', class: 'btn btn-primary' %>
           <% end %>
-        </ul>
+        <% end %>
       </div>
     </div>
   </div>

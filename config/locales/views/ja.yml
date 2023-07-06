@@ -46,7 +46,6 @@ ja:
       failure: 'プロフィール編集に失敗しました。'
     edit:
       title: 'プロフィール編集'
-    index:
   matchings:
     new:
       title: 'マッチング登録'
