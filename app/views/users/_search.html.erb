@@ -1,15 +1,13 @@
 <%= search_form_for @q, url: url do |f| %>
   <div class="flex flex-row">
-    <div>
-    <%= f.search_field :user_profile_name_or_user_profile_favorite_player_or_user_profile_position_or_user_profile_favorite_place_cont, placeholder: '検索ワード', class: 'input input-bordered' %>
+    <div class="form-control">
+      <%= f.search_field :user_profile_name_or_user_profile_favorite_player_or_user_profile_position_or_user_profile_favorite_place_cont, placeholder: '検索ワード', class: 'input input-bordered' %>
     </div>
     <div class="form-control">
-      <div class>
+      <div class="input-group">
         <%= f.collection_select :user_profile_favorite_soccer_activities_soccer_type_cont, FavoriteSoccerActivity.all, :soccer_type, :soccer_type, { include_blank: '種目' }, { class: 'select select-bordered' } %>
       </div>
     </div>
-    <div class="form-control">
-      <%= f.submit '検索', class: 'btn btn-secondary'%>
-    </div>
+    <%= f.submit '検索', class: 'btn btn-secondary'%>
   </div>
 <% end %>
