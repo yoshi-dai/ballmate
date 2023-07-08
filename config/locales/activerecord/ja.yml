@@ -14,7 +14,7 @@ ja:
         name: '名前'
         age: '年齢'
         position: 'ポジション'
-        role_in_team: '役割'
+        role_in_team: 'チームでの役割'
         image: 'プロフィール画像'
         favorite_player: '好きな選手'
         favorite_place: 'お気に入り場所'
@@ -58,7 +58,6 @@ ja:
         user_id: 'ユーザーID'
       favorite_soccer_activity:
         soccer_type: 'サッカー種目'
-      favorite_soccer_type:
 
 # Path: config/locales/activerecord/ja.yml
 
