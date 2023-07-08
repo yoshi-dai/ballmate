@@ -85,13 +85,12 @@ ja:
       failure: 'チャットリクエストの拒否に失敗しました。'
   groups:
     new:
-      title: 'グループ登録'
+      title: 'グループマッチング作成'
+      name: 'グループマッチング名'
+      member: 'メンバー'
+      submit: '作成'
     create:
-      success: 'グループを作成しました。'
-      failure: 'グループ作成に失敗しました。'
-    edit:
-      title: 'グループ編集'
-    index:
-      title: 'グループ一覧'
+      success: 'グループマッチングを作成しました。'
+      failure: 'グループマッチング作成に失敗しました。'
     leave:
-      success: 'グループを退会しました。'
+      success: 'マッチンググループを退出しました。'

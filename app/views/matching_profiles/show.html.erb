@@ -36,7 +36,7 @@
             <% end %>
             <tr>
               <td class="font-bold">人数</td>
-              <td><%= link_to @matching.group.users.count, matching_having_user_path(matching_id: @matching.id) %></td>
+              <td><%= link_to @matching.group.users.count, matching_having_users_path(matching_id: @matching.id) %></td>
             </tr>
             <% if !@matching.group.users.include?(current_user) %>
               <tr>
@@ -69,12 +69,12 @@
           <label class="font-bold">
             <%= label_tag :text, 'メッセージ：' %>
           </label>
-          <input class="input input-bordered w-full max-w-xs" type="text" data-behavior="room_speaker">
+          <input class="input input-bordered input-primary w-full max-w-xs" type="text" data-behavior="room_speaker">
         </form>
       </div>
       <div class="items-center">
         <button class="btn btn-secondary"><%= link_to '編集', edit_matching_profile_path(@matching_profile) %></button>
-        <button class="btn btn-accent"><%= link_to '削除', matching_profile_path(@matching_profile), method: :delete, data: { confirm: '本当に削除しますか？' } %></button>
+        <button class="btn btn-accent">    <%= link_to '退出', leave_group_path(@matching), method: :post, data: { confirm: '本当に退出しますか？' } %></button>
       </div>
     <% end %>
   </div>
