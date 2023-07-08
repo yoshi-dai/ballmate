@@ -2,7 +2,7 @@
   <div class="navbar">
     <div class="navbar-start">
       <div class="dropdown">
-        <label tabindex="0" class="btn btn-primary btn-lg m-1 text-4xl font-bold normal-case">BallMate</label>
+        <label tabindex="0" class="btn btn-success btn-lg m-1 text-4xl font-bold normal-case">BallMate</label>
         <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-white rounded-box w-52">
           <% if current_user.present? %>
             <% if current_user.present? && current_user.user_profile.present? %>
@@ -12,7 +12,7 @@
             <% end %>
             <button class="btn btn-outline"><%= link_to 'トップページ', root_path %></button>
             <button class="btn btn-outline"><%= link_to 'ログアウト', logout_path, method: :delete, data: { confirm: '本当にログアウトしますか？' } %></button>
-            <button class="btn"><%= link_to "退会",user_path(current_user.id), method: :delete, "data-confirm" => "本当に退会しますか？" %></button>
+            <button class="btn btn-outline btn-accent"><%= link_to "退会",user_path(current_user.id), method: :delete, "data-confirm" => "本当に退会しますか？" %></button>
           <% else %>
             <button class="btn btn-primary"><%= link_to 'ログイン', login_path %></button>
             <button class="btn btn-neutral"><li><%= link_to 'ユーザー登録', new_user_path %></li></button>

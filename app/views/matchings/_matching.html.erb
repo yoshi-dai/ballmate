@@ -1,39 +1,9 @@
-<div class="col-sm-12 col-lg-4 mb-3">
-  <div id="matching-id-<%= matching.id %>">
-    <div class="card">
-      <div class="card-body">
-        <ul class="list-inline">      
-          <li class="list-inline-item">
-           <%= link_to matching.name, matching_profile_path(matching.matching_profile) %>
-          </li>
-          <% if current_user.sent_chat_requests.exists?(matching_id: matching.id, status: 'pending') %>
-            <%= button_to 'キャンセル', cancel_chat_request_path(matching_id: matching.id), method: :patch, class: 'btn btn-danger' %>
-          <% elsif matching.group.users.exists?(current_user.id) && matching.chat_requests.exists?(matching_id: matching.id, status: 'pending') %>
-            <% matching.chat_requests.each do |chat_request| %>
-              <%= link_to chat_request.sender.user_profile.name, user_path(chat_request.sender) %>
-              <%= button_to '承認', approve_chat_request_path(matching_id: matching.id, user_id: chat_request.sender.id), method: :patch, class: 'btn btn-success' %>
-              <%= button_to '拒否', reject_chat_request_path(matching_id: matching.id, user_id: chat_request.sender.id), method: :patch, class: 'btn btn-danger' %>
-            <% end %>
-          <% elsif matching.group.users.exists?(current_user.id) %>
-            <!-- グループマッチングに所属する場合は何も表示しない -->
-          <% else %>
-            <%= form_with(model: @chat_request, url: chat_requests_path) do |form| %>
-              <%= form.hidden_field :matching_id, value: matching.id %>
-              <%= form.submit '申請', class: 'btn btn-primary' %>
-            <% end %>
-          <% end %>
-        </ul>
-      </div>
+<div class="card card-side shadow-xl boader border-8 m-10">
+  <div class="avatar w-1/2">
+    <div class="rounded">
+      <%= image_tag matching.matching_profile.image_url %>
     </div>
   </div>
-</div>
-
-<div class="card card-side shadow-xl boader border-8 m-10">
-    <div class="avatar w-1/2">
-      <div class="rounded">
-        <%= image_tag matching.matching_profile.image_url %>
-      </div>
-    </div>
   <div class="card-body flex flex-col justify-center">
     <div class="flex">
 
@@ -42,11 +12,15 @@
         <% if current_user.sent_chat_requests.exists?(matching_id: matching.id, status: 'pending') %>
           <%= button_to 'キャンセル', cancel_chat_request_path(matching_id: matching.id), method: :patch, class: 'btn btn-danger' %>
         <% elsif matching.group.users.exists?(current_user.id) && matching.chat_requests.exists?(matching_id: matching.id, status: 'pending') %>
-          <% matching.chat_requests.each do |chat_request| %>
-          <%= link_to chat_request.sender.user_profile.name, user_path(chat_request.sender) %>
-            <%= button_to '承認', approve_chat_request_path(matching_id: matching.id, user_id: chat_request.sender.id), method: :patch, class: 'btn btn-success' %>
-            <%= button_to '拒否', reject_chat_request_path(matching_id: matching.id, user_id: chat_request.sender.id), method: :patch, class: 'btn btn-danger' %>
-          <% end %>
+          <div class="overflow-y-auto">
+            <% matching.chat_requests.each do |chat_request| %>
+              <p class="font-bold"><%= link_to chat_request.sender.user_profile.name, user_path(chat_request.sender) %></p>
+              <div class="flex">
+                <%= button_to '承認', approve_chat_request_path(matching_id: matching.id, user_id: chat_request.sender.id), method: :patch, class: 'btn btn-secondary' %>
+                <%= button_to '拒否', reject_chat_request_path(matching_id: matching.id, user_id: chat_request.sender.id), method: :patch, class: 'btn btn-accent' %>
+              </div>
+            <% end %>
+          </div>
         <% elsif matching.group.users.exists?(current_user.id) %>
           <!-- グループマッチングに所属する場合は何も表示しない -->
         <% else %>

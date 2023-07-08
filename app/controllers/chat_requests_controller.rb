@@ -52,7 +52,10 @@ class ChatRequestsController < ApplicationController
         group = Group.find(chat_request.matching.group_id)
         group.users << chat_request.sender
 
+        chat_request.destroy!
+        
         redirect_to matching_profile_path(group.matching.matching_profile.id), success: t('.success')
+      else
         redirect_to matchings_path, warning: t('.failure')
       end
     end

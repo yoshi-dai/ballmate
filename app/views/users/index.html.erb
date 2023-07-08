@@ -1,14 +1,17 @@
 <% content_for(:title, t('.title')) %>
-<div class="overflow-x-auto">
-  <table class="table">
-    <%= render 'users/search', q: @q, url: (action_name == 'index' ? users_path : send("#{action_name}_path")) %>
-    <tbody>
-      <% if @users.present? %>
-        <%= render @users %>
-      <% else %>
-        <p><%= 'ユーザーはいません' %></p>
-      <% end %>
-    </tbody>
-    <%= paginate @users %>
-  </table>
+<div class="min-h-screen">
+  <div class="overflow-x-auto">
+    <table class="table">
+      <%= render 'users/search', q: @q, url: (action_name == 'index' ? users_path : send("#{action_name}_path")) %>
+      <div class="divider"></div> 
+      <tbody>
+        <% if @users.present? %>
+          <%= render @users %>
+        <% else %>
+          <p><%= 'ユーザーはいません' %></p>
+        <% end %>
+      </tbody>
+      <%= paginate @users %>
+    </table>
+  </div>
 </div>

@@ -1,6 +1,7 @@
 class MatchingProfile < ApplicationRecord
   mount_uploader :image, MatchingImageUploader
   belongs_to :matching
+  accepts_nested_attributes_for :matching
 
   validates :activity_content, length: { maximum: 255 }
   validates :activity_detail, length: { maximum: 255 }
