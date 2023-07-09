@@ -1,19 +1,37 @@
-<%= form_tag groups_path, method: :post do %>
-  <div class="form-group">
-    <%= label_tag 'グループ名' %>
-    <%= text_field_tag :name, nil, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= label_tag 'メンバー' %>
-  </div>
-  <%= collection_check_boxes(:group, :user_ids, @users, :id, :name) do |b| %>
-    <div>
-      <%= image_tag b.object.user_profile.image.url, size: '100x100', class: 'profile-image' %>
-      <%= link_to b.object.user_profile.name, user_path(b.object) %>
-      <%= b.check_box %>
+<% content_for(:title, t('.title')) %>
+<div class="min-h-screen">
+  <%= form_tag groups_path, method: :post do %>
+    <div class="form-control">
+      <label class="label text-3xl">
+        <%= label_tag t('groups.new.name')%>
+      </label>
+      <div class="flex flex-row">
+        <%= text_field_tag :name, nil, class: "input input-bordered w-1/2" %>
+        <div>
+          <%= submit_tag t('groups.new.submit'), class: "btn btn-primary" %>
+        </div>
+      </div>
+    <div class="divider">
+      <div class="form-group text-3xl">
+        <%= label_tag t('groups.new.member')%>
+      </div>
+    </div>
+    <div class="card m-10">
+      <%= collection_check_boxes(:group, :user_ids, @users, :id, :name) do |b| %>
+        <div class="card card-side shadow-xl boader border-8">
+          <div class="avatar">
+            <%= image_tag b.object.user_profile.image.url%>
+          </div>
+          <div class="card-body flex flex-col justify-center">
+            <div class="flex">
+              <p class="text-3xl mb:text-6xl w-1/2 text-center"><%= link_to b.object.user_profile.name, user_path(b.object) %></p>
+              <div class="card-actions w-1/3">
+                <%= b.check_box class: "checkbox checkbox-lg" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
     </div>
   <% end %>
-
-  <%= submit_tag 'グループを作成する' %>
-<% end %>
+</div>

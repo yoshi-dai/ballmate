@@ -14,16 +14,18 @@ class UserProfilesController < ApplicationController
   def create
     @user_profile = current_user.build_user_profile(user_profile_params)
     if @user_profile.save
-      redirect_to user_profile_path(@user_profile), notice: 'ユーザープロフィールが作成されました。'
+      redirect_to user_profile_path(@user_profile), success: t('.success')
     else
+      flash.now[:danger] = t('.failure')
       render :new
     end
   end
 
   def update
     if @user_profile.update(user_profile_params)
-      redirect_to @user_profile, notice: 'ユーザープロフィールが更新されました。'
+      redirect_to @user_profile, success: t('.success')
     else
+      flash.now[:warning] = t('.failure')
       render :edit
     end
   end
@@ -43,6 +45,13 @@ class UserProfilesController < ApplicationController
   end
 
   def user_profile_params
-    params.require(:user_profile).permit(:name, :favorite_player, :position, :role_in_team, :age, :favorite_place, :available_time, :image, :image_cache, favorite_soccer_activity_ids: [], soccer_equipment_ids: [], available_day_of_week: [])
+    permitted_params = params.require(:user_profile).permit(
+      :name, :favorite_player, :position, :role_in_team, :age,
+      :favorite_place, :image, :image_cache, :available_day_of_week,
+      :available_time,
+      favorite_soccer_activity_ids: [], soccer_equipment_ids: []
+    )
+  
+    permitted_params
   end
 end

@@ -26,9 +26,10 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      redirect_to root_path, notice: 'success'
+      session[:user_id] = @user.id # ログイン状態にする
+      redirect_to new_user_profile_path(@user), success: t('.success')
     else
-      flash.now[:danger] = t('.fail')
+      flash.now[:warning] = t('.failure')
       render :new
     end
   end
@@ -36,8 +37,7 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     @user.destroy!
-    flash[:notice] = 'ユーザーを削除しました。'
-    redirect_to :root
+    redirect_to :root, success: t('.success')
   end
 
   def matched_users

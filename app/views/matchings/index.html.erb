@@ -1,13 +1,17 @@
-<div class="row">
-  <div class="col-12">
-    <div class="row">
+<% content_for(:title, t('.title')) %>
+<div class="min-h-screen">
+  <div class="overflow-x-auto">
+    <table class="table">
       <%= render 'matchings/search', q: @q, url: (action_name == 'index' ? matchings_path : send("#{action_name}_path")) %>
-      <% if @matchings.present? %>
-        <%= render @matchings %>
-      <% else %>
-        <p><%= 'マッチングは存在しません' %></p>
-      <% end %>
+      <div class="divider"></div> 
+      <tbody>
+        <% if @matchings.present? %>
+          <%= render @matchings %>
+        <% else %>
+          <p><%= 'マッチングは存在しません' %></p>
+        <% end %>
+      </tbody>
       <%= paginate @matchings %>
-    </div>
+    </table>
   </div>
 </div>

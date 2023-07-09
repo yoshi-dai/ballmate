@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
   
   root 'static_pages#top'
+  get 'about', to: 'static_pages#about'
+  get 'use', to: 'static_pages#use'
 
   get 'login', to: 'user_sessions#new'
   post 'login', to: 'user_sessions#create'
@@ -14,16 +16,15 @@ Rails.application.routes.draw do
       get 'matched_users', to: 'users#matched_users', as: 'matched'
       get 'requested_users', to: 'users#requested_users', as: 'requested'
       get 'approval_pending_users', to: 'users#approval_pending_users', as: 'approval_pending'
+      get 'matching_having_users', to: 'users#matching_having_users', as: 'matching_having'
     end
   end
 
-  resources :chat_requests, only: [:create] do
-    member do
-      post 'approve'
-      post 'cancel'
-      post 'reject'
-    end
-  end
+  resources :chat_requests, only: [:create]
+
+  patch:cancel_chat_request, to: 'chat_requests#cancel', as: 'cancel_chat_request'
+  patch :approve_chat_request, to: 'chat_requests#approve', as: 'approve_chat_request'
+  patch :reject_chat_request, to: 'chat_requests#reject', as: 'reject_chat_request'
 
   resources :matchings, only: %i[index show edit update] do
     collection do

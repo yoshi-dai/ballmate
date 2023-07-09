@@ -6,16 +6,44 @@ ja:
     edit: '編集'
     delete: '削除'
     show: '詳細'
+    new: '新規作成'
   users:
     new:
       title: 'ユーザー登録'
+    create:
+      success: 'ユーザー登録が完了しました。'
+      failure: 'ユーザー登録に失敗しました。'
+    edit:
+      title: 'ユーザー編集'
+    index:
+      title: 'ユーザー一覧'
+    show:
+      title: 'ユーザー詳細'
+    destroy:
+      success: 'ユーザーを削除しました。'
   user_sessions:
     new:
       title: 'ログイン'
       to_register_page: '登録ページへ'
+    create:
+      success: 'ログインしました。'
+      failure: 'ログインに失敗しました。'
+    destroy:
+      success: 'ログアウトしました。'
+    not_authenticated: 'ログインしてください。'
   user_profiles:
     new:
       title: 'プロフィール登録'
+    create: 
+      title: 'プロフィール登録'
+      success: 'プロフィール登録が完了しました。'
+      failure: 'プロフィール登録に失敗しました。'
+    show:
+      title: 'プロフィール詳細'
+    update:
+      title: 'プロフィール編集'
+      success: 'プロフィール編集が完了しました。'
+      failure: 'プロフィール編集に失敗しました。'
     edit:
       title: 'プロフィール編集'
   matchings:
@@ -23,6 +51,12 @@ ja:
       title: 'マッチング登録'
     edit:
       title: 'マッチング編集'
+    update:
+      title: 'マッチング編集'
+      success: 'マッチング編集が完了しました。'
+      failure: 'マッチング編集に失敗しました。'
+    destroy:
+      success: 'マッチングを削除しました。'
     index:
       title: 'マッチング一覧'
   matching_profiles:
@@ -30,8 +64,33 @@ ja:
       title: 'マッチングプロフィール登録'
     edit:
       title: 'マッチングプロフィール編集'
+    update:
+      title: 'マッチングプロフィール編集'
+      success: 'マッチングプロフィール編集が完了しました。'
+      failure: 'マッチングプロフィール編集に失敗しました。'
+    update_public_flag:
+      success: '公開設定を変更しました。'
   chat_requests:
+    create:
+      success: 'チャットリクエストを送信しました。'
+      failure: 'チャットリクエストの送信に失敗しました。'
+    approve:
+      success: 'チャットリクエストを承認しました。'
+      failure: 'チャットリクエストの承認に失敗しました。'
+    cancel:
+      success: 'チャットリクエストをキャンセルしました。'
+      failure: 'チャットリクエストのキャンセルに失敗しました。'
+    reject:
+      success: 'チャットリクエストを拒否しました。'
+      failure: 'チャットリクエストの拒否に失敗しました。'
+  groups:
     new:
-      title: 'チャットリクエスト'
-    edit:
-      title: 'チャットリクエスト編集'
+      title: 'グループマッチング作成'
+      name: 'グループマッチング名'
+      member: 'メンバー'
+      submit: '作成'
+    create:
+      success: 'グループマッチングを作成しました。'
+      failure: 'グループマッチング作成に失敗しました。'
+    leave:
+      success: 'マッチンググループを退出しました。'

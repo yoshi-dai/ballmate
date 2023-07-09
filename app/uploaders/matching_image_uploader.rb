@@ -14,7 +14,7 @@ class MatchingImageUploader < CarrierWave::Uploader::Base
   end
 
   def default_url
-    'image_placeholder.png'
+    'matching_logo.png'
   end
 
   def extension_whitelist

@@ -1,3 +1,12 @@
-<h1 class="text-accent text-9xl">BallMate#top</h1>
-<p>Find me in app/views/home/index.html.erb</p>
-
+<div class="hero min-h-screen bg-">
+  <div class="hero-content text-center">
+    <div class="max-w-lg">
+      <h1 class="text-7xl font-bold md:text-9xl">BallMate</h1>
+      <p class="py-6 text-xl md:text-3xl">サッカーするためにつながる</p>
+      <button class="btn btn-primary"><%= link_to 'ログイン', login_path %></button>
+      <button class="btn btn-neutral"><%= link_to 'ユーザー登録', new_user_path %></button>
+      <button class="btn btn-secondary"><%= link_to 'Ballmateとは', about_path %></button>
+      <button class="btn btn-outline"><%= link_to '使い方', use_path %></button>
+    </div>
+  </div>
+</div>

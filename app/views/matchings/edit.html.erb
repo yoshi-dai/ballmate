@@ -1,30 +1,48 @@
-<div>
-  <%= image_tag @user.user_profile.image_url %>
+<% content_for(:title, t('.title')) %>
+<div class="hero min-h-screen bg-base-200">
+  <div class="hero-content flex-col lg:flex-row">
+    <div>
+      <div class="avatar">
+      <div class="rounded-lg shadow-2xl">
+        <%= image_tag @user.user_profile.image_url %>
+      </div>
+      </div>
+      <p class="text-center text-4xl mb-0"><%= link_to @user.user_profile.name, user_path(@user) %></p>
+    </div>
+    <div class="card w-full max-w-9xl shadow-2xl bg-base-100 border-8">
+      <div class="card-body">
+        <%= form_with(model: @matching, url: matching_path(@matching), method: :patch) do |f| %>
+          <!-- マッチング日付の編集 -->
+          <div class="form-control w-full max-w-xs">
+            <label class="label">
+              <%= f.label :date, class: 'label-text'%>
+            </label>
+            <div>
+              <%= f.date_field :date %>
+            </div>
+          </div>      
+          <!-- マッチング時間帯の編集 -->
+          <div class="form-control w-full max-w-xs">
+            <label class="label">
+              <%= f.label :scheduled_time, class: 'label-text'%>
+            </label>
+            <div>
+              <%= f.time_select(:scheduled_time, {class:'select-date', id:"start-time", prompt:'--', time_separator: ':'}, ignore_data: true) %>
+            </div>
+          </div>
+          <!-- マッチング場所の編集 -->
+          <div class="form-control w-full max-w-xs">
+            <label class="label">
+              <%= f.label :place, class: 'label-text'%>
+            </label>
+            <%= f.text_field :place, class: "input input-bordered w-full max-w-xs" %>
+          </div>
+          <!-- 編集ボタン -->
+          <div class="form-control mt-6">
+            <%= f.submit "設定", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
-<div>
-  <p class="font-bold">
-    <%= link_to @user.user_profile.name, user_path(@user) %>
-  </p>
-</div>
-<%= form_with(model: @matching, url: matching_path(@matching), method: :patch) do |f| %>
-  <!-- マッチング日付の編集 -->
-  <div>
-    <%= f.label :date, '日付' %>
-    <%= f.date_field :date %>
-  </div>
-
-  <!-- マッチング場所の編集 -->
-  <div>
-    <%= f.label :place, '場所' %>
-    <%= f.text_field :place %>
-  </div>
-
-  <!-- マッチング時間帯の編集 -->
-  <div>
-    <%= f.label :scheduled_time, '時間帯' %>
-    <%= f.time_select(:scheduled_time, {class:'select-date', id:"start-time", prompt:'--', time_separator: ':'}, ignore_data: true) %>
-  </div>
-
-  <!-- 編集ボタン -->
-  <%= f.submit '編集' %>
-<% end %>

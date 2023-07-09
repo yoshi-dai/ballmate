@@ -14,12 +14,15 @@ ja:
         name: '名前'
         age: '年齢'
         position: 'ポジション'
-        role_in_team: '役割'
+        role_in_team: 'チームでの役割'
         image: 'プロフィール画像'
         favorite_player: '好きな選手'
-        favorite_place: '好きな場所'
+        favorite_place: 'お気に入り場所'
         available_day_of_week: '活動曜日'
         available_time: '活動時間'
+        soccer_equipments: 'サッカー用具'
+        favorite_soccer_activities: '好きなサッカー種目'
+        no_select: '未選択'
         morning: '午前中'
         midday: '昼'
         afternoon: '午後'
@@ -28,11 +31,11 @@ ja:
       favorite_soccer_activity:
         soccer_type: '好きなサッカー種目'
       soccer_equipment:
-        name: 'サッカー用具名'
+        name: 'サッカー用具'
       matching:
         name: 'マッチング名'
         date: '日付'
-        scheduled_time: '時間帯'
+        scheduled_time: '時間'
         place: '場所'
         public_flag: '公開フラグ'
         user_id: 'ユーザーID'
@@ -55,7 +58,6 @@ ja:
         user_id: 'ユーザーID'
       favorite_soccer_activity:
         soccer_type: 'サッカー種目'
-      favorite_soccer_type:
 
 # Path: config/locales/activerecord/ja.yml
 

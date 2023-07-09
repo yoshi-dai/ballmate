@@ -10,7 +10,7 @@ class CreateUserProfiles < ActiveRecord::Migration[6.1]
       t.string :favorite_place
       t.string :equipment
       t.string :available_day_of_week
-      t.integer :available_time
+      t.string :available_time
 
       t.timestamps
     end

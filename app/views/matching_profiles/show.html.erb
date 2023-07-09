@@ -1,96 +1,81 @@
-<div class="flex flex-col items-center justify-center">
-  <h1 class="text-3xl font-bold"><p class="font-bold"><%= @matching.name %></p></h1>
-</div>
-
-<% if @matching.group.users.exists?(current_user.id) %>
-  <div class="btn btn-primary w-20">
-    <%= link_to '編集', edit_matching_profile_path(@matching_profile) %>
-  </div>
-  <div class="btn btn-primary w-20">
-    <%= link_to '退出', leave_group_path(@matching), method: :post, data: { confirm: '本当に退出しますか？' } %>
-  </div>
-<% end %>
-
-<% if current_user.sent_chat_requests.exists?(matching_id: @matching.id, status: 'pending') %>
-  <%= button_to 'キャンセル', cancel_chat_requests_path(matching_id: @matching.id), method: :patch, class: 'btn btn-danger' %>
-<% elsif @matching.group.users.exists?(current_user.id) && @matching.chat_requests.exists?(matching_id: @matching.id, status: 'pending') %>
-  <% @matching.chat_requests.each do |chat_request| %>
-    <% user = chat_request.sender %>
-    <%= link_to user.user_profile.name, user_path(user) %>
-    <%= button_to '承認', approve_chat_requests_path(matching_id: @matching.id, user_id: user.id), method: :patch, class: 'btn btn-success' %>
-    <%= button_to '拒否', reject_chat_requests_path(matching_id: @matching.id, user_id: user.id), method: :patch, class: 'btn btn-danger' %>
-  <% end %>
-<% elsif @matching.group.users.exists?(current_user.id) %>
-            <!-- グループマッチングに所属する場合は何も表示しない -->
-<% else %>
-  <%= form_with(model: @chat_request, url: chat_requests_path) do |form| %>
-    <%= form.hidden_field :matching_id, value: @matching.id %>
-    <%= form.submit '申請', class: 'btn btn-primary' %>
-  <% end %>
-<% end %>
-
-<div>
-  <%= image_tag @matching_profile.image_url %>
-</div>
-<div>
-  <label class="text-xl">日付</label>
-  <% if @matching.date %>
-    <p class="font-bold"><%= @matching.scheduled_date.strftime('%Y年%m月%d日') %></p>
-  <% else %>
-    <p class="font-bold">未定</p>
-  <% end %>
-</div>
-<div>
-  <label class="text-xl">時間帯</label>
-  <% if @matching.scheduled_time %>
-    <p class="font-bold"><%= @matching.scheduled_time.strftime('%H:%M') %></p>
-  <% else %>
-    <p class="font-bold">未定</p>
-  <% end %>
-</div>
-<div>
-  <label class="text-xl">場所</label>
-  <p class="font-bold"><%= @matching.place %></p>
-</div>
-<div>
-  <label class="text-xl">人数</label>
-  <%= link_to @matching.group.users.count, matching_having_users_path(matching_id: @matching.id) %>
-</div>
-<% if !@matching.group.users.include?(current_user) %>
-  <div>
-    <label class="text-xl">アクティビティ内容</label>
-    <p class="font-bold"><%= @matching_profile.activity_content %></p>
-  </div>
-  <div>
-    <label class="text-xl">アクティビティ詳細</label>
-    <p class="font-bold"><%= @matching_profile.activity_detail %></p>
-  </div>
-  <div>
-    <label class="text-xl">募集内容</label>
-    <p class="font-bold"><%= @matching_profile.recruitment_content %></p>
-  </div>
-  <div>
-    <label class="text-xl">ショートメッセージ</label>
-    <p class="font-bold"><%= @matching_profile.short_message %></p>
-  </div>
-<% end %>
-
-<% if @matching.group.users.exists?(current_user.id) %>
-  <%= form_with(model: @matching_profile, url: update_public_flag_matching_profile_path(@matching_profile), method: :post, id: 'matching-profile-form', data: { remote: true }) do |f| %>
+<% content_for(:title, t('.title')) %>
+<div class="hero min-h-screen bg-base-200">
+  <div class="hero-content flex-col lg:flex-row">
     <div>
-      <%= check_box_tag 'matching_profile[public_flag]', '1', @matching_profile.matching.public_flag?, class: 'toggle', id: 'public-flag-checkbox' %>
-      <%= label_tag 'matching_profile_public_flag', '外部公開' %>
+      <div class="avatar">
+        <div class="rounded-lg shadow-2xl">
+          <%= image_tag @matching_profile.image_url %>
+        </div>
+      </div>
+      <p class="text-center text-3xl mb-0"><%= @matching.name %></p>
+      <% if @matching.group.users.exists?(current_user.id) %>
+        <%= form_with(model: @matching_profile, url: update_public_flag_matching_profile_path(@matching_profile), method: :post, id: 'matching-profile-form', data: { remote: true }) do |f| %>
+          <div class="tooltip tooltip-right" data-tip="募集する場合は、編集ボタンを押して募集内容を確認してください！">
+            <%= label_tag 'matching_profile_public_flag', '追加募集' %>
+          </div>
+          <%= check_box_tag 'matching_profile[public_flag]', '1', @matching_profile.matching.public_flag?, class: 'toggle toggle-primary', id: 'public-flag-checkbox' %>
+          <%= f.submit '更新', style: 'display: none', id: 'public-flag-submit'%>
+        <% end %>
+      <% end %>
+      <div class="overflow-x-auto h-1/2">
+        <table class="table table-zebra table-xs">
+          <tbody>
+            <% if @matching.group.users.exists?(current_user.id) %>
+              <tr>
+                <td class="font-bold">日付</td>
+                <td><%= @matching.date.strftime("%m月%d日") if @matching.date %></td>
+              </tr>
+              <tr>
+                <td class="font-bold">時間帯</td>
+                <td><%= @matching.scheduled_time.strftime("%H:%M") if @matching.scheduled_time %></td>
+              </tr>
+              <tr>
+                <td class="font-bold">場所</td>
+                <td><%= @matching.place %></td>
+              </tr>
+            <% end %>
+            <tr>
+              <td class="font-bold">人数</td>
+              <td><%= link_to @matching.group.users.count, matching_having_users_path(matching_id: @matching.id) %></td>
+            </tr>
+            <% if !@matching.group.users.include?(current_user) %>
+              <tr>
+                <td class="font-bold">アクティビティ内容</td>
+                <td><%= @matching_profile.activity_content %></td>
+              </tr>
+              <tr>
+                <td class="font-bold">アクティビティ詳細</td>
+                <td><%= @matching_profile.activity_detail %></td>
+              </tr>
+              <tr>
+                <td class="font-bold">募集内容</td>
+                <td><%= @matching_profile.recruitment_content %></td>
+              </tr>
+              <tr>
+                <td class="font-bold">ショートメッセージ</td>
+                <td><%= @matching_profile.short_message %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <%= f.submit '更新', style: 'display: none', id: 'public-flag-submit'%>
-  <% end %>
-<% end %>
-
-<% if @matching.group.users.exists?(current_user.id) %> 
-  <div class="h-48 overflow-y-scroll border border-gray-300 p-5" id="messages" data-matching_id="<%= @matching.id %>">
-    <%= render @messages %>
+    <% if @matching.group.users.exists?(current_user.id) %>
+      <div class="w-full h-full">
+        <div class="overflow-y-scroll h-72 rounded border border-8 border-gray-300 pl-5" id="messages" data-matching_id="<%= @matching.id %>">
+          <%= render @messages %>
+        </div>
+        <form>
+          <label class="font-bold">
+            <%= label_tag :text, 'メッセージ：' %>
+          </label>
+          <input class="input input-bordered input-primary w-full max-w-xs" type="text" data-behavior="room_speaker">
+        </form>
+      </div>
+      <div class="items-center">
+        <button class="btn btn-secondary"><%= link_to '編集', edit_matching_profile_path(@matching_profile) %></button>
+        <button class="btn btn-accent"><%= link_to '退出', leave_group_path(@matching), method: :post, data: { confirm: '本当に退出しますか？' } %></button>
+      </div>
+    <% end %>
   </div>
-  <form>
-    <%= label_tag :text, 'Say something:' %>
-    <input class="input input-bordered w-full max-w-xs" type="text" data-behavior="room_speaker">
-  </form>
-<% end %>
+</div>

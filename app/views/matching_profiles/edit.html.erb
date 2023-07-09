@@ -1,57 +1,81 @@
-<%= form_with(model: @matching_profile, url: matching_profile_path(@matching_profile), method: :patch) do |f| %>
-  <!-- マッチング名の表示 -->
-  <div>
-    <label>マッチング名</label>
-    <p><%= @matching.name %></p>
+<% content_for(:title, t('.title')) %>
+<div class="hero min-h-screen bg-base-200">
+  <div class="hero-content w-screen">
+    <div class="card w-1/2 shadow-2xl bg-base-100 border-8">
+      <div class="card-body">
+        <%= form_with(model: @matching_profile, url: matching_profile_path(@matching_profile), method: :patch) do |f| %>
+            <!-- マッチング情報の編集 -->
+            <%= f.fields_for :matching, @matching do |mf| %>
+              <div class="form-control">
+                <label class="label">
+                  <%= mf.label :name, class: 'label-text'%>
+                </label>
+                <%= mf.text_field :name, class: "input input-bordered w-full" %>
+              </div>
+              <div class="form-control w-full">
+                <label class="label">
+                  <%= mf.label :place, class: 'label-text'%>
+                </label>
+                <%= mf.text_field :place, class: "input input-bordered w-full" %>
+              </div>
+              <div class="form-control">
+                <label class="label">
+                  <%= mf.label :date, class: 'label-text'%>
+                </label>
+                <div>
+                  <%= mf.date_field :date %>
+                </div>
+              </div>
+              <div class="form-control">
+                <label class="label">
+                  <%= mf.label :scheduled_time, class: 'label-text'%>
+                </label>
+                <div>
+                  <%= mf.time_select(:scheduled_time, {class:'select-date', id:"start-time", prompt:'--', time_separator: ':'}, ignore_data: true) %>
+                </div>  
+              </div>
+            
+              <div class="form-control" style="display: none;">
+                <%= mf.label :group_id %>
+                <%= mf.hidden_field :group_id %>
+              </div>
+            
+              <div class="form-control" style="display: none;">
+                <%= mf.label :public_flag %>
+                <%= mf.hidden_field :public_flag %>
+              </div>
+            <% end %>
+            <div class="divider"><p class="text-center text-xs mb-0">マッチング名と以下が公開されます</p></div> 
+            <!-- マッチングプロフィールの編集 -->
+            <div class="form-control w-full">
+              <label class="label">
+                <%= f.label :activity_content %>
+              </label>
+              <%= f.text_field :activity_content, class: "input input-bordered w-full" %>
+            </div>
+            <div class="form-control w-full">
+              <label class="label">
+                <%= f.label :activity_detail %>
+              </label>
+              <%= f.text_field :activity_detail, class: "input input-bordered w-full" %>
+            </div>
+            <div class="form-control w-full">
+              <label class="label">
+                <%= f.label :recruitment_content %>
+              </label>
+              <%= f.text_field :recruitment_content, class: "input input-bordered w-full" %>
+            </div>
+            <div class="form-control w-full">
+              <label class="label">
+                <%= f.label :short_message %>
+              </label>
+              <%= f.text_field :short_message, class: "input input-bordered w-full" %>
+            </div>
+            <div class="form-control mt-6">
+              <%= f.submit "設定", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+      </div>
+    </div>
   </div>
-
-  <!-- マッチング日付の表示 -->
-  <div>
-    <label>日付</label>
-    <p><%= @matching.date %></p>
-  </div>
-
-  <!-- マッチング時間帯の表示 -->
-  <div>
-    <label>時間帯</label>
-    <p><%= @matching.time_zone %></p>
-  </div>
-
-  <!-- マッチング場所の表示 -->
-  <div>
-    <label>場所</label>
-    <p><%= @matching.place %></p>
-  </div>
-  <!-- アクティビティ内容の編集 -->
-  <div>
-    <%= f.label :activity_content, 'アクティビティ内容' %>
-    <%= f.text_field :activity_content, value: @matching_profile.activity_content %>
-  </div>
-  <!-- アクティビティ詳細の編集 -->
-  <div>
-    <%= f.label :activity_detail, 'アクティビティ詳細' %>
-    <%= f.text_field :activity_detail, value: @matching_profile.activity_detail %>
-  </div>
-  <!-- 募集内容の編集 -->
-  <div>
-    <%= f.label :recruitment_content, '募集内容' %>
-    <%= f.text_field :recruitment_content, value: @matching_profile.recruitment_content %>
-  </div>
-  <!-- ショートメッセージの編集 -->
-  <div>
-    <%= f.label :short_message, 'ショートメッセージ' %>
-    <%= f.text_field :short_message, value: @matching_profile.short_message %>
-  </div>
-  <!-- 画像のアップロード -->
-  <div>
-    <%= f.label :image, '画像' %>
-    <%= f.file_field :image %>
-    <%= f.hidden_field :image_cache %>
-  </div>
-  <!-- 画像のプレビュー -->
-  <% if f.object&.image.present? %>
-    <%= image_tag f.object.image_url %>
-  <% end %>
-  <!-- 編集ボタン -->
-  <%= f.submit '編集' %>
-<% end %>
+</div>
