@@ -9,10 +9,7 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import '@fortawesome/fontawesome-free/js/all'
 import "../stylesheets/application.scss"
-import jQuery from 'jquery';
-window.jQuery = jQuery;
-window.$ = jQuery;
-
+require("jquery")
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
