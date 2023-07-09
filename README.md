@@ -110,6 +110,15 @@ README
 サービス内で使用できるワードのフィルタリング
 予定場所の予定日にの天気情報の表示機能
 
+ゲストログインの代わりに、テスト用アカウントを作成しました。
+メールアドレス：  test01@example.com
+password： password
+
+admin（管理者）
+メールアドレス：  admin@example.com
+password： adminpassword
+→ このアカウントでログインしたのち、/adminにアクセスすると管理画面に遷移します。
+
 
 
 ER図
