@@ -94,3 +94,6 @@ ja:
       failure: 'グループマッチング作成に失敗しました。'
     leave:
       success: 'マッチンググループを退出しました。'
+  paginations:
+    previous: '前へ'
+    next: '次へ'
