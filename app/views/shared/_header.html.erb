@@ -20,7 +20,7 @@
           <% end %>
         </ul>
       </div>
-      <% if current_user.present? %>
+      <% if current_user.present? && current_user.user_profile %>
         <div class="drawer drawer-end">
           <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
           <div class="drawer-content">

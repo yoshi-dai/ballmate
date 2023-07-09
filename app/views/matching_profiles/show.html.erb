@@ -74,7 +74,7 @@
       </div>
       <div class="items-center">
         <button class="btn btn-secondary"><%= link_to '編集', edit_matching_profile_path(@matching_profile) %></button>
-        <button class="btn btn-accent">    <%= link_to '退出', leave_group_path(@matching), method: :post, data: { confirm: '本当に退出しますか？' } %></button>
+        <button class="btn btn-accent"><%= link_to '退出', leave_group_path(@matching), method: :post, data: { confirm: '本当に退出しますか？' } %></button>
       </div>
     <% end %>
   </div>
