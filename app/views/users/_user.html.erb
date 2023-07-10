@@ -1,13 +1,13 @@
 <div class="card card-side shadow-xl boader border-8 m-10">
   <% if user.user_profile %>
     <div class="avatar w-1/2">
-      <div class="rounded">
+      <div class="w-72rounded">
         <%= image_tag user.user_profile.image.url%>
       </div>
     </div>
   <% else %>
-    <div class="avatar w-1/2">
-      <div class="rounded">
+    <div class="avatar">
+      <div class="w-72 rounded">
         <%= image_tag 'image_logo.png' %>
       </div>
     </div>
