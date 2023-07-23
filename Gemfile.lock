@@ -469,6 +469,7 @@ DEPENDENCIES
   jsbundling-rails
   kaminari
   listen (~> 3.3)
+  mini_magick
   open_weather_map
   pg (~> 1.1)
   puma (~> 5.0)
