@@ -1,8 +1,4 @@
-<% if message.user_id != current_user.id %>
   <div class='chat chat-start' id="message-<%= message.id %>">
-<% else %>
-  <div class='chat chat-end' id="message-<%= message.id %>">
-<% end %>
     <div>
       <div class="chat-header">
         <p><%= "#{message.user.user_profile.name}" %></p>
@@ -13,11 +9,6 @@
             <%= simple_format(message.text) %>
           </div>
         </div>
-        <% if message.user.id == current_user.id %>
-          <span class="indicator-item badge badge-sm delete-message" data-message-id="<%= message.id %>">
-            <i class="fas fa-times"></i>
-          </span>
-        <% end %>
       </div>
     </div>
   </div>

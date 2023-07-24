@@ -20,15 +20,20 @@ $(document).on('turbolinks:load', function() {
       received(data) {
         if (data.action === 'delete_message') {
           $(`#message-${data.message_id}`).remove();
-        }
-        else {
-          $('#messages').append(data.message);
-          scrollChatToBottom();
+        } else {
+          const showUser = $('#show_user').data('show_user');
+          if (data['message_user'] === showUser) {
+            $('#messages').append(data.message);
+            scrollChatToBottom();
+          } else {
+            $('#messages').append(data.messageother);
+            scrollChatToBottom();
+          }   
         }
       },
 
       speak: function(message) {
-        return this.perform('speak', {message: message});
+        return this.perform('speak', { message: message });
       },
       
       deleteMessage(messageId) {
