@@ -29,6 +29,7 @@
         </table>
       </div>
     </div>
+    <div id="show_user" data-show_user="<%= current_user.id %>"></div>
     <div class="w-full h-full">
       <div class="overflow-y-scroll h-72 rounded border border-8 border-gray-300 pl-5" id="messages" data-matching_id="<%= @matching.id %>">
         <%= render @messages %>
