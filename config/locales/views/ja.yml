@@ -7,6 +7,8 @@ ja:
     delete: '削除'
     show: '詳細'
     new: '新規作成'
+  formats:
+    default: '%Y/%m/%d %H:%M:%S'
   users:
     new:
       title: 'ユーザー登録'
