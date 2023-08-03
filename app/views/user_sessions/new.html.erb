@@ -2,15 +2,21 @@
 <div class="hero min-h-screen bg-base-200">
   <div class="hero-content flex-col">
     <div class="text-center lg:text-left">
-      <h1 class="text-5xl font-bold">ログイン</h1>
+      <h1 class="text-5xl font-bold">
+        <%= t('.title') %>
+      </h1>
     </div>
     <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
       <div class="card-body">
         <div class="form-control">
           <%= form_for :user_session, url: login_path do |f| %>
-            <%= f.label :email, class: 'block text-gray-700 text-sm font-bold mb-2' %>
+            <%= f.label :email, class: 'block text-gray-700 text-sm font-bold mb-2' do %>
+              <%= t('.email') %>
+            <% end %>
             <%= f.email_field :email, class: 'input input-bordered' %>
-            <%= f.label :password, class: 'block text-gray-700 text-sm font-bold mb-2' %>
+            <%= f.label :password, class: 'block text-gray-700 text-sm font-bold mb-2' do %>
+              <%= t('.password') %>
+            <% end %>
             <%= f.password_field :password, class: 'input input-bordered' %>
             <div class="flex justify-center mt-4">
               <%= f.submit "ログイン", class: 'btn btn-primary' %>
