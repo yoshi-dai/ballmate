@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_02_151618) do
+ActiveRecord::Schema.define(version: 2023_08_19_203309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,16 +92,16 @@ ActiveRecord::Schema.define(version: 2023_07_02_151618) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "matching_id", null: false
-    t.string "title"
-    t.text "content"
-    t.boolean "read"
-    t.datetime "read_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "visitor_id", null: false
+    t.bigint "visited_id"
+    t.string "action", default: "", null: false
+    t.boolean "checked", default: false, null: false
+    t.bigint "matching_id"
     t.index ["matching_id"], name: "index_notifications_on_matching_id"
-    t.index ["user_id"], name: "index_notifications_on_user_id"
+    t.index ["visited_id"], name: "index_notifications_on_visited_id"
+    t.index ["visitor_id"], name: "index_notifications_on_visitor_id"
   end
 
   create_table "profile_soccer_activities", force: :cascade do |t|
@@ -167,7 +167,8 @@ ActiveRecord::Schema.define(version: 2023_07_02_151618) do
   add_foreign_key "messages", "matchings"
   add_foreign_key "messages", "users"
   add_foreign_key "notifications", "matchings"
-  add_foreign_key "notifications", "users"
+  add_foreign_key "notifications", "users", column: "visited_id"
+  add_foreign_key "notifications", "users", column: "visitor_id"
   add_foreign_key "profile_soccer_activities", "favorite_soccer_activities"
   add_foreign_key "profile_soccer_activities", "user_profiles"
   add_foreign_key "profile_soccer_equipments", "soccer_equipments"
