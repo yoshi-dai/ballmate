@@ -7,6 +7,8 @@ ja:
     delete: '削除'
     show: '詳細'
     new: '新規作成'
+  formats:
+    default: '%Y/%m/%d %H:%M:%S'
   users:
     new:
       title: 'ユーザー登録'
@@ -25,6 +27,8 @@ ja:
     new:
       title: 'ログイン'
       to_register_page: '登録ページへ'
+      email: 'メールアドレス'
+      password: 'パスワード'
     create:
       success: 'ログインしました。'
       failure: 'ログインに失敗しました。'

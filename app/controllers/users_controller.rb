@@ -27,7 +27,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id # ログイン状態にする
-      redirect_to new_user_profile_path(@user), success: t('.success')
+      redirect_to new_user_profile_path, success: t('.success')
     else
       flash.now[:warning] = t('.failure')
       render :new
