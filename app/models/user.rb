@@ -6,13 +6,16 @@ class User < ApplicationRecord
   has_many :groups, through: :group_users
   has_many :matchings, through: :groups
   has_many :matching_users, dependent: :destroy
-  has_many :notifications, dependent: :destroy
   has_many :messages, dependent: :destroy
   has_one :user_profile, dependent: :destroy
+
 
   has_many :sent_chat_requests, class_name: 'ChatRequest', foreign_key: 'sender_id', dependent: :destroy
   has_many :received_chat_requests, class_name: 'ChatRequest', foreign_key: 'receiver_id', dependent: :destroy
   has_many :personal_matchings, through: :matching_users, source: :matching, class_name: 'Matching', dependent: :destroy
+
+  has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
+  has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
 
   validates :email, presence: true, uniqueness: true, length: { maximum: 255 }
   validates :password, length: { minimum: 3 }, if: -> { new_record? || changes[:password] }, confirmation: true

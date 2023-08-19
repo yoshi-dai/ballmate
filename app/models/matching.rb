@@ -7,6 +7,7 @@ class Matching < ApplicationRecord
   # has_many :requested_users, through: :chat_requests, source: :user
   has_many :received_chat_requests, class_name: 'ChatRequest', dependent: :destroy
   has_many :messages, dependent: :destroy
+  has_many :notifications, dependent: :destroy
   has_one :matching_profile, dependent: :destroy
 
   validates :name, length: { maximum: 255 }
