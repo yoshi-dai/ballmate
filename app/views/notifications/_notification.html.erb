@@ -1,15 +1,23 @@
 <div class="col-md-6 mx-auto">
   <div class="form-inline">
     <span>
-      <%= link_to user_path(notification.visitor) do %>
-        <strong><%= notification.visitor.name %></strong>
+      <% unless notification.action == 'matching_approve' %>
+        <%= link_to user_path(notification.visitor) do %>
+          <strong><%= notification.visitor.name %></strong>
+        <% end %>
+        さんが
       <% end %>
-      さんが
       <% case notification.action %>
         <% when 'follow' then %>
           <p>あなたにチャット申請を送信しました。</p>
         <% when 'approve' then %>
           <p>あなたのチャット申請を承認しました。マッチ済みユーザーを確認してみましょう！</p>
+        <% when 'matching_follow' then %>
+          <strong><%= link_to notification.matching.name , matching_profile_path(notification.matching.matching_profile) %></strong>
+          にチャット申請を送信しました。
+        <% when 'matching_approve' then %>
+          <strong><%= link_to notification.matching.name , matching_profile_path(notification.matching.matching_profile) %></strong>
+          へのチャット申請が承認されました。マッチ済みマッチングを確認してみましょう！
       <% end %>
     </span>
   </div>

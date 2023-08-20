@@ -75,5 +75,12 @@ class User < ApplicationRecord
       notification.save if notification.valid?
     end
   end
- 
+
+  def destroy_notification_chat_request!(current_user, chat_request)
+    notification = current_user.active_notifications.find_by(
+      visited_id: chat_request.receiver_id,
+      action: 'follow'
+    )
+    notification.destroy! if notification.present?
+  end
 end
