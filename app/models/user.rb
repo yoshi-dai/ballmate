@@ -58,8 +58,19 @@ class User < ApplicationRecord
     temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ?", current_user.id, chat_request.receiver_id, 'follow'])
     if temp.blank?
       notification = current_user.active_notifications.new(
-        visited_id: id,
+        visited_id: chat_request.receiver_id,
         action: 'follow'
+      )
+      notification.save if notification.valid?
+    end
+  end
+
+  def create_notification_approve_chat_request!(current_user, chat_request)
+    temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ?", current_user.id, chat_request.sender_id, 'approve'])
+    if temp.blank?
+      notification = current_user.active_notifications.new(
+        visited_id: chat_request.sender_id,
+        action: 'approve'
       )
       notification.save if notification.valid?
     end

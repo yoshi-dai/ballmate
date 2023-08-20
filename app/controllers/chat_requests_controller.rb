@@ -5,6 +5,7 @@ class ChatRequestsController < ApplicationController
 
       @chat_request = ChatRequest.new(sender_id: current_user.id, receiver_id:, status: :pending)
       if @chat_request.save
+        current_user.create_notification_chat_request!(current_user, @chat_request)
         redirect_to users_path, success: t('.success')
       else
         @users = User.where.not(id: current_user.id).includes(:user_profile)
@@ -40,6 +41,7 @@ class ChatRequestsController < ApplicationController
         matching.users << current_user
         matching.users << chat_request.sender
 
+        current_user.create_notification_approve_chat_request!(current_user, chat_request)
         redirect_to matching_path(matching.id), success: t('.success')
       else
         redirect_to users_path, worning: t('.failure')

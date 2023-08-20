@@ -1,0 +1,15 @@
+<% content_for(:title, t('.title')) %>
+<div class="min-h-screen">
+  <div class="overflow-x-auto">
+    <table class="table">
+      <div class="divider"></div> 
+      <tbody>
+        <% if @notifications.present? %>
+          <%= render @notifications %>
+        <% else %>
+          <p>通知はありません</p>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
