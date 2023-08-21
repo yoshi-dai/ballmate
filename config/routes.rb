@@ -41,4 +41,5 @@ Rails.application.routes.draw do
   resources :groups, only: %i[new create] do
     post 'leave', on: :member
   end
+  resources :notifications, only: :index
 end

@@ -5,6 +5,7 @@ class ChatRequestsController < ApplicationController
 
       @chat_request = ChatRequest.new(sender_id: current_user.id, receiver_id:, status: :pending)
       if @chat_request.save
+        current_user.create_notification_chat_request!(current_user, @chat_request)
         redirect_to users_path, success: t('.success')
       else
         @users = User.where.not(id: current_user.id).includes(:user_profile)
@@ -12,9 +13,10 @@ class ChatRequestsController < ApplicationController
         render 'users/index'
       end
     elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
-      matching_id = params[:matching_id] # マッチングID（フォームデータから取得）
-      @chat_request = ChatRequest.new(sender_id: current_user.id, matching_id:, status: :pending)
+      matching = Matching.find(params[:matching_id]) # マッチングID（フォームデータから取得）
+      @chat_request = ChatRequest.new(sender_id: current_user.id, matching_id: matching.id, status: :pending)
       if @chat_request.save
+        matching.create_notification_matching!(current_user, matching)
         redirect_to matchings_path, success: t('.success')
       else
         @matchings = Matching.where.not(user_id: current_user.id).includes(:matching_profile)
@@ -40,11 +42,13 @@ class ChatRequestsController < ApplicationController
         matching.users << current_user
         matching.users << chat_request.sender
 
+        current_user.create_notification_approve_chat_request!(current_user, chat_request)
         redirect_to matching_path(matching.id), success: t('.success')
       else
         redirect_to users_path, worning: t('.failure')
       end
     elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
+      matching = Matching.find(params[:matching_id])
       chat_request = current_user.matchings.find(params[:matching_id]).received_chat_requests.find_by(matching_id: params[:matching_id], sender_id: params[:user_id], status: 'pending')
       if chat_request
         chat_request.update(status: 'approved')
@@ -54,6 +58,7 @@ class ChatRequestsController < ApplicationController
 
         chat_request.destroy!
 
+        matching.create_notification_approve_matching!(current_user, matching)
         redirect_to matching_profile_path(group.matching.matching_profile.id), success: t('.success')
       else
         redirect_to matchings_path, warning: t('.failure')
@@ -66,14 +71,17 @@ class ChatRequestsController < ApplicationController
       @chat_request = current_user.sent_chat_requests.find_by(receiver_id: params[:user_id], status: 'pending')
       if @chat_request
         @chat_request.destroy!
+        current_user.destroy_notification_chat_request!(current_user, @chat_request)
         redirect_to users_path, success: t('.success')
       else
         redirect_to users_path, warning: t('.failure')
       end
     elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
+      matching = Matching.find(params[:matching_id])
       @chat_request = current_user.sent_chat_requests.find_by(matching_id: params[:matching_id], status: 'pending')
       if @chat_request
         @chat_request.destroy!
+        matching.destroy_notifications_matching!(current_user, matching)
         redirect_to matchings_path, success: t('.success')
       else
         redirect_to matchings_path, warning: t('.failure')

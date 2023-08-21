@@ -1,0 +1,28 @@
+<div class="col-md-6 mx-auto">
+  <div class="form-inline mx-3">
+    <span>
+      <% unless notification.action == 'matching_approve' && current_user == notification.visitor.name %>
+        <%= link_to user_path(notification.visitor) do %>
+          <strong><%= notification.visitor.name %></strong>
+        <% end %>
+        さんが
+      <% end %>
+      <% case notification.action %>
+        <% when 'follow' then %>
+          あなたにチャット申請を送信しました。
+        <% when 'approve' then %>
+          あなたのチャット申請を承認しました。マッチ済みユーザーを確認してみましょう！
+        <% when 'matching_follow' then %>
+          <strong><%= link_to notification.matching.name , matching_profile_path(notification.matching.matching_profile) %></strong>
+          にチャット申請を送信しました。
+        <% when 'matching_approve' then %>
+          <strong><%= link_to notification.matching.name , matching_profile_path(notification.matching.matching_profile) %></strong>
+          へのチャットを承認されました。マッチ済みマッチングを確認してみましょう！
+      <% end %>
+    </span>
+  </div>
+  <div class="small text-muted text-right">
+    <%= time_ago_in_words(notification.created_at).upcase %>
+  </div>
+  <hr>
+</div>

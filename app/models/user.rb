@@ -6,13 +6,16 @@ class User < ApplicationRecord
   has_many :groups, through: :group_users
   has_many :matchings, through: :groups
   has_many :matching_users, dependent: :destroy
-  has_many :notifications, dependent: :destroy
   has_many :messages, dependent: :destroy
   has_one :user_profile, dependent: :destroy
+
 
   has_many :sent_chat_requests, class_name: 'ChatRequest', foreign_key: 'sender_id', dependent: :destroy
   has_many :received_chat_requests, class_name: 'ChatRequest', foreign_key: 'receiver_id', dependent: :destroy
   has_many :personal_matchings, through: :matching_users, source: :matching, class_name: 'Matching', dependent: :destroy
+
+  has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
+  has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
 
   validates :email, presence: true, uniqueness: true, length: { maximum: 255 }
   validates :password, length: { minimum: 3 }, if: -> { new_record? || changes[:password] }, confirmation: true
@@ -49,5 +52,35 @@ class User < ApplicationRecord
   def leave_group(group)
     group_user = group_users.find_by(group_id: group.id)
     group_user.destroy!
+  end
+
+  def create_notification_chat_request!(current_user, chat_request)
+    temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ?", current_user.id, chat_request.receiver_id, 'follow'])
+    if temp.blank?
+      notification = current_user.active_notifications.new(
+        visited_id: chat_request.receiver_id,
+        action: 'follow'
+      )
+      notification.save if notification.valid?
+    end
+  end
+
+  def create_notification_approve_chat_request!(current_user, chat_request)
+    temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ?", current_user.id, chat_request.sender_id, 'approve'])
+    if temp.blank?
+      notification = current_user.active_notifications.new(
+        visited_id: chat_request.sender_id,
+        action: 'approve'
+      )
+      notification.save if notification.valid?
+    end
+  end
+
+  def destroy_notification_chat_request!(current_user, chat_request)
+    notification = current_user.active_notifications.find_by(
+      visited_id: chat_request.receiver_id,
+      action: 'follow'
+    )
+    notification.destroy! if notification.present?
   end
 end
