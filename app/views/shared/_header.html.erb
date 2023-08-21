@@ -1,6 +1,6 @@
 <header class="sticky top-0 z-50 bg-white">
-  <div class="navbar">
-    <div class="navbar-start">
+  <div class="navbar bg-base-100">
+    <div class="flex-1">
       <div class="dropdown">
         <label tabindex="0" class="btn btn-success btn-lg m-1 text-4xl font-bold normal-case">BallMate</label>
         <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-white rounded-box w-52">
@@ -20,15 +20,18 @@
           <% end %>
         </ul>
       </div>
-      <% if current_user.present? && current_user.user_profile %>
-        <div class="drawer drawer-end">
+    </div>
+    <% if current_user.present? && current_user.user_profile %>
+      <div class="flex-none">
+        <ul class="menu menu-horizontal px-1">
+          <div class="drawer">
           <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
           <div class="drawer-content">
             <label for="my-drawer-4" class="drawer-button btn btn-ghost"><i class="fa-regular fa-futbol fa-flip-both fa-2xl"></i></label>
           </div> 
           <div class="drawer-side">
             <label for="my-drawer-4" class="drawer-overlay"></label>
-            <ul class="menu p-4 w-80 bg-white rounded-l-lg text-base-content">
+            <ul class="menu p-4 w-80 bg-white rounded-r-lg text-base-content">
               <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'ユーザーを捜す', users_path %></button>
               <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'マッチング済みユーザー', matched_users_path %></button>
               <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '申請中ユーザー', requested_users_path %></button>
@@ -42,7 +45,18 @@
               <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'グループを作成する', new_group_path %></button
           </div>
         </div>
-      <% end %>
-    </div>
+          <li><%= link_to notifications_path do %>
+            <% if unchecked_notifications.any? %>
+              <div class="indicator">
+                <span class="indicator-item"><i class="fa-solid fa-circle fa-xs" style="color: #66cc8c;"></i></i></span> 
+                <i class="fa-regular fa-bell fa-2xl"></i>
+              </div>
+            <% else %>
+              <i class="fa-regular fa-bell fa-2xl"></i>
+            <% end %>
+          <% end %></li>
+        </ul>
+      </div>
+    <% end %>
   </div>
 </header>
