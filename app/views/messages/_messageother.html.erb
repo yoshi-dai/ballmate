@@ -1,14 +1,10 @@
-  <div class='chat chat-start' id="message-<%= message.id %>">
-    <div>
-      <div class="chat-header">
-        <p><%= "#{message.user.user_profile.name}" %></p>
-      </div>
-      <div class="indicator">
-        <div class='chat-bubble chat-bubble-primary'>
-          <div class='message'>
-            <%= simple_format(message.text) %>
-          </div>
-        </div>
-      </div>
+<div class='chat chat-start' id="message-<%= message.id %>">
+  <div>
+    <div class="chat-header">
+      <p><%= "#{message.user.user_profile.name}" %></p>
+    </div>
+    <div class='chat-bubble chat-bubble-primary message'>
+      <p><%= message.text %></p>
     </div>
   </div>
+</div>

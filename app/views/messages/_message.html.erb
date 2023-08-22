@@ -8,10 +8,8 @@
         <p><%= "#{message.user.user_profile.name}" %></p>
       </div>
       <div class="indicator">
-        <div class='chat-bubble chat-bubble-primary'>
-          <div class='message'>
-            <%= simple_format(message.text) %>
-          </div>
+        <div class='chat-bubble chat-bubble-primary message'>
+          <p class='w-full'><%= message.text %></p>
         </div>
         <% if message.user.id == current_user.id %>
           <span class="indicator-item badge badge-sm delete-message" data-message-id="<%= message.id %>">
