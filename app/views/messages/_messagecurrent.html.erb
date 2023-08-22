@@ -5,10 +5,8 @@
         <p><%= "#{message.user.user_profile.name}" %></p>
       </div>
       <div class="indicator">
-        <div class='chat-bubble chat-bubble-primary'>
-          <div class='message'>
-            <%= simple_format(message.text) %>
-          </div>
+        <div class='chat-bubble chat-bubble-primary message'>
+          <p><%= message.text %></p>
         </div>
         <span class="indicator-item badge badge-sm delete-message" data-message-id="<%= message.id %>">
           <i class="fas fa-times"></i>
