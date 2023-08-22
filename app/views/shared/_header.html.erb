@@ -1,5 +1,5 @@
 <header class="sticky top-0 z-50 bg-white">
-  <div class="navbar bg-base-100">
+  <div class="navbar flex bg-base-100">
     <div class="flex-1">
       <div class="dropdown">
         <label tabindex="0" class="btn btn-success btn-lg m-1 text-4xl font-bold normal-case">BallMate</label>
@@ -23,28 +23,7 @@
     </div>
     <% if current_user.present? && current_user.user_profile %>
       <div class="flex-none">
-        <ul class="menu menu-horizontal px-1">
-          <div class="drawer">
-          <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
-          <div class="drawer-content">
-            <label for="my-drawer-4" class="drawer-button btn btn-ghost"><i class="fa-regular fa-futbol fa-flip-both fa-2xl"></i></label>
-          </div> 
-          <div class="drawer-side">
-            <label for="my-drawer-4" class="drawer-overlay"></label>
-            <ul class="menu p-4 w-80 bg-white rounded-r-lg text-base-content">
-              <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'ユーザーを捜す', users_path %></button>
-              <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'マッチング済みユーザー', matched_users_path %></button>
-              <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '申請中ユーザー', requested_users_path %></button>
-              <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '承認待ちユーザー', approval_pending_users_path %></button>
-                <div class="divider -my-0.5"></div> 
-              <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'マッチングを探す', matchings_path %></button>
-              <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'マッチ済みマッチング', matched_matchings_path %></button>
-              <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '申請中マッチング', requested_matchings_path %></button>
-              <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '承認待ちユーザー', approval_pending_matchings_path %></button>
-                <div class="divider -my-0.5"></div> 
-              <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'グループを作成する', new_group_path %></button
-          </div>
-        </div>
+        <ul class="menu menu-horizontal px-1 flex justify-center items-center h-full">
           <li><%= link_to notifications_path do %>
             <% if unchecked_notifications.any? %>
               <div class="indicator">
@@ -55,6 +34,28 @@
               <i class="fa-regular fa-bell fa-2xl"></i>
             <% end %>
           <% end %></li>
+          <li><div class="drawer">
+            <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+            <div class="drawer-content">
+              <label for="my-drawer-4" class="drawer-button btn btn-ghost"><i class="fa-regular fa-futbol fa-flip-both fa-2xl"></i></label>
+            </div> 
+            <div class="drawer-side">
+              <label for="my-drawer-4" class="drawer-overlay"></label>
+              <ul class="menu p-4 w-80 bg-white rounded-r-lg text-base-content">
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'ユーザーを捜す', users_path %></button>
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'マッチング済みユーザー', matched_users_path %></button>
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '申請中ユーザー', requested_users_path %></button>
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '承認待ちユーザー', approval_pending_users_path %></button>
+                  <div class="divider -my-0.5"></div> 
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'マッチングを探す', matchings_path %></button>
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'マッチ済みマッチング', matched_matchings_path %></button>
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '申請中マッチング', requested_matchings_path %></button>
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '承認待ちユーザー', approval_pending_matchings_path %></button>
+                  <div class="divider -my-0.5"></div> 
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'グループを作成する', new_group_path %></button>
+              </ul>
+            </div>
+          </div></li>
         </ul>
       </div>
     <% end %>
