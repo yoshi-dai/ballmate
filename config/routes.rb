@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root 'static_pages#top'
   get 'about', to: 'static_pages#about'
   get 'use', to: 'static_pages#use'
+  get 'privacypolicy', to: 'static_pages#privacypolicy'
 
   get 'login', to: 'user_sessions#new'
   post 'login', to: 'user_sessions#create'
