@@ -16,7 +16,7 @@ class UserProfilesController < ApplicationController
     if @user_profile.save
       redirect_to user_profile_path(@user_profile), success: t('.success')
     else
-      flash.now[:danger] = t('.failure')
+      flash.now[:warning] = t('.failure')
       render :new
     end
   end
