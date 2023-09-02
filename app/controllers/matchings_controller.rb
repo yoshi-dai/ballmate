@@ -66,7 +66,7 @@ class MatchingsController < ApplicationController
   private
 
   def fetch_weather_data(place, date = nil)
-    # これは、天気情報を取得するためのメソッド(仮)です
+    # これは、天気情報を取得するためのメソッド(仮)
     latitude, longitude = geocode(place, ENV.fetch('GOOGLE_MAPS_API_KEY', nil))
     return nil unless latitude && longitude
 
