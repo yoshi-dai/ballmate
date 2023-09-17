@@ -5,14 +5,7 @@
         <label tabindex="0" class="btn btn-success btn-lg m-1 text-4xl font-bold normal-case">BallMate</label>
         <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-white rounded-box w-52">
           <% if current_user.present? %>
-            <% if current_user.present? && current_user.user_profile.present? %>
-              <button class="btn btn-outline"><%= link_to 'プロフィール', user_profile_path(current_user.id) %></button>
-            <% else %>
-              <button class="btn btn-outline"><%= link_to 'プロフィールを作成', new_user_profile_path %></button>
-            <% end %>
             <button class="btn btn-outline"><%= link_to 'トップページ', root_path %></button>
-            <button class="btn btn-outline"><%= link_to 'ログアウト', logout_path, method: :delete, data: { confirm: '本当にログアウトしますか？' } %></button>
-            <button class="btn btn-outline btn-accent"><%= link_to "退会",user_path(current_user.id), method: :delete, "data-confirm" => "本当に退会しますか？" %></button>
           <% else %>
             <button class="btn btn-primary"><%= link_to 'ログイン', login_path %></button>
             <button class="btn btn-neutral"><li><%= link_to 'ユーザー登録', new_user_path %></li></button>
@@ -24,24 +17,38 @@
     <% if current_user.present? && current_user.user_profile %>
       <div class="flex-none">
         <ul class="menu menu-horizontal px-1 flex justify-center items-center h-full">
+          <li><div class="dropdown dropdown-bottom dropdown-end">
+            <label tabindex="0">
+              <div class="avatar">
+                <div class="w-14 mask mask-squircle">
+                  <%= image_tag current_user.user_profile.image.url%>
+                </div>
+              </div>
+            </label>
+            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-white rounded-box w-52">
+              <button class="btn btn-outline"><%= link_to 'プロフィール', user_profile_path(current_user.id) %></button>
+              <button class="btn btn-outline"><%= link_to 'ログアウト', logout_path, method: :delete, data: { confirm: '本当にログアウトしますか？' } %></button>
+              <button class="btn btn-outline btn-accent"><%= link_to "退会",user_path(current_user.id), method: :delete, "data-confirm" => "本当に退会しますか？" %></button>
+            </ul>
+          </div></li>
           <li><%= link_to notifications_path do %>
             <% if unchecked_notifications.any? %>
               <div class="indicator">
-                <span class="indicator-item"><i class="fa-solid fa-circle fa-xs" style="color: #66cc8c;"></i></i></span> 
-                <i class="fa-regular fa-bell fa-2xl"></i>
+                <span class="indicator-item"><i class="fa-solid fa-circle fa-sm" style="color: #66cc8c;"></i></i></span> 
+                <i class="fa-regular fa-bell fa-3x"></i>
               </div>
             <% else %>
-              <i class="fa-regular fa-bell fa-2xl"></i>
+              <i class="fa-regular fa-bell fa-3x"></i>
             <% end %>
           <% end %></li>
-          <li><div class="drawer">
-            <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+          <li><div class="drawer drawer-end">
+            <input id="my-drawer" type="checkbox" class="drawer-toggle" />
             <div class="drawer-content">
-              <label for="my-drawer-4" class="drawer-button btn btn-ghost"><i class="fa-regular fa-futbol fa-flip-both fa-2xl"></i></label>
-            </div> 
+              <label for="my-drawer"><i class="fa-regular fa-futbol fa-flip-both fa-3x"></i></label>
+            </div>
             <div class="drawer-side">
-              <label for="my-drawer-4" class="drawer-overlay"></label>
-              <ul class="menu p-4 w-80 bg-white rounded-r-lg text-base-content">
+              <label for="my-drawer" class="drawer-overlay"></label>
+              <ul class="menu p-4 bg-white rounded-l-lg mt-24">
                 <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'ユーザーを捜す', users_path %></button>
                 <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'マッチング済みユーザー', matched_users_path %></button>
                 <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '申請中ユーザー', requested_users_path %></button>
