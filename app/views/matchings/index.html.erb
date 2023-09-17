@@ -3,12 +3,24 @@
   <div class="overflow-x-auto">
     <table class="table">
       <%= render 'matchings/search', q: @q, url: (action_name == 'index' ? matchings_path : send("#{action_name}_path")) %>
-      <div class="divider"></div> 
+      <div class="divider"></div>
       <tbody>
         <% if @matchings.present? %>
-          <%= render @matchings %>
+          <% @matchings.each_slice(2) do |matching_pair| %>
+            <tr>
+              <% matching_pair.each do |matching| %>
+                <td>
+                  <%= render matching %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
         <% else %>
-          <p><%= 'マッチングは存在しません' %></p>
+          <tr>
+            <td colspan="2">
+              <p><%= 'マッチングは存在しません' %></p>
+            </td>
+          </tr>
         <% end %>
       </tbody>
       <%= paginate @matchings %>

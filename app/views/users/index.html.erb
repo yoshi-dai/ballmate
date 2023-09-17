@@ -6,12 +6,24 @@
       <div class="divider"></div> 
       <tbody>
         <% if @users.present? %>
-          <%= render @users %>
+          <% @users.each_slice(2) do |group| %>
+            <tr>
+              <% group.each do |user| %>
+                <td>
+                  <%= render user %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
         <% else %>
-          <p><%= 'ユーザーはいません' %></p>
+          <tr>
+            <td colspan="2">
+              <p class="text-xl"><%= 'ユーザーはいません' %></p>
+            </td>
+          </tr>
         <% end %>
       </tbody>
-      <%= paginate @users %>
     </table>
   </div>
+  <%= paginate @users %>
 </div>
