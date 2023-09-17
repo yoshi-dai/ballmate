@@ -17,7 +17,7 @@
     <% if current_user.present? && current_user.user_profile %>
       <div class="flex-none">
         <ul class="menu menu-horizontal px-1 flex justify-center items-center h-full">
-          <li class="mx-5"><div class="dropdown dropdown-bottom dropdown-end">
+          <li class="mx-1 sm:mx-5"><div class="dropdown dropdown-bottom dropdown-end">
             <label tabindex="0">
               <div class="avatar">
                 <div class="w-14 mask mask-squircle">
@@ -31,7 +31,7 @@
               <button class="btn btn-outline btn-accent"><%= link_to "退会",user_path(current_user.id), method: :delete, "data-confirm" => "本当に退会しますか？" %></button>
             </ul>
           </div></li>
-          <li class="mx-5"><%= link_to notifications_path do %>
+          <li class="mx-1 sm:mx-5"><%= link_to notifications_path do %>
             <% if unchecked_notifications.any? %>
               <div class="indicator">
                 <span class="indicator-item"><i class="fa-solid fa-circle fa-sm" style="color: #66cc8c;"></i></i></span> 
@@ -41,14 +41,14 @@
               <i class="fa-regular fa-bell fa-3x"></i>
             <% end %>
           <% end %></li>
-          <li class="mx-5"><div class="drawer drawer-end">
+          <li class="mx-1 sm:mx-5"><div class="drawer drawer-end">
             <input id="my-drawer" type="checkbox" class="drawer-toggle" />
             <div class="drawer-content">
               <label for="my-drawer"><i class="fa-regular fa-futbol fa-flip-both fa-3x"></i></label>
             </div>
             <div class="drawer-side">
               <label for="my-drawer" class="drawer-overlay"></label>
-              <ul class="menu p-4 bg-white rounded-l-lg mt-24">
+              <ul class="menu p-4 w-80 bg-white rounded-l-lg mt-24 text-base-content">
                 <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'ユーザーを捜す', users_path %></button>
                 <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'マッチング済みユーザー', matched_users_path %></button>
                 <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '申請中ユーザー', requested_users_path %></button>
