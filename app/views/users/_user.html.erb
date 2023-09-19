@@ -9,13 +9,13 @@
       <% if current_user.personal_matchings.any? { |matching| matching.users.exists?(id: user.id) } %> <!-- 他の方法模索中 -->
         <% matching = current_user.personal_matchings.find { |matching| matching.users.exists?(id: user.id) } %>
         <div class="w-1/2">
-          <p class="text-3xl md:text-4xl w-1/2 text-center"><%= link_to user.user_profile.name, matching_path(matching) %></p>
+          <p class="text-3xl md:text-4xl text-center"><%= link_to user.user_profile.name, matching_path(matching) %></p>
           <p class="text-s sm:text-xl text-center"> age: <%= user.user_profile.age %></p>
         </div>
       <% else %>
         <div class="w-1/2">
-          <p class="flex-auto text-xl sm:text-2xl xl:text-4xl text-center"><%= link_to user.user_profile.name, user_path(user) %></p>
-          <p class="flex-auto text-s sm:text-xl text-center"> age: <%= user.user_profile.age %></p>
+          <p class="text-xl sm:text-2xl xl:text-4xl text-center"><%= link_to user.user_profile.name, user_path(user) %></p>
+          <p class="text-s sm:text-xl text-center"> age: <%= user.user_profile.age %></p>
         </div>
       <% end %>
       <div class="card-actions w-1/3 justify-self-end">
