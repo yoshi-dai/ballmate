@@ -2,7 +2,9 @@
 <div class="min-h-screen">
   <div class="overflow-x-auto">
     <table class="table">
-      <%= render 'users/search', q: @q, url: (action_name == 'index' ? users_path : send("#{action_name}_path")) %>
+      <div class="ml-3">
+        <%= render 'users/search', q: @q, url: (action_name == 'index' ? users_path : send("#{action_name}_path")) %>
+      </div>
       <div class="divider"></div> 
       <tbody>
         <% if @users.present? %>

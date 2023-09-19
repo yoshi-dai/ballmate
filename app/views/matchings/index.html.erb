@@ -2,7 +2,9 @@
 <div class="min-h-screen">
   <div class="overflow-x-auto">
     <table class="table">
-      <%= render 'matchings/search', q: @q, url: (action_name == 'index' ? matchings_path : send("#{action_name}_path")) %>
+      <div class="ml-3">
+        <%= render 'matchings/search', q: @q, url: (action_name == 'index' ? matchings_path : send("#{action_name}_path")) %>
+      </div>
       <div class="divider"></div>
       <tbody>
         <% if @matchings.present? %>
