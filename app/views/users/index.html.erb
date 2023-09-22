@@ -2,16 +2,30 @@
 <div class="min-h-screen">
   <div class="overflow-x-auto">
     <table class="table">
-      <%= render 'users/search', q: @q, url: (action_name == 'index' ? users_path : send("#{action_name}_path")) %>
+      <div class="ml-3">
+        <%= render 'users/search', q: @q, url: (action_name == 'index' ? users_path : send("#{action_name}_path")) %>
+      </div>
       <div class="divider"></div> 
       <tbody>
         <% if @users.present? %>
-          <%= render @users %>
+          <% @users.each_slice(2) do |group| %>
+            <tr>
+              <% group.each do |user| %>
+                <td>
+                  <%= render user %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
         <% else %>
-          <p><%= 'ユーザーはいません' %></p>
+          <tr>
+            <td colspan="2">
+              <p class="text-xl"><%= 'ユーザーはいません' %></p>
+            </td>
+          </tr>
         <% end %>
       </tbody>
-      <%= paginate @users %>
     </table>
   </div>
+  <%= paginate @users %>
 </div>
