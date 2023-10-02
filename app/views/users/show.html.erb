@@ -1,65 +1,84 @@
 <% content_for(:title, t('.title')) %>
-<div class="hero min-h-screen bg-base-200">
-  <div class="hero-content flex-col lg:flex-row">
-    <div class="avatar">
-      <div class="w-72 rounded-lg shadow-2xl">
-        <%= image_tag @user.user_profile.image.url %>
+<div class="hero min-h-screen">
+  <div class='hero-content flex-col md:grid grid-cols-5'>
+    <div class='col-span-2 grid grid-cols-4 grid-rows-5'>
+      <div class='bg-white col-span-4 row-span-4 justify-self-center self-center'>
+        <div class="avatar">
+          <div class="w-72 rounded-lg shadow-2xl">
+            <%= image_tag @user.user_profile.image.url %>
+          </div>
+        </div>
       </div>
+      <div class='col-span-4 row-span-1 grid grid-cols-5 place-items-center border border-4 border-green-800 rounded-lg shadow-2xl'>
+          <div class='col-span-3 text-lg md:text-2xl'>
+            <p><%= @user.user_profile.name %></p>
+          </div>
+          <div class='col-span-2 text-lg'>
+            <p>age: <%= @user.user_profile.position %></p>
+          </div>
+        </div>
     </div>
-    <div class="overflow-x-auto">
-      <table class="table table-zebra">
-        <tbody>
-          <tr>
-            <th scope="row"><%= t(UserProfile.human_attribute_name(:name)) %></th>
-            <td><%= @user.user_profile.name %></td>
-          </tr>
-          <!-- row2 -->
-          <tr>
-            <th scope="row"><%= t(UserProfile.human_attribute_name(:favorite_player)) %></th>
-            <td><%= @user.user_profile.favorite_player %></td>
-          </tr>
-          <!-- row3 -->
-            <th scope="row"><%= t(UserProfile.human_attribute_name(:position)) %></th>
-            <td><%= @user.user_profile.position %></td>
-          </tr>
-          <!-- row4 -->
-            <th scope="row"><%= t(UserProfile.human_attribute_name(:role_in_team)) %></th>
-            <td><%= @user.user_profile.role_in_team %></td>
-          </tr>
-          <!-- row5 -->
-            <th scope="row"><%= t(UserProfile.human_attribute_name(:age)) %></th>
-            <td><%= @user.user_profile.age %></td>
-          </tr>
-          <!-- row6 -->
-            <th scope="row"><%= t(UserProfile.human_attribute_name(:favorite_place)) %></th>
-            <td><%= @user.user_profile.favorite_place %></td>
-          </tr>
-          <!-- row7 -->
-            <th scope="row"><%= t(UserProfile.human_attribute_name(:soccer_equipments)) %></th>
-            <td>
-              <% @user.user_profile.soccer_equipments.each do |equipment| %>
-                <%= equipment.name %>
-              <% end %>
-            </td>
-          </tr>
-          <!-- row8 -->
-            <th scope="row"><%= t(UserProfile.human_attribute_name(:available_day_of_week)) %></th>
-            <td><%= @user.user_profile.available_day_of_week %></td>
-          </tr>
-          <!-- row9 -->
-            <th scope="row"><%= t(UserProfile.human_attribute_name(:favorite_soccer_activities)) %></th>
-            <td>
+    <div class='col-span-3 w-96 md:w-full h-full border border-4 border-green-700 rounded-lg shadow-2xl text-xs md:text-base'>
+        <div class='grid grid-cols-4 grid-rows-5 h-2/3'>
+          <div class='col-span-1 row-span-1 text-center place-self-center font-bold'>
+            <p><%= t(UserProfile.human_attribute_name(:position)) %></p>
+          </div>
+          <div class='col-start-2 col-span-3 row-span-1 self-center'>
+            <p><%= @user.user_profile.position %></p>
+          </div>
+          <div class='col-span-1 row-span-1 place-self-center font-bold'>
+            <p><%= t(UserProfile.human_attribute_name(:role_in_team)) %></p>
+          </div>
+          <div class='col-start-2 col-span-3 row-span-1 self-center'>
+            <p><%= @user.user_profile.role_in_team %></p>
+          </div>
+          <div class='col-span-1 row-span-1 place-self-center font-bold'>
+            <p><%= t(UserProfile.human_attribute_name(:favorite_player)) %></p>
+          </div>
+          <div class='col-start-2 col-span-3 row-span-1 self-center'>
+            <p><%= @user.user_profile.favorite_player %></p>
+          </div>
+          <div class='col-span-1 row-span-1 place-self-center font-bold'>
+            <p><%= t(UserProfile.human_attribute_name(:favorite_place)) %></p>
+          </div>
+          <div class='col-start-2 col-span-3 row-span-1 self-center'>
+            <p><%= @user.user_profile.favorite_place %></p>
+          </div>
+          <div class='col-span-1 row-span-1 place-self-center font-bold'>
+            <p><%= t(UserProfile.human_attribute_name(:available_day_of_week)) %></p>
+          </div>
+          <div class='col-start-2 col-span-1 row-span-1 self-center'>
+            <p><%= @user.user_profile.available_day_of_week %></p>
+          </div>
+          <div class='col-start-3 col-span-1 row-start-5  row-span-1 place-self-center font-bold'>
+            <p><%= t(UserProfile.human_attribute_name(:available_time)) %></p>
+          </div>
+          <div class='col-start-4 col-span-1 row-start-5 row-span-1 self-center'>
+            <p><%= @user.user_profile.available_time %></p>
+          </div>
+        </div>
+        <div class='grid grid-cols-4 grid-rows-2 h-1/3'>
+          <div class='col-span-1 row-span-1 place-self-center font-bold'>
+            <p><%= t(FavoriteSoccerActivity.human_attribute_name(:soccer_type)) %></p>
+          </div>
+          <div class='col-span-3 row-span-1 self-center'>
+            <p>
               <% @user.user_profile.favorite_soccer_activities.each do |activity| %>
                 <%= activity.soccer_type %>
               <% end %>
-            </td>
-          </tr>
-          <!-- row10 -->
-            <th scope="row"><%= t(UserProfile.human_attribute_name(:available_time)) %></th>
-            <td><%= @user.user_profile.available_time %></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+            </p>
+          </div>
+          <div class='col-span-1 row-span-1 place-self-center font-bold'>
+            <p><%= t(SoccerEquipment.human_attribute_name(:name)) %></p>
+          </div>
+          <div class='col-span-3 row-span-1 self-center'>
+            <p>
+              <% @user.user_profile.soccer_equipments.each do |equipment| %>
+                <%= equipment.name %>
+              <% end %>
+            </p>
+          </div>
+        </div>
+      </div>
   </div>
 </div>
