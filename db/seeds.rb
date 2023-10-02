@@ -19,10 +19,4 @@ SoccerEquipment.create(name: 'トレーニングシューズ')
 SoccerEquipment.create(name: 'レガース')
 SoccerEquipment.create(name: 'マーカー')
 SoccerEquipment.create(name: 'ビブス')
-
-User.create(
-  email: 'admin@example.com',
-  password: 'adminpassword',
-  password_confirmation: 'adminpassword',
-  role: 1
 )
