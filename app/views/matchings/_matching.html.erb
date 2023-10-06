@@ -1,25 +1,24 @@
-
-<div class="card card-side max-w-2xl flex flex-col shadow-xl border-8 border-green-500">
+<div class="card card-side max-w-lg md:max-w-full flex flex-col shadow-xl border-8 border-green-500">
   <div class="flex h-full w-full">
     <div class="flex flex-col">
-    <div class="avatar border-2 ml-2 mt-2 rounded">
-      <div class="w-40 sm:w-60 rounded">
-        <%= image_tag matching.matching_profile.image_url %>
+      <div class="avatar border-2 ml-2 mt-2 rounded">
+        <div class="w-40 lg:w-60 h-40 lg:h-60 rounded">
+          <%= image_tag matching.matching_profile.image_url %>
+        </div>
       </div>
+      <p class="my-1 text-base lg:text-xl font-bold text-center hover:underline"><%= link_to matching.name, matching_profile_path(matching.matching_profile) %></p>
+      <p class="my-1 text-sm lg:text-lg font-bold text-center hover:underline"><%= link_to matching.group.users.count, matching_having_users_path(matching_id: matching.id) %>人</p>
     </div>
-    <p class="my-1 text-sm md:text-lg font-bold text-center"><%= link_to matching.name, matching_profile_path(matching.matching_profile) %></p>
-    <p class="my-1 text-sm md:text-lg font-bold text-center"><%= link_to matching.group.users.count, matching_having_users_path(matching_id: matching.id) %>人</p>
-    </div>
-    <div class="m-2 ml-4">
-      <div class="h-full p-2 w-60 lg:w-96 grid grid-cols-1 grid-rows-4 border-2 rounded text-center items-center">
-        <p class="text-xl md:text-3xl font-bold row-span-1">
+    <div class="m-2 ml-4 w-full">
+      <div class="h-full p-2 grid grid-cols-1 grid-rows-4 border-2 rounded text-center items-center">
+        <p class="text-lg lg:text-3xl font-bold row-span-1">
           <% if matching.date %>
             <%= matching.date.strftime("%m月%d日") %>
           <% else %>
               date: 未定
           <% end %>
         </p>
-        <p class="mb-3 text-xl md:text-3xl font-bold row-span-1">
+        <p class="mb-3 text-lg lg:text-3xl font-bold row-span-1">
           <% if matching.place %>
             @<%= matching.place %>
           <% else %>
@@ -29,7 +28,7 @@
         <% unless matching.group.users.exists?(current_user.id)%>
           <p class="text-xs md:text-lg font-bold row-span-2">
             <% if matching.matching_profile.short_message %>
-              <%= matching.matching_profile.short_message =%>
+              <%= matching.matching_profile.short_message %>
             <% else %>
               メッセージ未設定
             <% end %>
@@ -38,32 +37,30 @@
       </div>
     </div>
   </div>
-  <div class="w-full grid grid-cols-3">
-    <div class="invisible">
-    </div>
-    <div class="card-actions justify-self-center mb-2">
-      <% if current_user.sent_chat_requests.exists?(matching_id: matching.id, status: 'pending') %>
-        <%= button_to 'キャンセル', cancel_chat_request_path(matching_id: matching.id), method: :patch, class: 'btn btn-neutral' %>
-      <% elsif matching.group.users.exists?(current_user.id) && matching.chat_requests.exists?(matching_id: matching.id, status: 'pending') %>
-        <div class="overflow-auto h-32">
-          <% matching.chat_requests.each do |chat_request| %>
-            <div class="flex">
-              <p class="font-bold"><%= link_to chat_request.sender.user_profile.name, user_path(chat_request.sender) %></p>
-              <%= button_to '承認', approve_chat_request_path(matching_id: matching.id, user_id: chat_request.sender.id), method: :patch, class: 'btn btn-secondary' %>
-              <%= button_to '拒否', reject_chat_request_path(matching_id: matching.id, user_id: chat_request.sender.id), method: :patch, class: 'btn btn-accent' %>
-            </div>
-          <% end %>
-        </div>
-      <% elsif matching.group.users.exists?(current_user.id) %>
-        <!-- グループマッチングに所属する場合は何も表示しない -->
-      <% else %>
-        <%= form_with(model: @chat_request, url: chat_requests_path) do |form| %>
-          <%= form.hidden_field :matching_id, value: matching.id %>
-            <%= form.submit '申請', class: 'btn btn-primary' %>
-          <% end %>
+</div>
+<div class="max-w-lg md:max-w-full grid">
+  <div class="card-actions justify-self-center">
+    <% if current_user.sent_chat_requests.exists?(matching_id: matching.id, status: 'pending') %>
+      <%= button_to 'キャンセル', cancel_chat_request_path(matching_id: matching.id), method: :patch, class: 'btn btn-neutral' %>
+    <% elsif matching.group.users.exists?(current_user.id) && matching.chat_requests.exists?(matching_id: matching.id, status: 'pending') %>
+      <div class='max-w-full'>
+        <p class='place-self-center whitespace-nowrap font-bold'>承認待ちユーザー</p>
+        <div class="overflow-x-auto font-bold flex h-16 border rounded">
+        <% matching.chat_requests.each do |chat_request| %>
+          <div class="flex px-1 place-self-center">
+            <p class="place-self-center pr-3 font-bold text-lg hover:underline"><%= link_to chat_request.sender.user_profile.name, user_path(chat_request.sender) %></p>
+            <%= button_to '承認', approve_chat_request_path(matching_id: matching.id, user_id: chat_request.sender.id), method: :patch, class: 'btn btn-secondary' %>
+            <%= button_to '拒否', reject_chat_request_path(matching_id: matching.id, user_id: chat_request.sender.id), method: :patch, class: 'btn btn-accent' %>
+          </div>
+        <% end %>
+      </div>
+    <% elsif matching.group.users.exists?(current_user.id) %>
+      <!-- グループマッチングに所属する場合は何も表示しない -->
+    <% else %>
+      <%= form_with(model: @chat_request, url: chat_requests_path) do |form| %>
+        <%= form.hidden_field :matching_id, value: matching.id %>
+        <%= form.submit '申請', class: 'btn btn-primary' %>
       <% end %>
-    </div>
-    <div class="invisible">
-    </div>
+    <% end %>
   </div>
 </div>
