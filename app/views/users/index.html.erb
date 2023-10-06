@@ -1,17 +1,15 @@
 <% content_for(:title, t('.title')) %>
-<div class="min-h-screen">
+<div class="min-h-screen container mx-auto">
   <div class="overflow-x-auto">
-    <table class="table">
-      <div class="ml-3">
-        <%= render 'users/search', q: @q, url: (action_name == 'index' ? users_path : send("#{action_name}_path")) %>
-      </div>
+    <%= render 'users/search', q: @q, url: (action_name == 'index' ? users_path : send("#{action_name}_path")) %>
       <div class="divider"></div> 
+    <table class="table">
       <tbody>
         <% if @users.present? %>
           <% @users.each_slice(2) do |group| %>
-            <tr>
+            <tr class='grid grid-cols-2 grid-rows-2'>
               <% group.each do |user| %>
-                <td>
+                <td class='col-span-2 row-span-1 md:col-span-1 md:row-span-2'>
                   <%= render user %>
                 </td>
               <% end %>
@@ -19,8 +17,8 @@
           <% end %>
         <% else %>
           <tr>
-            <td colspan="2">
-              <p class="text-xl"><%= 'ユーザーはいません' %></p>
+            <td>
+              <p class="text-2xl">ユーザーはいません。</p>
             </td>
           </tr>
         <% end %>
