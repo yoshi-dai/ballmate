@@ -1,32 +1,42 @@
 <% content_for(:title, t('.title')) %>
-<div class="hero min-h-screen bg-base-200">
-  <div class="hero-content flex-col lg:flex-row">
-    <div>
-      <div class="avatar">
-        <div class="w-72 rounded-lg shadow-2xl">
-          <%= image_tag @user.user_profile.image_url, size: '100x100'%>
+<div class="hero min-h-screen">
+  <div class="hero-content flex-col md:flex-row">
+    <div class='flex md:flex-col'>
+      <div>
+        <div class="avatar">
+          <div class="w-36 md:w-72 h-36 md:h-72 rounded-lg shadow-2xl">
+            <%= image_tag @user.user_profile.image_url %>
+          </div>
         </div>
+        <p class="text-center font-bold text-2xl md:text-4xl hover:underline"><%= link_to @user.user_profile.name, user_path(@user) %></p>
       </div>
-      <p class="text-center text-4xl mb-0"><%= link_to @user.user_profile.name, user_path(@user) %></p>
-      <div class="overflow-x-auto h-1/2">
-        <table class="table table-zebra table-xs">
-          <tbody>
-            <!-- row 1 -->
-            <tr>
-              <th scope="row"><%= t(Matching.human_attribute_name(:date)) %></th>
-              <td><%= @matching.date.strftime("%m月%d日") if @matching.date %></td>
-            </tr>
-            <!-- row 2 -->
-            <tr>
-              <th scope="row"><%= t(Matching.human_attribute_name(:place)) %></th>
-              <td><%= @matching.place %></td>
-            </tr>
-            <tr>
-              <th scope="row"><%= t(Matching.human_attribute_name(:scheduled_time)) %></th>
-              <td><%= @matching.scheduled_time.strftime("%H:%M") if @matching.scheduled_time %></td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="w-full h-36 md:h-full flex-col items-center justify-center">
+        <div class='grid grid-cols-5 grid-rows-2 md:grid-rows-2 h-36 md:h-full md:border border-green-800 md:border-4 rounded'>
+          <div class='col-span-2 row-span-1 row-start-1 text-lg border-t border-b border-l border-green-800 flex items-center justify-center'>
+            <p class='font-bold'><%= t(Matching.human_attribute_name(:place)) %></p>
+          </div>
+          <div class='col-span-3 row-span-1 row-start-1 border-t border-b border-r border-green-800 flex items-center justify-center'>
+            <p class='font-bold'>@<%= @matching.place %></p>
+          </div>
+          <div class='col-span-1 row-start-2 text-sm border-b border-l border-green-800 flex items-center justify-center'>
+            <p class='font-bold'><%= t(Matching.human_attribute_name(:date)) %></p>
+          </div>
+          <div class='col-span-2 md:col-span-1 row-start-2 text-xs border-b border-r border-green-800 flex items-center justify-center'>
+            <p class='font-bold'><%= @matching.date.strftime("%m月%d日") if @matching.date %></p>
+          </div>
+          <div class='col-span-1 row-start-2 text-sm border-b border-green-800 flex items-center justify-center'>
+            <p class='font-bold'><%= t(Matching.human_attribute_name(:scheduled_time)) %></p>
+          </div>
+          <div class='col-span-1 row-start-2 text-sm border-b border-r border-green-800 flex items-center justify-center'>
+            <p class='font-bold'><%= @matching.scheduled_time.strftime("%H:%M") if @matching.scheduled_time %></p>
+          </div>
+          <div class='col-span-1 row-start-2 text-sm border-b md:border-r border-green-800 flex items-center justify-center'>
+          </div>
+        </div>
+        <div class="flex items-center justify-end md:justify-center gap-1 mt-1">
+          <button class="btn btn-secondary"><%= link_to '編集', edit_matching_path(@matching) %></button>
+          <button class="btn btn-accent"><%= link_to '解散', matching_path(@matching), method: :delete, data: { confirm: '本当に解散しますか？' } %></button>
+        </div>
       </div>
     </div>
     <div id="show_user" data-show_user="<%= current_user.id %>"></div>
@@ -40,10 +50,6 @@
         </label>
         <input class="input input-bordered input-primary w-full max-w-xs" type="text" data-behavior="room_speaker">
       </form>
-    </div>
-    <div class="items-center">
-      <button class="btn btn-secondary"><%= link_to '編集', edit_matching_path(@matching) %></button>
-      <button class="btn btn-accent"><%= link_to '削除', matching_path(@matching), method: :delete, data: { confirm: '本当に削除しますか？' } %></button>
     </div>
   </div>
 </div>
