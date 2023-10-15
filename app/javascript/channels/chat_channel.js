@@ -49,14 +49,23 @@ $(document).on('turbolinks:load', function() {
     }
   }
 
-  $(document).on('keypress', '[data-behavior~=room_speaker]', function(event) {
-    if (event.key === 'Enter') {
-      chatChannel.speak(event.target.value);
-      event.target.value = '';
-      event.preventDefault();
+  $(document).on('click', '#send-button', function(event) {
+    event.preventDefault();
+    var messageInput = $('[data-behavior~=room_speaker]');
+    var messageText = messageInput.val();
+  
+    if (messageText.trim() !== '') {
+      chatChannel.speak(messageText);
+      messageInput.val('');
     }
   });
 
+
+  $(document).on('input', '[data-behavior~=room_speaker]', function() {
+    this.style.height = 'auto';
+    this.style.height = (this.scrollHeight) + 'px';
+  });
+  
   $(document).on('click', '.delete-message', function() {
     const messageId = $(this).data('message-id');
     chatChannel.deleteMessage(messageId);

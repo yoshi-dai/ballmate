@@ -77,11 +77,14 @@
           <div class="overflow-y-scroll h-72 rounded border border-8 border-gray-300 pl-5" id="messages" data-matching_id="<%= @matching.id %>">
             <%= render @messages %>
           </div>
-          <form>
+          <form id="message-form">
             <label class="font-bold">
               <%= label_tag :text, 'メッセージ：' %>
             </label>
-            <input class="input input-bordered input-primary w-full max-w-xs" type="text" data-behavior="room_speaker">
+            <div class="flex items-center justify-center gap-2">
+              <textarea class="input input-bordered input-primary w-full h-16 max-h-36 p-2" data-behavior="room_speaker" style="flex: 1; overflow-y: auto; resize: none;"></textarea>
+              <button id="send-button" class="btn btn-primary self-end"><i class="fa-solid fa-paper-plane fa-lg"></i></button>
+            </div>
           </form>
         </div>
       <% else %>
