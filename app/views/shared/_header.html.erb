@@ -1,18 +1,7 @@
 <header class="sticky top-0 z-50 bg-white">
   <div class="navbar flex bg-base-100">
     <div class="flex-1">
-      <div class="dropdown">
-        <label tabindex="0" class="btn btn-success btn-lg m-1 text-4xl font-bold normal-case">BallMate</label>
-        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-white rounded-box w-52">
-          <% if current_user.present? %>
-            <button class="btn btn-outline"><%= link_to 'トップページ', root_path %></button>
-          <% else %>
-            <button class="btn btn-primary"><%= link_to 'ログイン', login_path %></button>
-            <button class="btn btn-neutral"><li><%= link_to 'ユーザー登録', new_user_path %></li></button>
-            <button class="btn no-animation"><%= link_to 'トップページ', root_path %></button>
-          <% end %>
-        </ul>
-      </div>
+      <%= link_to 'BallMate', root_path, class: 'btn btn-success btn-lg m-1 text-4xl font-bold normal-case rounded-lg' %>
     </div>
     <% if current_user.present? && current_user.user_profile %>
       <div class="flex-none">
