@@ -33,7 +33,7 @@
           <li class="mx-1 sm:mx-5"><div class="drawer drawer-end">
             <input id="my-drawer" type="checkbox" class="drawer-toggle" />
             <div class="drawer-content">
-              <label for="my-drawer"><i class="fa-regular fa-futbol fa-flip-both fa-3x"></i></label>
+              <label for="my-drawer"><i class="fa-solid fa-bars fa-2xl"></i></label>
             </div>
             <div class="drawer-side">
               <label for="my-drawer" class="drawer-overlay"></label>
@@ -53,6 +53,11 @@
             </div>
           </div></li>
         </ul>
+      </div>
+    <% else %>
+      <div class="flex-none gap-4">
+      <button class="btn btn-neutral"><%= link_to 'ユーザー登録', new_user_path %></button>
+      <button class="btn btn-success"><%= link_to 'ログイン', login_path %></button>
       </div>
     <% end %>
   </div>
