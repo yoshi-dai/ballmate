@@ -2,28 +2,8 @@
 <div class="min-h-screen container mx-auto">
   <div class="overflow-x-auto">
     <%= render 'users/search', q: @q, url: (action_name == 'index' ? users_path : send("#{action_name}_path")) %>
-      <div class="divider"></div> 
-    <table class="table">
-      <tbody>
-        <% if @users.present? %>
-          <% @users.each_slice(2) do |group| %>
-            <tr class='grid grid-cols-2 grid-rows-2'>
-              <% group.each do |user| %>
-                <td class='col-span-2 row-span-1 md:col-span-1 md:row-span-2'>
-                  <%= render user %>
-                </td>
-              <% end %>
-            </tr>
-          <% end %>
-        <% else %>
-          <tr>
-            <td>
-              <p class="text-2xl">ユーザーはいません。</p>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+      <div class="divider py-4"><p class='text-2xl font-bold'><%= t('.title') %></p></div> 
+    <%= render 'users/users', users: @users %>
   </div>
   <%= paginate @users %>
 </div>
