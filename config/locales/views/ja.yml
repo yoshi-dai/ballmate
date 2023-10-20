@@ -69,6 +69,12 @@ ja:
       success: 'マッチングを削除しました。'
     index:
       title: 'マッチング一覧'
+    matched_matchings:
+      title: 'マッチング済みマッチング'
+    requested_matchings:
+      title: '申請中マッチング'
+    approval_pending_matchings:
+      title: '承認待ちマッチング'
   matching_profiles:
     new:
       title: 'マッチングプロフィール登録'
