@@ -1,7 +1,7 @@
 <header class="sticky top-0 z-50 bg-white">
   <div class="navbar flex bg-base-100">
     <div class="flex-1">
-      <%= link_to 'BallMate', root_path, class: 'btn btn-success btn-lg m-1 text-4xl font-bold normal-case rounded-lg' %>
+      <%= link_to 'BallMate', root_path, class: 'btn btn-md sm:btn-lg btn-success m-1 text-3xl sm:text-4xl font-bold normal-case rounded-lg' %>
     </div>
     <% if current_user.present? && current_user.user_profile %>
       <div class="flex-none">
@@ -33,7 +33,7 @@
           <li class="mx-1 sm:mx-5"><div class="drawer drawer-end">
             <input id="my-drawer" type="checkbox" class="drawer-toggle" />
             <div class="drawer-content">
-              <label for="my-drawer"><i class="fa-solid fa-bars fa-2xl"></i></label>
+              <label for="my-drawer"><i class="fa-solid fa-bars fa-3x"></i></label>
             </div>
             <div class="drawer-side">
               <label for="my-drawer" class="drawer-overlay"></label>
@@ -55,9 +55,9 @@
         </ul>
       </div>
     <% else %>
-      <div class="flex-none gap-4">
-      <button class="btn btn-neutral"><%= link_to 'ユーザー登録', new_user_path %></button>
-      <button class="btn btn-success"><%= link_to 'ログイン', login_path %></button>
+      <div class="flex-none gap-1">
+      <button class="btn btn-sm sm:btn-md btn-neutral"><%= link_to 'ユーザー登録', new_user_path %></button>
+      <button class="btn btn-sm sm:btn-md btn-success"><%= link_to 'ログイン', login_path %></button>
       </div>
     <% end %>
   </div>
