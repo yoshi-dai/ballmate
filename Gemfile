@@ -32,6 +32,7 @@ gem 'cancancan'
 gem 'carrierwave'
 gem 'cssbundling-rails'
 gem 'dotenv-rails', require: 'dotenv/rails-now'
+gem 'draper'
 gem "fog-aws"
 gem 'font-awesome-sass'
 gem 'httparty'
