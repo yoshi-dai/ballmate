@@ -1,0 +1,9 @@
+<% content_for(:title, t('.title')) %>
+<div class="min-h-screen container mx-auto">
+  <div class="overflow-x-auto">
+    <%= render 'users/search', q: @q, url: (action_name == 'index' ? users_path : send("#{action_name}_path")) %>
+      <div class="divider py-4"><p class='text-lg sm:text-2xl font-bold'><%= @matching.name %>に参加中のユーザー</p></div> 
+    <%= render 'users/users', users: @users %>
+  </div>
+  <%= paginate @users %>
+</div>
