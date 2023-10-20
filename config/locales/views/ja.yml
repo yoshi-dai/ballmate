@@ -19,6 +19,12 @@ ja:
       title: 'ユーザー編集'
     index:
       title: 'ユーザー一覧'
+    matched_users:
+      title: 'マッチング済みユーザー'
+    requested_users:
+      title: '申請中ユーザー'
+    approval_pending_users:
+      title: '承認待ちユーザー'
     show:
       title: 'ユーザー詳細'
     destroy:
@@ -63,9 +69,17 @@ ja:
       success: 'マッチングを削除しました。'
     index:
       title: 'マッチング一覧'
+    matched_matchings:
+      title: 'マッチング済みマッチング'
+    requested_matchings:
+      title: '申請中マッチング'
+    approval_pending_matchings:
+      title: '承認待ちマッチング'
   matching_profiles:
     new:
       title: 'マッチングプロフィール登録'
+    show:
+      title: 'マッチングプロフィール詳細'
     edit:
       title: 'マッチングプロフィール編集'
     update:

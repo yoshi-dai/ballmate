@@ -46,21 +46,18 @@ class MatchingsController < ApplicationController
       .where(id: current_user.matchings.pluck(:id))
       .where.not(id: current_user.personal_matchings.pluck(:id).uniq)
       .page(params[:page])
-    render 'matchings/index'
   end
 
   def requested_matchings
     @q = Matching.includes(:matching_profile, :group).ransack(params[:q])
     @chat_requests = current_user.sent_chat_requests.includes(matching: :matching_profile).where(status: 'pending')
     @matchings = @q.result(distinct: true).where(public_flag: 1).where(id: @chat_requests.map(&:matching_id)).page(params[:page])
-    render 'matchings/index'
   end
 
   def approval_pending_matchings
     @q = Matching.includes(:matching_profile, :group).ransack(params[:q])
     @chat_requests = ChatRequest.includes(matching: :matching_profile).where(matching: current_user.matchings, status: 'pending')
     @matchings = @q.result(distinct: true).where(public_flag: 1).where(id: @chat_requests.map(&:matching_id)).page(params[:page])
-    render 'matchings/index'
   end
 
   private
