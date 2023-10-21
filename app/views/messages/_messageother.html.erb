@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="indicator place-self-end flex-col">
-        <div class='p-2 pb-4 bg-green-500 rounded-lg text-white'>
+        <div class='place-self-start p-2 pb-4 max-w-xs bg-green-500 rounded-lg text-white'>
           <%= h(message.text).gsub(/\n|\r|\r\n/, "<br>").html_safe %>
         </div>
         <p class='text-right text-xs text-gray-500'><%= message.created_at.strftime("%Y/%m/%d %H:%M") %></p>
