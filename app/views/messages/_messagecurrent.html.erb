@@ -1,16 +1,27 @@
-
-  <div class='chat chat-end' id="message-<%= message.id %>">
-    <div>
+<div class='chat chat-end pb-5' id="message-<%= message.id %>">
+  <div class='grid'>
+    <div class='items-end place-self-end flex gap-1'>
       <div class="chat-header">
-        <p><%= "#{message.user.user_profile.name}" %></p>
+        <p class='text-right'><%= "#{message.user.user_profile.name}" %></p>
       </div>
-      <div class="indicator">
-        <div class='chat-bubble chat-bubble-primary message'>
-          <p class='w-full whitespace-nowrap'><%= message.text %></p>
+      <div class="chat-image avatar">
+        <div class="w-5 h-5 rounded-full border">
+          <%= image_tag message.user.user_profile.image_url, class: 'rounded-full' %>
         </div>
-        <span class="indicator-item badge badge-sm delete-message" data-message-id="<%= message.id %>">
-          <i class="fas fa-times"></i>
-        </span>
+      </div>
+    </div>
+    <div class="indicator place-self-end flex-col">
+      <div class='place-self-end p-2 pb-4 max-w-xs text-white bg-green-500 rounded-lg'>
+        <%= h(message.text).gsub(/\n|\r|\r\n/, "<br>").html_safe %>
+      </div>
+      <div class='flex justify-end gap-1'>
+        <p class='text-right text-xs text-gray-500'><%= message.created_at.strftime("%Y/%m/%d %H:%M") %></p>
+        <% if message.user.id == current_user.id %>
+          <span class="place-self-end badge badge-sm border-black delete-message" data-message-id="<%= message.id %>">
+            <i class="fas fa-times"></i>
+          </span>
+        <% end %>
       </div>
     </div>
   </div>
+</div>
