@@ -1,10 +1,22 @@
 <div class='chat chat-start' id="message-<%= message.id %>">
-  <div>
-    <div class="chat-header">
-      <p><%= "#{message.user.user_profile.name}" %></p>
-    </div>
-    <div class='chat-bubble chat-bubble-primary message'>
-      <p class='w-full whitespace-nowrap'><%= message.text %></p>
+  <div class='chat chat-end pb-5' id="message-<%= message.id %>">
+    <div class='grid'>
+      <div class='items-end place-self-start flex gap-1'>
+        <div class="chat-image avatar">
+          <div class="w-5 h-5 rounded-full border">
+            <%= image_tag message.user.user_profile.image_url, class: 'rounded-full' %>
+          </div>
+        </div>
+        <div class="chat-header">
+          <p class='text-left'><%= "#{message.user.user_profile.name}" %></p>
+        </div>
+      </div>
+      <div class="indicator place-self-end flex-col">
+        <div class='p-2 pb-4 bg-green-500 rounded-lg text-white'>
+          <%= h(message.text).gsub(/\n|\r|\r\n/, "<br>").html_safe %>
+        </div>
+        <p class='text-right text-xs text-gray-500'><%= message.created_at.strftime("%Y/%m/%d %H:%M") %></p>
+      </div>
     </div>
   </div>
 </div>
