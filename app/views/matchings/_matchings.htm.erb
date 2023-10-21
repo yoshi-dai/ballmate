@@ -1,0 +1,21 @@
+<table class="table">
+  <tbody>
+    <% if @matchings.present? %>
+      <% @matchings.each_slice(2) do |matching_pair| %>
+        <tr class='grid grid-cols-2 grid-rows-2'>
+          <% matching_pair.each do |matching| %>
+            <td class='align-top col-span-2 row-span-1 md:col-span-1 md:row-span-2'>
+              <%= render matching %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+          <td>
+          <p class="text-2xl">マッチングは存在しません。</p>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
