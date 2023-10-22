@@ -74,7 +74,7 @@
       <% if @matching.group.users.exists?(current_user.id) %>
         <div id="show_user" data-show_user="<%= current_user.id %>"></div>
         <div class="w-full h-full">
-          <div class="overflow-y-scroll h-72 w-96 bg-gray-50 rounded border border-8 border-gray-300 pl-5" id="messages" data-matching_id="<%= @matching.id %>">
+          <div class="overflow-y-scroll h-72 bg-gray-50 rounded border border-8 border-gray-300 pl-5" id="messages" data-matching_id="<%= @matching.id %>">
             <%= render @messages %>
           </div>
           <form id="message-form">
