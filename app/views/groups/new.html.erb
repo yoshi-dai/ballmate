@@ -1,12 +1,12 @@
 <% content_for(:title, t('.title')) %>
-<div class="min-h-screen">
+<div class="min-h-screen container mx-auto">
   <%= form_tag groups_path, method: :post do %>
     <div class="form-control">
       <label class="label text-3xl">
         <%= label_tag t('groups.new.name')%>
       </label>
-      <div class="flex flex-row">
-        <%= text_field_tag :name, nil, class: "input input-bordered w-1/2" %>
+      <div class="flex flex-row ml-4">
+        <%= text_field_tag :name, nil, class: "input input-bordered max-w-lg" %>
         <div>
           <%= submit_tag t('groups.new.submit'), class: "btn btn-primary" %>
         </div>
@@ -16,18 +16,16 @@
         <%= label_tag t('groups.new.member')%>
       </div>
     </div>
-    <div class="card m-10">
       <%= collection_check_boxes(:group, :user_ids, @users, :id, :name) do |b| %>
-        <div class="card card-side shadow-xl boader border-8">
-          <div class="avatar">
-            <div class="w-72 rounded">
-              <%= image_tag b.object.user_profile.image.url%>
-            </div>
+        <div class="card card-side shadow-xl max-w-lg h-400 ml-10 mb-4 boader border-8 border-green-500">
+          <div class="w-28 h-28 rounded-lg border">
+            <%= image_tag b.object.user_profile.image.url%>
           </div>
-          <div class="card-body flex flex-col justify-center">
+          <div class="card-body">
             <div class="flex">
-              <p class="text-3xl mb:text-6xl w-1/2 text-center"><%= link_to b.object.user_profile.name, user_path(b.object) %></p>
-              <div class="card-actions w-1/3">
+              <% matching = current_user.personal_matchings.find { |matching| matching.users.exists?(id: b.object.id) } %>
+              <p class="text-xl sm:text-3xl text-center"><%= link_to b.object.user_profile.name, matching_path(matching) %></p>
+              <div class="card-actions">
                 <%= b.check_box class: "checkbox checkbox-lg" %>
               </div>
             </div>
