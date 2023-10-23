@@ -26,6 +26,12 @@ class User < ApplicationRecord
 
   enum role: { general: 0, admin: 1 }
 
+  scope :matched, ->(current_user) {
+    where.not(id: current_user.id)
+         .includes(:user_profile)
+         .where(id: current_user.personal_matchings.map(&:users).flatten.uniq)
+  }
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[]
   end
@@ -50,8 +56,10 @@ class User < ApplicationRecord
   end
 
   def leave_group(group)
-    group_user = group_users.find_by(group_id: group.id)
-    group_user.destroy!
+    ActiveRecord::Base.transaction do
+      delete_approved_chat_request_for_matching(group)
+      group.users.delete(self)
+    end
   end
 
   def create_notification_chat_request!(current_user, chat_request)
