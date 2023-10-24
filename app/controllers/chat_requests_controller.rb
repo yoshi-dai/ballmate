@@ -1,28 +1,19 @@
 class ChatRequestsController < ApplicationController
+  include ChatRequestsHelper
+  
   def create
-    if params[:chat_request] && params[:chat_request][:receiver_id].present? # ユーザーへのチャットリクエストの場合
-      receiver_id = params[:chat_request][:receiver_id] # 受信者のユーザーID（フォームデータから取得）
-
-      @chat_request = ChatRequest.new(sender_id: current_user.id, receiver_id:, status: :pending)
-      if @chat_request.save
-        current_user.create_notification_chat_request!(current_user, @chat_request)
+    begin
+      if params[:chat_request].present? && params[:chat_request][:receiver_id].present?
+        create_user_chat_request
         redirect_to users_path, success: t('.success')
-      else
-        @users = User.where.not(id: current_user.id).includes(:user_profile)
-        flash.now[:warning] = t('.failure')
-        render 'users/index'
-      end
-    elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
-      matching = Matching.find(params[:matching_id]) # マッチングID（フォームデータから取得）
-      @chat_request = ChatRequest.new(sender_id: current_user.id, matching_id: matching.id, status: :pending)
-      if @chat_request.save
-        matching.create_notification_matching!(current_user, matching)
+      elsif params[:matching_id].present?
+        create_matching_chat_request
         redirect_to matchings_path, success: t('.success')
-      else
-        @matchings = Matching.where.not(user_id: current_user.id).includes(:matching_profile)
-        flash.now[:warning] = t('.failure')
-        render 'matchings/index'
       end
+    rescue CustomError => e
+      handle_error(e)
+    rescue StandardError => e
+      handle_error(e)
     end
   end
 
@@ -120,5 +111,11 @@ class ChatRequestsController < ApplicationController
 
   def chat_request_params
     params.require(:chat_request).permit(:receiver_id, :matching_id)
+  end
+
+  def handle_error(error)
+    Rails.logger.error("Error: #{error.message}")
+    flash[:error] = 'An unexpected error occurred.'
+    redirect_to root_path
   end
 end
