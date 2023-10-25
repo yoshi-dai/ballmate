@@ -3,17 +3,17 @@ class ChatRequestsController < ApplicationController
   
   def create
     if params[:chat_request] && params[:chat_request][:receiver_id].present? # ユーザーへのチャットリクエストの場合
-      create_user_chat_request
+      handle_create_user_chat_request
     elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
-      create_matching_chat_request
+      handle_create_matching_chat_request
     end
   end
 
   def approve
     if params[:user_id].present? && params[:matching_id].blank? # ユーザーへのチャットリクエストの場合
       handle_user_approval(params[:user_id])
-    elsif params[:matching_id].present?
-      handle_matching_approval(params[:user_id], params[:matching_id]) # マッチングへのチャットリクエストの場合
+    elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
+      handle_matching_approval(params[:user_id], params[:matching_id])
     end
   end
 
@@ -66,9 +66,43 @@ class ChatRequestsController < ApplicationController
     params.require(:chat_request).permit(:receiver_id, :matching_id)
   end
 
-  def handle_error(error)
-    Rails.logger.error("Error: #{error.message}")
-    flash[:error] = 'An unexpected error occurred.'
-    redirect_to root_path
+  def handle_create_user_chat_request
+    if create_user_chat_request
+      redirect_to users_path, success: t('.success')
+    else
+      @users = User.where.not(id: User.matched(current_user).pluck(:id)).includes(:user_profile)
+      flash.now[:warning] = t('.failure')
+      render 'users/index'
+    end
+  end
+
+  def handle_create_matching_chat_request
+    if create_matching_chat_request
+      redirect_to matchings_path, success: t('.success')
+    else
+      redirect_to matchings_path, warning: t('.failure')
+    end
+  end
+
+  def handle_user_approval(sender_id)
+    chat_request = current_user.received_chat_requests.find_by(sender_id: sender_id, status: 'pending')
+    @matching = create_personal_matching(chat_request)
+
+    if @matching.present?
+      redirect_to matching_path(@matching), success: t('.success')
+    else
+      redirect_to approval_pending_users_path, warning: t('.failure')
+    end
+  end
+
+  def handle_matching_approval(sender_id, matching_id)
+    matching = Matching.find(matching_id)
+    chat_request = current_user.matchings.find(matching_id).received_chat_requests.find_by(matching_id: matching_id, sender_id: sender_id, status: 'pending')
+  
+    if add_sender_to_group_matching(chat_request, matching)
+      redirect_to matching_profile_path(matching.matching_profile), success: t('.success')
+    else
+      redirect_to matching_profile_path(matching.matching_profile), warning: t('.failure')
+    end
   end
 end
