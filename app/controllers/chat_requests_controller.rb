@@ -1,118 +1,35 @@
 class ChatRequestsController < ApplicationController
+  include ChatRequestsHelper
+  
   def create
-    if params[:chat_request] && params[:chat_request][:receiver_id].present? # ユーザーへのチャットリクエストの場合
-      receiver_id = params[:chat_request][:receiver_id] # 受信者のユーザーID（フォームデータから取得）
-
-      @chat_request = ChatRequest.new(sender_id: current_user.id, receiver_id:, status: :pending)
-      if @chat_request.save
-        current_user.create_notification_chat_request!(current_user, @chat_request)
-        redirect_to users_path, success: t('.success')
-      else
-        @users = User.where.not(id: current_user.id).includes(:user_profile)
-        flash.now[:warning] = t('.failure')
-        render 'users/index'
-      end
-    elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
-      matching = Matching.find(params[:matching_id]) # マッチングID（フォームデータから取得）
-      @chat_request = ChatRequest.new(sender_id: current_user.id, matching_id: matching.id, status: :pending)
-      if @chat_request.save
-        matching.create_notification_matching!(current_user, matching)
-        redirect_to matchings_path, success: t('.success')
-      else
-        @matchings = Matching.where.not(user_id: current_user.id).includes(:matching_profile)
-        flash.now[:warning] = t('.failure')
-        render 'matchings/index'
-      end
+    if chat_request_to_user?
+      handle_create_user_chat_request(params[:user_id])
+    elsif chat_request_to_matching?
+      handle_create_matching_chat_request(params[:matching_id])
     end
   end
 
   def approve
-    if params[:user_id].present? && params[:matching_id].blank? # ユーザーへのチャットリクエストの場合
-      chat_request = current_user.received_chat_requests.find_by(sender_id: params[:user_id], status: 'pending')
-      
-      if chat_request
-        matching = nil
-
-        ActiveRecord::Base.transaction do
-          chat_request.update(status: 'approved')
-
-          group = Group.create(name: "Group-#{SecureRandom.hex(4)}")
-
-          group.users << current_user
-          group.users << chat_request.sender
-
-          matching = Matching.create(name: group.name, group_id: group.id, public_flag: false)
-          matching.users << current_user
-          matching.users << chat_request.sender
-
-          current_user.create_notification_approve_chat_request!(current_user, chat_request)
-        end
-        redirect_to matching_path(matching), success: t('.success')
-      else
-        redirect_to users_path, worning: t('.failure')
-      end
-    elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
-      matching = Matching.find(params[:matching_id])
-      chat_request = current_user.matchings.find(params[:matching_id]).received_chat_requests.find_by(matching_id: params[:matching_id], sender_id: params[:user_id], status: 'pending')
-      if chat_request
-        group = Group.find(matching.group_id)
-        ActiveRecord::Base.transaction do
-          chat_request.update(status: 'approved')
-
-          group = Group.find(chat_request.matching.group_id)
-          group.users << chat_request.sender
-
-          chat_request.destroy!
-
-          matching.create_notification_approve_matching!(current_user, matching)
-        end
-        redirect_to matching_profile_path(group.matching.matching_profile), success: t('.success')
-      else
-        redirect_to matchings_path, warning: t('.failure')
-      end
+    if chat_request_to_user?
+      handle_user_approval(params[:user_id])
+    elsif chat_request_to_matching?
+      handle_matching_approval(params[:user_id], params[:matching_id])
     end
   end
 
-  def cancel
-    if params[:user_id].present? # ユーザーへのチャットリクエストの場合
-      @chat_request = current_user.sent_chat_requests.find_by(receiver_id: params[:user_id], status: 'pending')
-      if @chat_request
-        @chat_request.destroy!
-        current_user.destroy_notification_chat_request!(current_user, @chat_request)
-        redirect_to users_path, success: t('.success')
-      else
-        redirect_to users_path, warning: t('.failure')
-      end
-    elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
-      matching = Matching.find(params[:matching_id])
-      @chat_request = current_user.sent_chat_requests.find_by(matching_id: params[:matching_id], status: 'pending')
-      if @chat_request
-        @chat_request.destroy!
-        matching.destroy_notifications_matching!(current_user, matching)
-        redirect_to matchings_path, success: t('.success')
-      else
-        redirect_to matchings_path, warning: t('.failure')
-      end
+  def cancel # チャットリクエストの送信者が削除する場合
+    if chat_request_to_user?
+      handle_cancel_user_chat_request(params[:user_id])
+    elsif chat_request_to_matching?
+      handle_cancel_matching_chat_request(params[:matching_id])
     end
   end
 
-  def reject
-    if params[:user_id].present? && params[:matching_id].blank? # ユーザーへのチャットリクエストの場合
-      @chat_request = current_user.received_chat_requests.find_by(sender_id: params[:user_id], status: 'pending')
-      if @chat_request
-        @chat_request.destroy!
-        redirect_to users_path, success: t('.success')
-      else
-        redirect_to users_path, error: t('.failure')
-      end
-    elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
-      @chat_request = current_user.matchings.find(params[:matching_id]).received_chat_requests.find_by(matching_id: params[:matching_id], sender_id: params[:user_id], status: 'pending')
-      if @chat_request
-        @chat_request.destroy!
-        redirect_to matchings_path, success: t('.success')
-      else
-        redirect_to matchings_path, error: t('.failure')
-      end
+  def reject # チャットリクエストの受信者が削除する場合
+    if chat_request_to_user?
+      handle_reject_user_chat_request(params[:user_id])
+    elsif chat_request_to_matching?
+      handle_reject_matching_chat_request(params[:user_id], params[:matching_id])
     end
   end
 
@@ -120,5 +37,91 @@ class ChatRequestsController < ApplicationController
 
   def chat_request_params
     params.require(:chat_request).permit(:receiver_id, :matching_id)
+  end
+
+  def chat_request_to_user?  # ユーザーへのチャットリクエストの場合
+    params[:user_id].present? && params[:matching_id].blank?
+  end
+
+  def chat_request_to_matching? # マッチングへのチャットリクエストの場合
+    params[:matching_id].present?
+  end
+
+
+  def handle_create_user_chat_request(receiver_id)
+    if create_user_chat_request(receiver_id)
+      redirect_to users_path, success: t('.success')
+    else
+      @users = User.where.not(id: User.matched(current_user).pluck(:id)).includes(:user_profile)
+      flash.now[:warning] = t('.failure')
+      render 'users/index'
+    end
+  end
+
+  def handle_create_matching_chat_request(matching_id)
+    if create_matching_chat_request(matching_id)
+      redirect_to matchings_path, success: t('.success')
+    else
+      redirect_to matchings_path, warning: t('.failure')
+    end
+  end
+
+  def handle_user_approval(sender_id)
+    chat_request = current_user.received_chat_requests.find_by(sender_id: sender_id, status: 'pending')
+    @matching = create_personal_matching(chat_request)
+
+    if @matching.present?
+      redirect_to matching_path(@matching), success: t('.success')
+    else
+      redirect_to approval_pending_users_path, warning: t('.failure')
+    end
+  end
+
+  def handle_matching_approval(sender_id, matching_id)
+    matching = Matching.find(matching_id)
+    chat_request = current_user.matchings.find(matching_id).received_chat_requests.find_by(matching_id: matching_id, sender_id: sender_id, status: 'pending')
+  
+    if add_sender_to_group_matching(chat_request, matching)
+      redirect_to matching_profile_path(matching.matching_profile), success: t('.success')
+    else
+      redirect_to matching_profile_path(matching.matching_profile), warning: t('.failure')
+    end
+  end
+
+  def handle_cancel_user_chat_request(receiver_id)
+    chat_request = current_user.sent_chat_requests.find_by(receiver_id: receiver_id, status: 'pending')
+    if cancel_user_chat_request(chat_request)
+      redirect_to requested_users_path, success: t('.success')
+    else
+      redirect_to requested_users_path, warning: t('.failure')
+    end
+  end
+
+  def handle_cancel_matching_chat_request(matching_id)
+    matching = Matching.find(matching_id)
+    chat_request = current_user.sent_chat_requests.find_by(matching_id: matching_id, status: 'pending')
+    if cancel_matching_chat_request(chat_request, matching)
+      redirect_to requested_matchings_path, success: t('.success')
+    else
+      redirect_to requested_matchings_path, warning: t('.failure')
+    end
+  end
+
+  def handle_reject_user_chat_request(sender_id)
+    chat_request = current_user.received_chat_requests.find_by(sender_id: sender_id, status: 'pending')
+    if reject_user_chat_request(chat_request)
+      redirect_to approval_pending_users_path, success: t('.success')
+    else
+      redirect_to approval_pending_users_path, warning: t('.failure')
+    end
+  end
+
+  def handle_reject_matching_chat_request(sender_id, matching_id)
+    chat_request = current_user.matchings.find(matching_id).received_chat_requests.find_by(matching_id: matching_id, sender_id: sender_id, status: 'pending')
+    if reject_matching_chat_request(chat_request)
+      redirect_to approval_pending_matchings_path, success: t('.success')
+    else
+      redirect_to approval_pending_matchings_path, error: t('.failure')
+    end
   end
 end
