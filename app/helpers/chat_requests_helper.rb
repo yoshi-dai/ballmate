@@ -66,4 +66,9 @@ module ChatRequestsHelper
       false
     end
   end
+
+  def reject_user_chat_request(chat_request)
+    chat_request.destroy!
+    true
+  end
 end
