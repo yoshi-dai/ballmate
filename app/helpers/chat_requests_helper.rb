@@ -1,15 +1,13 @@
 module ChatRequestsHelper
   def create_user_chat_request(receiver_id)
-    chat_request = ChatRequest.new(sender_id: current_user.id, receiver_id: receiver_id, status: :pending)
-    chat_request.save
+    chat_request = ChatRequest.create(sender_id: current_user.id, receiver_id: receiver_id, status: :pending)
     current_user.create_notification_chat_request!(current_user, chat_request)
     true
   end
 
-  def create_matching_chat_request
-    matching = Matching.find(params[:matching_id])
-    @chat_request = ChatRequest.new(sender_id: current_user.id, matching_id: matching.id, status: :pending)
-    @chat_request.save
+  def create_matching_chat_request(matching_id)
+    matching = Matching.find(matching_id)
+    chat_request = ChatRequest.create(sender_id: current_user.id, matching_id: matching.id, status: :pending)
     matching.create_notification_matching!(current_user, matching)
     true
   end

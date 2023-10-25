@@ -5,7 +5,7 @@ class ChatRequestsController < ApplicationController
     if params[:user_id].present? && params[:matching_id].blank? # ユーザーへのチャットリクエストの場合
       handle_create_user_chat_request(params[:user_id])
     elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
-      handle_create_matching_chat_request()
+      handle_create_matching_chat_request(params[:matching_id])
     end
   end
 
@@ -49,8 +49,8 @@ class ChatRequestsController < ApplicationController
     end
   end
 
-  def handle_create_matching_chat_request
-    if create_matching_chat_request
+  def handle_create_matching_chat_request(matching_id)
+    if create_matching_chat_request(matching_id)
       redirect_to matchings_path, success: t('.success')
     else
       redirect_to matchings_path, warning: t('.failure')
