@@ -53,4 +53,17 @@ module ChatRequestsHelper
       false
     end
   end
+
+  def cancel_matching_chat_request(chat_request, matching)
+    begin
+      ActiveRecord::Base.transaction do
+        matching.destroy_notifications_matching!(current_user, matching)
+        chat_request.destroy!
+      end
+      true
+    rescue StandardError => e
+      Rails.logger.error("An error occurred: #{e.message}")
+      false
+    end
+  end
 end

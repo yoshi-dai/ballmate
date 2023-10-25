@@ -21,15 +21,7 @@ class ChatRequestsController < ApplicationController
     if params[:user_id].present? # ユーザーへのチャットリクエストの場合
       handle_cancel_user_chat_request(params[:user_id])
     elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
-      matching = Matching.find(params[:matching_id])
-      @chat_request = current_user.sent_chat_requests.find_by(matching_id: params[:matching_id], status: 'pending')
-      if @chat_request
-        @chat_request.destroy!
-        matching.destroy_notifications_matching!(current_user, matching)
-        redirect_to matchings_path, success: t('.success')
-      else
-        redirect_to matchings_path, warning: t('.failure')
-      end
+      handle_cancel_matching_chat_request(params[:matching_id])
     end
   end
 
@@ -105,6 +97,16 @@ class ChatRequestsController < ApplicationController
       redirect_to requested_users_path, success: t('.success')
     else
       redirect_to requested_users_path, warning: t('.failure')
+    end
+  end
+
+  def handle_cancel_matching_chat_request(matching_id)
+    matching = Matching.find(matching_id)
+    chat_request = current_user.sent_chat_requests.find_by(matching_id: matching_id, status: 'pending')
+    if cancel_matching_chat_request(chat_request, matching)
+      redirect_to requested_matchings_path, success: t('.success')
+    else
+      redirect_to requested_matchings_path, warning: t('.failure')
     end
   end
 end
