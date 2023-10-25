@@ -71,4 +71,9 @@ module ChatRequestsHelper
     chat_request.destroy!
     true
   end
+
+  def reject_matching_chat_request(chat_request)
+    chat_request.destroy!
+    true
+  end
 end

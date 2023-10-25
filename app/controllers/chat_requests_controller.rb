@@ -29,13 +29,7 @@ class ChatRequestsController < ApplicationController
     if params[:user_id].present? && params[:matching_id].blank? # ユーザーへのチャットリクエストの場合
       handle_reject_user_chat_request(params[:user_id])
     elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
-      @chat_request = current_user.matchings.find(params[:matching_id]).received_chat_requests.find_by(matching_id: params[:matching_id], sender_id: params[:user_id], status: 'pending')
-      if @chat_request
-        @chat_request.destroy!
-        redirect_to matchings_path, success: t('.success')
-      else
-        redirect_to matchings_path, error: t('.failure')
-      end
+      handle_reject_matching_chat_request(params[:user_id], params[:matching_id])
     end
   end
 
@@ -112,5 +106,13 @@ class ChatRequestsController < ApplicationController
       redirect_to approval_pending_users_path, warning: t('.failure')
     end
   end
-  
+
+  def handle_reject_matching_chat_request(sender_id, matching_id)
+    chat_request = current_user.matchings.find(matching_id).received_chat_requests.find_by(matching_id: matching_id, sender_id: sender_id, status: 'pending')
+    if reject_matching_chat_request(chat_request)
+      redirect_to approval_pending_matchings_path, success: t('.success')
+    else
+      redirect_to approval_pending_matchings_path, error: t('.failure')
+    end
+  end
 end
