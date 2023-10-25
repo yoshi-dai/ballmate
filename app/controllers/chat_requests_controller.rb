@@ -2,10 +2,10 @@ class ChatRequestsController < ApplicationController
   include ChatRequestsHelper
   
   def create
-    if params[:chat_request] && params[:chat_request][:receiver_id].present? # ユーザーへのチャットリクエストの場合
-      handle_create_user_chat_request
+    if params[:user_id].present? && params[:matching_id].blank? # ユーザーへのチャットリクエストの場合
+      handle_create_user_chat_request(params[:user_id])
     elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
-      handle_create_matching_chat_request
+      handle_create_matching_chat_request()
     end
   end
 
@@ -39,8 +39,8 @@ class ChatRequestsController < ApplicationController
     params.require(:chat_request).permit(:receiver_id, :matching_id)
   end
 
-  def handle_create_user_chat_request
-    if create_user_chat_request
+  def handle_create_user_chat_request(receiver_id)
+    if create_user_chat_request(receiver_id)
       redirect_to users_path, success: t('.success')
     else
       @users = User.where.not(id: User.matched(current_user).pluck(:id)).includes(:user_profile)

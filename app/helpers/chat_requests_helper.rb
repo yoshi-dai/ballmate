@@ -1,8 +1,8 @@
 module ChatRequestsHelper
-  def create_user_chat_request
-    @chat_request = ChatRequest.new(sender_id: current_user.id, receiver_id: params[:chat_request][:receiver_id], status: :pending)
-    @chat_request.save
-    current_user.create_notification_chat_request!(current_user, @chat_request)
+  def create_user_chat_request(receiver_id)
+    chat_request = ChatRequest.new(sender_id: current_user.id, receiver_id: receiver_id, status: :pending)
+    chat_request.save
+    current_user.create_notification_chat_request!(current_user, chat_request)
     true
   end
 

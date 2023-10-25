@@ -31,10 +31,7 @@
         <% elsif current_user.personal_matchings.any? { |matching| matching.users.exists?(id: user.id) } %><!-- 他の方法模索中 -->
           <!-- マッチングが存在する場合は何も表示しない -->
         <% else %>
-          <%= form_with(model: @chat_request, url: chat_requests_path) do |form| %>
-            <%= form.hidden_field :receiver_id, value: user.id %>
-            <%= form.submit '申請', class: 'btn btn-primary' %>
-          <% end %>
+          <%= button_to '申請', chat_requests_path(user_id: user.id), method: :post, class: 'btn btn-primary' %>
         <% end %>
       </div>
     </div>
