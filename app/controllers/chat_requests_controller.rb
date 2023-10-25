@@ -2,33 +2,33 @@ class ChatRequestsController < ApplicationController
   include ChatRequestsHelper
   
   def create
-    if params[:user_id].present? && params[:matching_id].blank? # ユーザーへのチャットリクエストの場合
+    if chat_request_to_user?
       handle_create_user_chat_request(params[:user_id])
-    elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
+    elsif chat_request_to_matching?
       handle_create_matching_chat_request(params[:matching_id])
     end
   end
 
   def approve
-    if params[:user_id].present? && params[:matching_id].blank? # ユーザーへのチャットリクエストの場合
+    if chat_request_to_user?
       handle_user_approval(params[:user_id])
-    elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
+    elsif chat_request_to_matching?
       handle_matching_approval(params[:user_id], params[:matching_id])
     end
   end
 
   def cancel # チャットリクエストの送信者が削除する場合
-    if params[:user_id].present? # ユーザーへのチャットリクエストの場合
+    if chat_request_to_user?
       handle_cancel_user_chat_request(params[:user_id])
-    elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
+    elsif chat_request_to_matching?
       handle_cancel_matching_chat_request(params[:matching_id])
     end
   end
 
   def reject # チャットリクエストの受信者が削除する場合
-    if params[:user_id].present? && params[:matching_id].blank? # ユーザーへのチャットリクエストの場合
+    if chat_request_to_user?
       handle_reject_user_chat_request(params[:user_id])
-    elsif params[:matching_id].present? # マッチングへのチャットリクエストの場合
+    elsif chat_request_to_matching?
       handle_reject_matching_chat_request(params[:user_id], params[:matching_id])
     end
   end
@@ -38,6 +38,15 @@ class ChatRequestsController < ApplicationController
   def chat_request_params
     params.require(:chat_request).permit(:receiver_id, :matching_id)
   end
+
+  def chat_request_to_user?  # ユーザーへのチャットリクエストの場合
+    params[:user_id].present? && params[:matching_id].blank?
+  end
+
+  def chat_request_to_matching? # マッチングへのチャットリクエストの場合
+    params[:matching_id].present?
+  end
+
 
   def handle_create_user_chat_request(receiver_id)
     if create_user_chat_request(receiver_id)
