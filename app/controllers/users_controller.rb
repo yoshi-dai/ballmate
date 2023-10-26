@@ -1,16 +1,10 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: %i[new create]
   before_action :set_q, only: %i[index matched_users requested_users approval_pending_users matching_having_users]
+  before_action :excluded_user_ids, only: %i[index]
 
   def index
-    excluded_user_ids = [
-      current_user.id,
-      current_user.sent_chat_requests.where(status: 'pending').pluck(:receiver_id), # 申請済みのユーザー
-      current_user.received_chat_requests.where(status: 'pending').pluck(:sender_id), # 承認待ちのユーザー
-      current_user.approved_chat_requests.flat_map { |cr| [cr.sender_id, cr.receiver_id] }.uniq # 個別でマッチングしているユーザー
-    ].flatten.uniq
-
-    @users = @q.result(distinct: true).where.not(id: excluded_user_ids).where.not(user_profiles: { name: nil }).page(params[:page])
+    @users = filtered_index_users.page(params[:page])
     @chat_request = ChatRequest.new
   end
 
@@ -26,7 +20,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      session[:user_id] = @user.id # ログイン状態にする
+      session[:user_id] = @user.id
       redirect_to new_user_profile_path, success: t('.success')
     else
       flash.now[:warning] = t('.failure')
@@ -72,5 +66,20 @@ class UsersController < ApplicationController
 
   def set_q
     @q = User.includes(:user_profile).ransack(params[:q])
+  end
+
+  def excluded_user_ids
+    [
+      current_user.id,
+      current_user.sent_chat_requests.where(status: 'pending').pluck(:receiver_id), # 申請済みのユーザー
+      current_user.received_chat_requests.where(status: 'pending').pluck(:sender_id), # 承認待ちのユーザー
+      current_user.approved_chat_requests.flat_map { |cr| [cr.sender_id, cr.receiver_id] }.uniq # 個別でマッチングしているユーザー
+    ].flatten.uniq
+  end
+
+  def filtered_index_users
+    @q.result(distinct: true)
+    .where.not(id: excluded_user_ids)
+    .where.not(user_profiles: { name: nil })
   end
 end
