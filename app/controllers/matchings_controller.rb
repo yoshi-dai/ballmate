@@ -9,7 +9,7 @@ class MatchingsController < ApplicationController
   before_action :set_other_user, only: %i[show edit]
 
   def index
-    @matchings = @q.result(distinct: true).where(public_flag: 1).where.not(id: excluded_matchings_ids).page(params[:page])
+    @matchings = filtered_matchings.page(params[:page])
   end
 
   def show
@@ -33,20 +33,15 @@ class MatchingsController < ApplicationController
   end
 
   def matched_matchings
-    @matchings = @q.result(distinct: true)
-      .where(id: current_user.matchings.pluck(:id))
-      .where.not(id: current_user.personal_matchings.pluck(:id).uniq)
-      .page(params[:page])
+    @matchings = filtered_matched_matchings.page(params[:page])
   end
 
   def requested_matchings
-    @chat_requests = current_user.sent_chat_requests.includes(matching: :matching_profile).where(status: 'pending')
-    @matchings = @q.result(distinct: true).where(public_flag: 1).where(id: @chat_requests.map(&:matching_id)).page(params[:page])
+    @matchings = filtered_requested_matchings.page(params[:page])
   end
 
   def approval_pending_matchings
-    @chat_requests = ChatRequest.includes(matching: :matching_profile).where(matching: current_user.matchings, status: 'pending')
-    @matchings = @q.result(distinct: true).where(public_flag: 1).where(id: @chat_requests.map(&:matching_id)).page(params[:page])
+    @matchings = filterd_approval_pending_matchings.page(params[:page])
   end
 
   private
@@ -70,6 +65,13 @@ class MatchingsController < ApplicationController
   def other_user
     @matching.users.where.not(id: current_user.id).first
   end
+  
+  def filtered_matchings
+    @q.result(distinct: true)
+    .where(public_flag: 1) # 公開中のマッチング
+    .where.not(id: excluded_matchings_ids) # 申請済みのマッチングと承認済みのマッチングを除外
+    .includes(:matching_profile, :group)
+  end
 
   def excluded_matchings_ids
     [
@@ -78,17 +80,26 @@ class MatchingsController < ApplicationController
     ].flatten.uniq
   end
 
-  def fetch_weather_data(place, date = nil)
-    latitude, longitude = geocode(place, ENV.fetch('GOOGLE_MAPS_API_KEY', nil))
-    return nil unless latitude && longitude
+  def filtered_matched_matchings
+    @q.result(distinct: true)
+    .where(id: current_user.matchings.pluck(:id)) # 承認済みのマッチング
+    .where.not(id: current_user.personal_matchings.pluck(:id).uniq) # ユーザー間での個別マッチングを除外
+    .includes(:matching_profile, :group)
+  end
 
-    weather_service = WeatherService.new(ENV.fetch('OPEN_WEATHER_MAP_API_KEY', nil))
+  def filtered_requested_matchings
+    @chat_requests = current_user.sent_chat_requests.where(status: 'pending')
+    @q.result(distinct: true)
+    .where(public_flag: 1) # 公開中のマッチング
+    .where(id: @chat_requests.map(&:matching_id)) # 申請済みのマッチング
+    .includes(:matching_profile, :group)
+  end
 
-    if date.nil?
-      weather_service.get_weather_by_coordinates(latitude, longitude)
-    else
-      timestamp = DateTime.parse(date.to_s).to_i
-      weather_service.get_weather_by_coordinates_and_date(latitude, longitude, timestamp)
-    end
+  def filterd_approval_pending_matchings
+    @chat_requests = ChatRequest.includes(:sender).where(matching: current_user.matchings, status: 'pending')
+    @q.result(distinct: true)
+    .where(public_flag: 1) # 公開中のマッチング
+    .where(id: @chat_requests.map(&:matching_id)) # 承認待ちのマッチング
+    .includes(:matching_profile, :group)
   end
 end
