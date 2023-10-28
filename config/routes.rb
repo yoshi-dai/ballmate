@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   patch :approve_chat_request, to: 'chat_requests#approve', as: 'approve_chat_request'
   patch :reject_chat_request, to: 'chat_requests#reject', as: 'reject_chat_request'
 
-  resources :matchings, only: %i[index show edit update] do
+  resources :matchings, only: %i[index show edit update destroy] do
     collection do
       get 'matched_matchings', to: 'matchings#matched_matchings', as: 'matched'
       get 'requested_matchings', to: 'matchings#requested_matchings', as: 'requested'
