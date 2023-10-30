@@ -78,23 +78,35 @@ class UsersController < ApplicationController
   def filtered_index_users
     @q.result(distinct: true)
       .where.not(id: excluded_user_ids)
-      .includes(:user_profile)
       .where.not(user_profiles: { name: nil })
+      .includes(:user_profile)
   end
 
   def filtered_matched_users
-    @q.result(distinct: true).where(id: current_user.approved_chat_requests.flat_map { |cr| [cr.sender_id, cr.receiver_id] }.uniq).where.not(id: current_user.id).includes(:user_profile)
+    @q.result(distinct: true)
+    .where(id: current_user.approved_chat_requests.flat_map { |cr| [cr.sender_id, cr.receiver_id] }.uniq)
+    .where.not(id: current_user.id)
+    .includes(:user_profile)
   end
 
   def filterd_requested_users
-    @q.result(distinct: true).where(id: @chat_requests.map(&:receiver_id)).where.not(id: current_user.id).includes(:user_profile)
+    @q.result(distinct: true)
+    .where(id: @chat_requests.map(&:receiver_id))
+    .where.not(id: current_user.id)
+    .includes(:user_profile)
   end
 
   def filterd_approval_pending_users
-    @q.result(distinct: true).where(id: @chat_requests.map(&:sender_id)).where.not(id: current_user.id).includes(:user_profile)
+    @q.result(distinct: true)
+    .where(id: @chat_requests.map(&:sender_id))
+    .where.not(id: current_user.id)
+    .includes(:user_profile)
   end
 
   def filtered_matching_having_users
-    @q.result(distinct: true).where(id: @matching.group.users.map(&:id)).where.not(id: current_user.id).includes(:user_profile)
+    @q.result(distinct: true)
+    .where(id: @matching.group.users.map(&:id))
+    .where.not(id: current_user.id)
+    .includes(:user_profile)
   end
 end
