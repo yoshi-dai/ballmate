@@ -27,11 +27,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def destroy
-    @user.destroy!
-    redirect_to :root, success: t('.success')
-  end
-
   def matched_users
     @users = filtered_matched_users.page(params[:page])
   end
