@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: %i[new create]
-  before_action :set_user, only: %i[show]
+  before_action :set_user, only: %i[show destroy]
   before_action :set_q, only: %i[index matched_users requested_users approval_pending_users matching_having_users]
 
   def index

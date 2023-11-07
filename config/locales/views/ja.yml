@@ -27,6 +27,8 @@ ja:
       title: '承認待ちユーザー'
     show:
       title: 'ユーザー詳細'
+    destroy:
+      success: 'ユーザーを削除しました。'
   user_sessions:
     new:
       title: 'ログイン'
