@@ -25,8 +25,9 @@
   },
   "scripts": {
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
-    "dev": "NODE_OPTIONS='--openssl-legacy-provider' nuxt",
-    "build": "NODE_OPTIONS='--openssl-legacy-provider' nuxt build",
-    "start": "nuxt start"
+    "build": "webpack app/javascript/*.* --mode production --output ./app/assets/builds/[name].js"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
