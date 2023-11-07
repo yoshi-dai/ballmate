@@ -3,28 +3,31 @@
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.0",
-    "@fullhuman/postcss-purgecss": "4",
+    "@fullhuman/postcss-purgecss": "^4", // バージョンを修正
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "5.4.4",
-    "autoprefixer": "10",
+    "@rails/webpacker": "^6.0.0", // バージョンを修正
+    "autoprefixer": "^10", // バージョンを修正
     "daisyui": "^3.0.0",
     "jquery": "^3.7.0",
-    "postcss": "8",
-    "postcss-loader": "4",
-    "postcss-preset-env": "7",
-    "tailwindcss": "2",
+    "postcss": "^8", // バージョンを修正
+    "postcss-loader": "^5", // バージョンを修正
+    "postcss-preset-env": "^7", // バージョンを修正
+    "tailwindcss": "^3.0.0", // バージョンを修正
     "turbolinks": "^5.2.0",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12"
+    "webpack": "^5.50.0", // バージョンを修正
+    "webpack-cli": "^4.9.1", // バージョンを修正
   },
   "version": "0.1.0",
   "devDependencies": {
-    "webpack-dev-server": "^3"
+    "webpack-dev-server": "^4.4.0" // バージョンを修正
   },
   "scripts": {
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
     "build": "webpack app/javascript/*.* --mode production --output ./app/assets/builds/[name].js"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
