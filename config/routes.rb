@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   delete 'logout', to: 'user_sessions#destroy'
 
   resources :user_profiles, only: %i[new create show edit update]
-  resources :users, only: %i[new create index show] do
+  resources :users, only: %i[new create index show destroy] do
     collection do
       get 'matched_users', to: 'users#matched_users', as: 'matched'
       get 'requested_users', to: 'users#requested_users', as: 'requested'
