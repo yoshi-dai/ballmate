@@ -8,10 +8,10 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import '@fortawesome/fontawesome-free/js/all'
-import "../stylesheets/application.scss"
+import "packs/application.scss"
+import '../matching_profile'
+
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 require("jquery");
-
-import '../matching_profile'
