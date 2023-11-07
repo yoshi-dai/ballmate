@@ -36,28 +36,18 @@
             </div>
             <div class="drawer-side">
               <label for="my-drawer" class="drawer-overlay"></label>
-              <ul class="menu p-6 bg-gray-200 rounded-l-lg mt-28 text-base-content">
-                <div class="dropdown dropdown-left">
-                <label tabindex="0" class="btn btn-neutral btn-md lg:btn-lg m-1">ユーザーリスト</label>
-                  <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-gray-200 rounded-box">
-                    <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'ユーザーを捜す', users_path %></button>
-                    <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'マッチング済みユーザー', matched_users_path %></button>
-                    <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '申請中ユーザー', requested_users_path %></button>
-                    <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '承認待ちユーザー', approval_pending_users_path %></button>
-                  </ul>
-                </div>    
-                  <div class="divider -my-0.5"></div>
-                <div class="dropdown dropdown-left">
-                <label tabindex="0" class="btn btn-neutral btn-md lg:btn-lg m-1">マッチングリスト</label>
-                  <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-gray-200 rounded-box">
-                    <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'マッチングを探す', matchings_path %></button>
-                    <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'マッチ済みマッチング', matched_matchings_path %></button>
-                    <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '申請中マッチング', requested_matchings_path %></button>
-                    <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '承認待ちマッチング', approval_pending_matchings_path %></button>
-                  </ul>
-                </div> 
+              <ul class="menu p-4 w-80 bg-white rounded-l-lg mt-24 text-base-content">
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'ユーザーを捜す', users_path %></button>
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'マッチング済みユーザー', matched_users_path %></button>
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '申請中ユーザー', requested_users_path %></button>
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '承認待ちユーザー', approval_pending_users_path %></button>
                   <div class="divider -my-0.5"></div> 
-                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'グループを作成', new_group_path %></button>
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'マッチングを探す', matchings_path %></button>
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'マッチ済みマッチング', matched_matchings_path %></button>
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '申請中マッチング', requested_matchings_path %></button>
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to '承認待ちマッチング', approval_pending_matchings_path %></button>
+                  <div class="divider -my-0.5"></div> 
+                <button class="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg"><%= link_to 'グループを作成する', new_group_path %></button>
               </ul>
             </div>
           </div></li>
