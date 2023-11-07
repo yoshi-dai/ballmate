@@ -11,7 +11,6 @@
     "autoprefixer": "10",
     "daisyui": "^3.0.0",
     "jquery": "^3.7.0",
-    "lodash": "^4.17.21",
     "postcss": "8",
     "postcss-loader": "4",
     "postcss-preset-env": "7",
@@ -26,7 +25,6 @@
   },
   "scripts": {
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
-    "dev": "cross-env NODE_SERVER=\"localhost\" NODE_OPTIONS='--openssl-legacy-provider' nuxt",
-    "build": "cross-env NODE_SERVER=\"localhost\" NODE_OPTIONS='--openssl-legacy-provider' nuxt build"
+    "build": "webpack app/javascript/*.* --mode production --output ./app/assets/builds/[name].js"
   }
 }
