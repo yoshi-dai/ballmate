@@ -30,19 +30,7 @@
           <div class="w-1/2">
             <p>グループチャット画面</p>
             <%= image_tag "longchatdemo.png", class: "w-full" %>
-          </div>
-        </div>
-        <div class="flex-col justify-center py-4 border-t-4 border-green-700">
-          <% if current_user.present? && current_user.user_profile %>
-            <p class="text-center font-bold">チャットを始める!!↓</p>
-            <button class="btn btn-primary btn-xs sm:btn-sm md:btn-md"><%= link_to 'マッチング済みユーザー', matched_users_path %></button>
-          <% else %>
-            <p class="text-center font-bold">さっそく始める!!↓</p>
-            <div class="flex-none gap-1">
-              <button class="btn btn-sm sm:btn-md btn-neutral"><%= link_to 'ユーザー登録', new_user_path %></button>
-              <button class="btn btn-sm sm:btn-md btn-success"><%= link_to 'ログイン', login_path %></button>
-            </div>
-          <% end %>
+          </div>     
         </div>
       </div>
     </div>
