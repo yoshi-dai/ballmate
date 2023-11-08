@@ -16,8 +16,7 @@
             </label>
             <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-white rounded-box w-52">
               <button class="btn btn-outline"><%= link_to 'プロフィール', user_profile_path(current_user.id) %></button>
-              <button class="btn btn-outline"><%= link_to 'ログアウト', logout_path, method: :delete, data: { confirm: '本当にログアウトしますか？' } %></button>
-              <button class="btn btn-outline btn-accent"><%= link_to "退会",user_path(current_user.id), method: :delete, "data-confirm" => "本当に退会しますか？" %></button>
+              <button class="btn btn-outline btn-accent"><%= link_to 'ログアウト', logout_path, method: :delete, data: { confirm: '本当にログアウトしますか？' } %></button>
             </ul>
           </div></li>
           <li class="mx-1 sm:mx-5"><%= link_to notifications_path do %>
