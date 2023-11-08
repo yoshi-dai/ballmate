@@ -26,5 +26,8 @@
   "scripts": {
     "build:css": "NODE_OPTIONS='--openssl-legacy-provider' tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
     "build": "NODE_OPTIONS='--openssl-legacy-provider' webpack app/javascript/*.* --mode production --output ./app/assets/builds/[name].js"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
