@@ -26,8 +26,5 @@
   "scripts": {
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
     "build": "webpack app/javascript/*.* --mode production --output ./app/assets/builds/[name].js"
-  },
-  "engines": {
-    "node": "16.x"
   }
 }
